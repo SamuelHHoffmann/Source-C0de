@@ -3,21 +3,21 @@
 ## How to deploy server after commiting:
 
 ### Install firebase tools to your system: 
-'''bash
+```bash
 $ sudo npm install -g firebase-tools
-'''
+```
 
 ### Login: 
-'''bash
+```bash
 $ firebase login
-'''
+```
 
 ### Local host testing
-'''bash
+```bash
 $ firebase serve
-'''
+```
 
 ### Deploy
-'''bash
+```bash
 $ firebase deploy
-'''
+```
