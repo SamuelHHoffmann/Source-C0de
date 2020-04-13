@@ -1,15 +1,23 @@
 # Source-C0de
 
-How to deploy server after commiting
+## How to deploy server after commiting:
 
-Install firebase tools to your system: 
+### Install firebase tools to your system: 
+'''bash
 $ sudo npm install -g firebase-tools
+'''
 
-Login: 
+### Login: 
+'''bash
 $ firebase login
+'''
 
-Local host testing
+### Local host testing
+'''bash
 $ firebase serve
+'''
 
-Deploy
+### Deploy
+'''bash
 $ firebase deploy
+'''
