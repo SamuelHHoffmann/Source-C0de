@@ -9,12 +9,17 @@ class LoadingScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo', '../src/resources/images/source-c0de-logo.png');
+        this.load.image('logo', 'public/benchmark2/resources/images/source-c0de-logo.png');
     }
 
     create() {
+        var logoIMG = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo');
+        logoIMG.setScale(0.25)
 
-        this.logoIMG = this.add.image(0, 0, 'logo');
+
+    }
+
+    update() {
 
     }
 
