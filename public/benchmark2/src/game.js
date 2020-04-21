@@ -21,17 +21,17 @@ var config = {
 var game = new Phaser.Game(config);
 
 
-function preload() {
-    this.load.image('logo', './src/resources/images/source-c0de-logo.png');
-}
+// function preload() {
+//     this.load.image('logo', './src/resources/images/source-c0de-logo.png');
+// }
 
-function create() {
-    var logoIMG = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo');
-    logoIMG.setScale(0.25)
+// function create() {
+//     var logoIMG = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo');
+//     logoIMG.setScale(0.25)
 
 
-}
+// }
 
-function update() {
+// function update() {
 
-}
+// }
