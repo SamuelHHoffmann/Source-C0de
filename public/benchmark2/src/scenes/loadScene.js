@@ -17,7 +17,8 @@ class LoadingScene extends Phaser.Scene {
         var logoIMG = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo');
         logoIMG.setScale(0.25);
 
-
+        
+        
     }
 
     update() {
