@@ -9,6 +9,7 @@ class LoadingScene extends Phaser.Scene {
 
         this.parent = parent;
         this.player;
+        this.isJumpping = false;
     }
 
     preload() {
@@ -25,7 +26,7 @@ class LoadingScene extends Phaser.Scene {
         var config = {
             key: 'WALK_RIGHT',
             frames: this.anims.generateFrameNumbers('nort', { start: 0, end: 4, first: 0 }),
-            frameRate: 20,
+            frameRate: 10,
             repeat: -1
         };
 
@@ -34,15 +35,33 @@ class LoadingScene extends Phaser.Scene {
         config = {
             key: 'WALK_LEFT',
             frames: this.anims.generateFrameNumbers('nort', { start: 5, end: 9, first: 5 }),
-            frameRate: 20,
+            frameRate: 10,
             repeat: -1
         };
 
         this.anims.create(config);
 
+        config = {
+            key: 'IDLE',
+            frames: this.anims.generateFrameNumbers('nort', { start: 10, end: 11, first: 10 }),
+            frameRate: 2,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'JUMP',
+            frames: this.anims.generateFrameNumbers('nort', { start: 12, end: 13, first: 12 }),
+            frameRate: 5
+        };
+
+        this.anims.create(config);
+
+
         this.player = this.physics.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY - 60 + this.cameras.main.height / 2, 'nort');
 
-        this.player.anims.play('WALK_RIGHT');
+        this.player.anims.play('IDLE');
         this.player.setDepth(1);
         this.player.setCollideWorldBounds(true);
 
@@ -71,12 +90,16 @@ class LoadingScene extends Phaser.Scene {
         var cursors = this.input.keyboard.createCursorKeys();
 
         if (cursors.right.isDown) {
-            this.player.setVelocity(160, 0);
+            this.player.setVelocity(100, 0);
             this.player.anims.play('WALK_RIGHT', true);
         } else if (cursors.left.isDown) {
-            this.player.setVelocity(-160, 0);
+            this.player.setVelocity(-100, 0);
             this.player.anims.play('WALK_LEFT', true);
+        } else if (cursors.up.isDown && this.player.body.touching.down) {
+            this.player.setVelocity(0, -250);
+            this.player.anims.play('JUMP', true);
         } else {
+            this.player.anims.play('IDLE', true);
             this.player.setVelocity(0, 0);
         }
 
