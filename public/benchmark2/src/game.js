@@ -13,8 +13,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            // gravity: { y: 300 },
-            gravity: {y: 0},
+            gravity: { y: 300 },
             debug: false
         }
     }
@@ -25,4 +24,6 @@ var game = new Phaser.Game(config);
 // add all scenes to game
 this.game.scene.add('MainMenu', MainMenu);
 this.game.scene.add('LoadingScene', LoadingScene);
+this.game.scene.add('AboutMenu', AboutMenu);
+this.game.scene.add('SettingsMenu', SettingsMenu);
 this.game.scene.start('MainMenu');

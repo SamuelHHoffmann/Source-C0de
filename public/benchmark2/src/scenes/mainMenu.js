@@ -6,9 +6,13 @@ class MainMenu extends Phaser.Scene {
     settingsButton;
     aboutButton;
 
-    // offsets for buttons
-    topOff;
-    spaceOff;
+    // offsets
+    spaceOff = 50;
+    topOff = this.spaceOff;
+    centerOriginOff = .5;
+
+    // static text
+    title;
 
     constructor(handle, parent) {
         super(handle);
@@ -17,21 +21,20 @@ class MainMenu extends Phaser.Scene {
     playClickHandler() {
         // transition to level select
         // TODO change to level select scene
-        this.scene.start('LoadingScene');
+        this.scene.switch('LoadingScene');
     }
 
     settingsClickHandler() {
         // transition to settings menu
+        this.scene.switch('SettingsMenu');
     }
 
     aboutClickHandler() {
         // transition to about menu
+        this.scene.switch('AboutMenu');
     }
 
     preload() {
-        // set up offset values
-        this.spaceOff = 50;
-        this.topOff = -this.spaceOff;
     }
 
     create() {
@@ -39,23 +42,29 @@ class MainMenu extends Phaser.Scene {
         var cameraCenterX = this.cameras.main.centerX;
         var cameraCenterY = this.cameras.main.centerY;
 
+        // setup MainMenu title
+        this.title = this.add.text(cameraCenterX, this.topOff, "Main Menu", { fill: '#ffffff', boundsAlignV: 'middle' })
+        .setFontSize(36).setOrigin(this.centerOriginOff);
+
         // set up play button
-        this.playButton = this.add.text(cameraCenterX, cameraCenterY+this.topOff, "PLAY", { fill: '#ffffff' })
+        this.playButton = this.add.text(cameraCenterX, cameraCenterY-this.topOff, "PLAY", { fill: '#ffffff' })
+        .setOrigin(this.centerOriginOff)
         .setInteractive({ 'useHandCursor': true })
         .on('pointerdown', () => this.playClickHandler());
 
         // set up settings button
-        this.settingsButton = this.add.text(cameraCenterX, cameraCenterY+this.topOff+this.spaceOff, "SETTINGS", { fill: '#ffffff' })
+        this.settingsButton = this.add.text(cameraCenterX, cameraCenterY-this.topOff+this.spaceOff, "SETTINGS", { fill: '#ffffff' })
+        .setOrigin(this.centerOriginOff)
         .setInteractive({ 'useHandCursor': true })
         .on('pointerdown', () => this.settingsClickHandler());
 
         // set up about button
-        this.aboutButton = this.add.text(cameraCenterX, cameraCenterY+this.topOff+(this.spaceOff*2), "ABOUT", { fill: '#ffffff' })
+        this.aboutButton = this.add.text(cameraCenterX, cameraCenterY-this.topOff+(this.spaceOff*2), "ABOUT", { fill: '#ffffff' })
+        .setOrigin(this.centerOriginOff)
         .setInteractive({ 'useHandCursor': true })
         .on('pointerdown', () => this.aboutClickHandler());
     }
 
     update() {
-
     }
 }
