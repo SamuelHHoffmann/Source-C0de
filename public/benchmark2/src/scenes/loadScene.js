@@ -22,7 +22,6 @@ class LoadingScene extends Phaser.Scene {
 
     create() {
 
-
         var config = {
             key: 'WALK_RIGHT',
             frames: this.anims.generateFrameNumbers('nort', { start: 0, end: 4, first: 0 }),
