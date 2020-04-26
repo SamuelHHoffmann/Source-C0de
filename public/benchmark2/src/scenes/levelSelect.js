@@ -24,18 +24,6 @@ class LevelSelect extends Phaser.Scene {
     // static text
     title;
 
-
-    levelClickedHandler(levelNumber) {
-        // transition back to MainMenu
-        this.backgroundShowing = true;
-        this.descBackground.setAlpha(1);
-
-
-
-        console.log(levelNumber);
-    }
-
-
     backClickHandler() {
         // transition back to MainMenu
         if (this.backgroundShowing == false) {
@@ -44,7 +32,14 @@ class LevelSelect extends Phaser.Scene {
             this.backgroundShowing = true;
             this.descBackground.setAlpha(0);
         }
+    }
 
+    levelClickedHandler(levelNumber) {
+        // transition back to MainMenu
+        this.backgroundShowing = true;
+        this.descBackground.setAlpha(1);
+
+        console.log(levelNumber);
     }
 
     buttonHovered(button) {
@@ -59,29 +54,18 @@ class LevelSelect extends Phaser.Scene {
         // handles any button no longer being hovered
         button.setColor('#ffffff');
         button.setScale(1);
-
     }
 
-    mkLevelClickedHandler(level) {
-        return () => this.levelClickedHandler(level);
-    }
-
-    mkButtonHoveredHandler(button) {
-        return () => this.buttonHovered(button);
-    }
-
-    mkBottonHoverExitHandler(button) {
-        return () => this.buttonHoverExit(button);
+    makeHandler(val, callback) {
+        // make into function using callback function
+        return function() { // outer function
+            callback(val); // inner function
+        }
     }
 
     preload() {
-
         this.load.text('levelData', 'resources/data/levelData.txt');
-
         this.load.image('levelDescBackground', 'resources/images/levelSelectBackground.png');
-
-
-
     }
 
     create() {
@@ -92,8 +76,6 @@ class LevelSelect extends Phaser.Scene {
         // setup About title
         this.title = this.add.text(cameraCenterX, this.topOff, "Level", { fill: '#ffffff', boundsAlignV: 'middle' })
             .setFontSize(36).setOrigin(this.centerOriginOff);
-
-
 
         this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
             .setScale(0.2)
@@ -117,9 +99,9 @@ class LevelSelect extends Phaser.Scene {
                 var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' });
                 levelButton.setOrigin(this.centerOriginOff)
                     .setInteractive({ 'useHandCursor': true })
-                    .on('pointerdown', this.mkLevelClickedHandler(i))
-                    .on('pointerover', this.mkButtonHoveredHandler(levelButton))
-                    .on('pointerout', this.mkBottonHoverExitHandler(levelButton));
+                    .on('pointerdown', this.makeHandler(i, (x) => this.levelClickedHandler(x)))
+                    .on('pointerover', this.makeHandler(levelButton, (x) => this.buttonHovered(x)))
+                    .on('pointerout', this.makeHandler(levelButton, (x) => this.buttonHoverExit(x)));
                 this.levels.push(levelButton);
                 x += this.cameras.main.width / 8;
                 i++;
@@ -129,18 +111,14 @@ class LevelSelect extends Phaser.Scene {
             y += (this.cameras.main.height / 8);
         }
 
-
         // setup back button
-        this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' })
-            .setOrigin(this.centerOriginOff)
+        this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' });
+        this.backButton.setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.backClickHandler())
-            .on('pointerover', () => this.buttonHovered(this.backButton))
-            .on('pointerout', () => this.buttonHoverExit(this.backButton));
-
+            .on('pointerover', this.makeHandler(this.backButton, (x) => this.buttonHovered(x)))
+            .on('pointerout', this.makeHandler(this.backButton, (x) => this.buttonHoverExit(x)));
     }
-
-
 
     update() {
     }
