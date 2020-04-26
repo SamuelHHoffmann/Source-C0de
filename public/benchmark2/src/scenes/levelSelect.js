@@ -29,7 +29,7 @@ class LevelSelect extends Phaser.Scene {
         if (this.backgroundShowing == false) {
             this.scene.switch('MainMenu');
         } else {
-            this.backgroundShowing = true;
+            this.backgroundShowing = false;
             this.descBackground.setAlpha(0);
         }
     }
