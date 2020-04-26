@@ -3,12 +3,16 @@
 class LevelSelect extends Phaser.Scene {
     // variables for buttons
     backButton;
+    backgroundShowing = false;
 
     levels;
     numLevels;
+    levelName;
+    levelDesc;
 
     // background logo
     logoIMG;
+    descBackground;
 
     levelDatatxt;
 
@@ -23,13 +27,24 @@ class LevelSelect extends Phaser.Scene {
 
     levelClickedHandler(levelNumber) {
         // transition back to MainMenu
+        this.backgroundShowing = true;
+        this.descBackground.setAlpha(1);
+
+
+
         console.log(levelNumber);
     }
 
 
     backClickHandler() {
         // transition back to MainMenu
-        this.scene.switch('MainMenu');
+        if (this.backgroundShowing == false) {
+            this.scene.switch('MainMenu');
+        } else {
+            this.backgroundShowing = true;
+            this.descBackground.setAlpha(0);
+        }
+
     }
 
     buttonHovered(button) {
@@ -47,11 +62,23 @@ class LevelSelect extends Phaser.Scene {
 
     }
 
+    mkLevelClickedHandler(level) {
+        return () => this.levelClickedHandler(level);
+    }
+
+    mkButtonHoveredHandler(button) {
+        return () => this.buttonHovered(button);
+    }
+
+    mkBottonHoverExitHandler(button) {
+        return () => this.buttonHoverExit(button);
+    }
+
     preload() {
 
-        this.levelDatatxt = this.load.text('levelData', 'resources/data/levelData.txt');
+        this.load.text('levelData', 'resources/data/levelData.txt');
 
-
+        this.load.image('levelDescBackground', 'resources/images/levelSelectBackground.png');
 
 
 
@@ -71,7 +98,11 @@ class LevelSelect extends Phaser.Scene {
         this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
             .setScale(0.2)
             .setDepth(0);
-        // TODO put options here
+
+        this.descBackground = this.add.image(cameraCenterX, cameraCenterY, 'levelDescBackground')
+            .setScale(0.2)
+            .setDepth(1)
+            .setAlpha(0);
 
         this.levels = [];
         var levelDataText = this.cache.text.get('levelData');
@@ -109,17 +140,7 @@ class LevelSelect extends Phaser.Scene {
 
     }
 
-    mkLevelClickedHandler(level) {
-        return () => this.levelClickedHandler(level);
-    }
 
-    mkButtonHoveredHandler(button) {
-        return () => this.buttonHovered(button);
-    }
-
-    mkBottonHoverExitHandler(button) {
-        return () => this.buttonHoverExit(button);
-    }
 
     update() {
     }
