@@ -35,34 +35,49 @@ class MainMenu extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('logo', 'resources/images/source-c0de-logo.png');
+
+
     }
 
     create() {
+
+
+
         // get camera center x and y
         var cameraCenterX = this.cameras.main.centerX;
         var cameraCenterY = this.cameras.main.centerY;
 
+        this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
+            .setScale(0.2)
+            .setDepth(0);
+
         // setup MainMenu title
-        this.title = this.add.text(cameraCenterX, this.topOff, "Main Menu", { fill: '#ffffff', boundsAlignV: 'middle' })
-        .setFontSize(36).setOrigin(this.centerOriginOff);
+        // this.title = this.add.text(cameraCenterX, this.topOff, "Main Menu", { fill: '#ffffff', boundsAlignV: 'middle' })
+        //     .setFontSize(36)
+        //     .setOrigin(this.centerOriginOff)
+        //     .setDepth(1);
 
         // set up play button
-        this.playButton = this.add.text(cameraCenterX, cameraCenterY-this.topOff, "PLAY", { fill: '#ffffff' })
-        .setOrigin(this.centerOriginOff)
-        .setInteractive({ 'useHandCursor': true })
-        .on('pointerdown', () => this.playClickHandler());
+        this.playButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff, "PLAY", { fill: '#ffffff' })
+            .setOrigin(this.centerOriginOff)
+            .setInteractive({ 'useHandCursor': true })
+            .on('pointerdown', () => this.playClickHandler())
+            .setDepth(1);
 
         // set up settings button
-        this.settingsButton = this.add.text(cameraCenterX, cameraCenterY-this.topOff+this.spaceOff, "SETTINGS", { fill: '#ffffff' })
-        .setOrigin(this.centerOriginOff)
-        .setInteractive({ 'useHandCursor': true })
-        .on('pointerdown', () => this.settingsClickHandler());
+        this.settingsButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + this.spaceOff, "SETTINGS", { fill: '#ffffff' })
+            .setOrigin(this.centerOriginOff)
+            .setInteractive({ 'useHandCursor': true })
+            .on('pointerdown', () => this.settingsClickHandler())
+            .setDepth(1);
 
         // set up about button
-        this.aboutButton = this.add.text(cameraCenterX, cameraCenterY-this.topOff+(this.spaceOff*2), "ABOUT", { fill: '#ffffff' })
-        .setOrigin(this.centerOriginOff)
-        .setInteractive({ 'useHandCursor': true })
-        .on('pointerdown', () => this.aboutClickHandler());
+        this.aboutButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + (this.spaceOff * 2), "ABOUT", { fill: '#ffffff' })
+            .setOrigin(this.centerOriginOff)
+            .setInteractive({ 'useHandCursor': true })
+            .on('pointerdown', () => this.aboutClickHandler())
+            .setDepth(1);
     }
 
     update() {
