@@ -84,10 +84,21 @@ class LoadingScene extends Phaser.Scene {
         // platform.create(this.cameras.main.centerX - 64 - 128, this.cameras.main.centerY + 320, 'tiles');
         // platform.create(this.cameras.main.centerX - 128 - 128, this.cameras.main.centerY + 320, 'tiles');
 
+
+
+
+
+
+
     }
 
     update() {
         var cursors = this.input.keyboard.createCursorKeys();
+
+        if (this.input.keyboard.addKey('ENTER').isDown) {
+            this.scene.restart(this);
+        }
+
 
         if (cursors.right.isDown) {
             this.player.setVelocity(100, 0);
