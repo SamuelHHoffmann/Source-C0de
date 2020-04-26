@@ -6,6 +6,9 @@ class MainMenu extends Phaser.Scene {
     settingsButton;
     aboutButton;
 
+    // background logo
+    logoIMG;
+
     // offsets
     spaceOff = 50;
     topOff = this.spaceOff;
@@ -32,6 +35,21 @@ class MainMenu extends Phaser.Scene {
     aboutClickHandler() {
         // transition to about menu
         this.scene.switch('AboutMenu');
+    }
+
+    buttonHovered(button) {
+        // handles any button being hovered
+        button.setColor('#37A8DF');
+        button.setScale(1.2);
+        // Maybe play a sound here
+
+    }
+
+    buttonHoverExit(button) {
+        // handles any button no longer being hovered
+        button.setColor('#ffffff');
+        button.setScale(1);
+
     }
 
     preload() {
@@ -63,6 +81,8 @@ class MainMenu extends Phaser.Scene {
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.playClickHandler())
+            .on('pointerover', () => this.buttonHovered(this.playButton))
+            .on('pointerout', () => this.buttonHoverExit(this.playButton))
             .setDepth(1);
 
         // set up settings button
@@ -70,6 +90,8 @@ class MainMenu extends Phaser.Scene {
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.settingsClickHandler())
+            .on('pointerover', () => this.buttonHovered(this.settingsButton))
+            .on('pointerout', () => this.buttonHoverExit(this.settingsButton))
             .setDepth(1);
 
         // set up about button
@@ -77,6 +99,8 @@ class MainMenu extends Phaser.Scene {
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.aboutClickHandler())
+            .on('pointerover', () => this.buttonHovered(this.aboutButton))
+            .on('pointerout', () => this.buttonHoverExit(this.aboutButton))
             .setDepth(1);
     }
 
