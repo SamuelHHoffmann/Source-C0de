@@ -83,12 +83,12 @@ class LevelSelect extends Phaser.Scene {
 
         for (var i = 0; i < this.numLevels; i++) {
             for (var j = 0; j < amountPerRow; j++) {
-                var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' })
-                    .setOrigin(this.centerOriginOff);
-                // .setInteractive({ 'useHandCursor': true })
-                // .on('pointerdown', () => this.levelClickedHandler(i))
-                // .on('pointerover', () => this.buttonHovered(levelButton))
-                // .on('pointerout', () => this.buttonHoverExit(levelButton));
+                var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' });
+                levelButton.setOrigin(this.centerOriginOff)
+                    .setInteractive({ 'useHandCursor': true })
+                    .on('pointerdown', this.mkLevelClickedHandler(i))
+                    .on('pointerover', this.mkButtonHoveredHandler(levelButton))
+                    .on('pointerout', this.mkBottonHoverExitHandler(levelButton));
                 this.levels.push(levelButton);
                 x += this.cameras.main.width / 8;
                 i++;
@@ -99,8 +99,6 @@ class LevelSelect extends Phaser.Scene {
         }
 
 
-
-
         // setup back button
         this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' })
             .setOrigin(this.centerOriginOff)
@@ -109,6 +107,18 @@ class LevelSelect extends Phaser.Scene {
             .on('pointerover', () => this.buttonHovered(this.backButton))
             .on('pointerout', () => this.buttonHoverExit(this.backButton));
 
+    }
+
+    mkLevelClickedHandler(level) {
+        return () => this.levelClickedHandler(level);
+    }
+
+    mkButtonHoveredHandler(button) {
+        return () => this.buttonHovered(button);
+    }
+
+    mkBottonHoverExitHandler(button) {
+        return () => this.buttonHoverExit(button);
     }
 
     update() {
