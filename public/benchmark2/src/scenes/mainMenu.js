@@ -24,7 +24,7 @@ class MainMenu extends Phaser.Scene {
     playClickHandler() {
         // transition to level select
         // TODO change to level select scene
-        this.scene.switch('LoadingScene');
+        this.scene.switch('LevelSelect');
     }
 
     settingsClickHandler() {

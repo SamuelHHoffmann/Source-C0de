@@ -51,7 +51,7 @@ class AboutMenu extends Phaser.Scene {
             .setFontSize(36).setOrigin(this.centerOriginOff);
 
         // setup back button
-        this.backButton = this.add.text(cameraCenterX, cameraCenterY - this.topOff + (this.spaceOff * 2), "BACK", { fill: '#ffffff' })
+        this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' })
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.backClickHandler())

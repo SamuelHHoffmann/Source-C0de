@@ -26,4 +26,5 @@ this.game.scene.add('MainMenu', MainMenu);
 this.game.scene.add('LoadingScene', LoadingScene);
 this.game.scene.add('AboutMenu', AboutMenu);
 this.game.scene.add('SettingsMenu', SettingsMenu);
+this.game.scene.add('LevelSelect', LevelSelect);
 this.game.scene.start('MainMenu');
