@@ -44,11 +44,14 @@ class AboutMenu extends Phaser.Scene {
 
         // setup About title
         this.title = this.add.text(cameraCenterX, this.topOff, "About", { fill: '#ffffff', boundsAlignV: 'middle' })
-            .setFontSize(36).setOrigin(this.centerOriginOff);
+            .setFontSize(36)
+            .setOrigin(this.centerOriginOff);
 
         // setup info
         this.info = this.add.text(cameraCenterX, cameraCenterY - this.topOff, this.cache.text.get('infoText'), { fill: '#ffffff', boundsAlignV: 'middle' })
-            .setFontSize(36).setOrigin(this.centerOriginOff);
+            .setFontSize(36)
+            .setOrigin(this.centerOriginOff)
+            .setWordWrapWidth(this.cameras.main.width);
 
         // setup back button
         this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' })

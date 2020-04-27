@@ -21,12 +21,14 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+
 // add all scenes to game
 this.game.scene.add('MainMenu', MainMenu);
-this.game.scene.add('LoadingScene', LoadingScene);
+this.game.scene.add('LevelScene', LevelScene);
 this.game.scene.add('AboutMenu', AboutMenu);
 this.game.scene.add('SettingsMenu', SettingsMenu);
 this.game.scene.add('LevelSelect', LevelSelect);
 //this.game.scene.add('EffectsTest', EffectsTest);
 
-this.game.scene.start('MainMenu');
+// this.game.scene.start('MainMenu');
+this.game.scene.start('LevelScene');

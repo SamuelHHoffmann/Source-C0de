@@ -33,6 +33,7 @@ class LevelSelect extends Phaser.Scene {
             this.levelName.setAlpha(0);
             this.levelDesc.setAlpha(0);
             this.descBackground.setAlpha(0);
+            this.title.setAlpha(0);
         }
     }
 
@@ -66,6 +67,7 @@ class LevelSelect extends Phaser.Scene {
         this.descBackground.setAlpha(1);
         this.levelName.setAlpha(1);
         this.levelDesc.setAlpha(1);
+        this.title.setAlpha(1);
         // console.log(levelNumber);
     }
 
@@ -101,8 +103,10 @@ class LevelSelect extends Phaser.Scene {
         var cameraCenterY = this.cameras.main.centerY;
 
         // setup About title
-        this.title = this.add.text(cameraCenterX, this.topOff, "Level", { fill: '#ffffff', boundsAlignV: 'middle' })
-            .setFontSize(36).setOrigin(this.centerOriginOff);
+        this.title = this.add.text(cameraCenterX, this.topOff, "start", { fill: '#ffffff', boundsAlignV: 'middle' })
+            .setFontSize(36)
+            .setOrigin(this.centerOriginOff)
+            .setAlpha(0);
 
         this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
             .setScale(0.2)
@@ -114,13 +118,15 @@ class LevelSelect extends Phaser.Scene {
             .setAlpha(0);
 
         this.levelName = this.add.text(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8) - (this.cameras.main.height / 17), "Name", { fill: '#000000', boundsAlignV: 'middle' })
-            .setFontSize(26).setOrigin(this.centerOriginOff)
+            .setFontSize(26)
+            .setOrigin(this.centerOriginOff)
             .setAlign("center")
             .setDepth(2)
             .setAlpha(0);
 
         this.levelDesc = this.add.text(cameraCenterX, cameraCenterY, "Desc", { fill: '#000000', boundsAlignV: 'middle' })
-            .setFontSize(18).setOrigin(this.centerOriginOff)
+            .setFontSize(18)
+            .setOrigin(this.centerOriginOff)
             .setAlign("left")
             .setWordWrapWidth(400)
             .setDepth(2)
