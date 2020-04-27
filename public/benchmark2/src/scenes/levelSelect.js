@@ -9,6 +9,7 @@ class LevelSelect extends Phaser.Scene {
     numLevels;
     levelName;
     levelDesc;
+    clickedLevel;
 
     // background logo
     logoIMG;
@@ -21,8 +22,14 @@ class LevelSelect extends Phaser.Scene {
     topOff = this.spaceOff;
     centerOriginOff = .5;
 
+
     // static text
     title;
+
+    startClickHandler() {
+        this.scene.switch('LevelScene');
+    }
+
 
     backClickHandler() {
         // transition back to MainMenu
@@ -38,6 +45,8 @@ class LevelSelect extends Phaser.Scene {
     }
 
     levelClickedHandler(levelNumber) {
+
+        this.clickedLevel = levelNumber;
 
         if (this.backgroundShowing) {
             return;
@@ -106,6 +115,8 @@ class LevelSelect extends Phaser.Scene {
         this.title = this.add.text(cameraCenterX, this.topOff, "start", { fill: '#ffffff', boundsAlignV: 'middle' })
             .setFontSize(36)
             .setOrigin(this.centerOriginOff)
+            .setInteractive({ 'useHandCursor': true })
+            .on('pointerdown', () => this.startClickHandler())
             .setAlpha(0);
 
         this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
