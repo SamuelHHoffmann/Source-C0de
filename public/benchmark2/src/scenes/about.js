@@ -34,6 +34,7 @@ class AboutMenu extends Phaser.Scene {
     }
 
     preload() {
+        this.load.text('infoText', 'resources/data/about.txt');
     }
 
     create() {
@@ -46,8 +47,7 @@ class AboutMenu extends Phaser.Scene {
             .setFontSize(36).setOrigin(this.centerOriginOff);
 
         // setup info
-        const infoText = "Here is where info will go.";
-        this.info = this.add.text(cameraCenterX, cameraCenterY - this.topOff, infoText, { fill: '#ffffff', boundsAlignV: 'middle' })
+        this.info = this.add.text(cameraCenterX, cameraCenterY - this.topOff, this.cache.text.get('infoText'), { fill: '#ffffff', boundsAlignV: 'middle' })
             .setFontSize(36).setOrigin(this.centerOriginOff);
 
         // setup back button

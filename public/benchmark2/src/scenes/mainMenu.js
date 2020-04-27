@@ -9,6 +9,9 @@ class MainMenu extends Phaser.Scene {
     // background logo
     logoIMG;
 
+    // audio
+    backgroundMusic;
+
     // offsets
     spaceOff = 50;
     topOff = this.spaceOff;
@@ -53,14 +56,21 @@ class MainMenu extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo', 'resources/images/source-c0de-logo.png');
-
-
+        this.load.image('logo', 'resources/images/source-c0de-logo.png');   
+        this.load.audio('backgroundMusic', 'resources/audio/music/temp_song.wav');
     }
 
     create() {
-
-
+        // start playing music
+        this.backgroundMusic = this.sound.add('backgroundMusic');
+        var config = {
+        name: 'loop',
+            config: {
+                loop: true
+            }
+        };
+        this.backgroundMusic.addMarker(config);
+        this.backgroundMusic.play('loop');
 
         // get camera center x and y
         var cameraCenterX = this.cameras.main.centerX;
