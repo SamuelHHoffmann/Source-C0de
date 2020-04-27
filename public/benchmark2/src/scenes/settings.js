@@ -3,6 +3,7 @@
 class SettingsMenu extends Phaser.Scene {
     // variables for buttons
     backButton;
+    volumeButton;
 
     // offsets
     spaceOff = 50;
@@ -11,6 +12,9 @@ class SettingsMenu extends Phaser.Scene {
 
     // static text
     title;
+
+    // current volume frame
+    frame = 2;
 
     backClickHandler() {
         // transition back to MainMenu
@@ -32,7 +36,22 @@ class SettingsMenu extends Phaser.Scene {
 
     }
 
+    volumeClickHandler() {
+        // update frame
+        this.frame++;
+        if (this.frame > 3)
+            this.frame = 0;
+        this.volumeButton.setFrame(this.frame);
+            
+        // update volume
+        if(this.frame != 3)
+            this.sound.volume = (this.frame+1) * (1/3);
+        else
+            this.sound.volume = 0;
+    }
+
     preload() {
+        this.load.spritesheet('volumeSprite', 'resources/spriteSheets/volume.png', { frameWidth: 64, frameHeight: 64 })
     }
 
     create() {
@@ -44,7 +63,11 @@ class SettingsMenu extends Phaser.Scene {
         this.title = this.add.text(cameraCenterX, this.topOff, "Settings", { fill: '#ffffff', boundsAlignV: 'middle' })
             .setFontSize(36).setOrigin(this.centerOriginOff);
 
-        // TODO put options here
+        // volume option
+        this.volumeButton = this.add.sprite(cameraCenterX, cameraCenterY, 'volumeSprite', this.frame);
+        this.volumeButton.setInteractive({ 'useHandCursor': true })
+            .setOrigin(this.centerOriginOff)
+            .on('pointerup', () => this.volumeClickHandler());
 
         // setup back button
         this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' })
@@ -53,7 +76,6 @@ class SettingsMenu extends Phaser.Scene {
             .on('pointerdown', () => this.backClickHandler())
             .on('pointerover', () => this.buttonHovered(this.backButton))
             .on('pointerout', () => this.buttonHoverExit(this.backButton));
-
     }
 
     update() {
