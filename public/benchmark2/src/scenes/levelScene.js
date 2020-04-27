@@ -6,6 +6,11 @@ class LevelScene extends Phaser.Scene {
 
 
     player;
+    playerInAir;
+
+    collision_layer;
+    decoration_layer;
+    ground_decorations_layer;
 
     constructor(handle, parent) {
         super(handle);
@@ -40,11 +45,11 @@ class LevelScene extends Phaser.Scene {
 
         const tileset = map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
 
-        const collision_layer = map.createStaticLayer("collide", tileset, 0, 0);
-        const decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0);
-        const ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0);
+        this.collision_layer = map.createStaticLayer("collide", tileset, 0, 0).setDepth(2);
+        this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
+        this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
 
-        collision_layer.setCollisionByExclusion([-1]);
+        this.collision_layer.setCollisionBetween(0, 5);
 
         var config = {
             key: 'WALK_RIGHT',
@@ -89,7 +94,10 @@ class LevelScene extends Phaser.Scene {
             .setCollideWorldBounds(true);
 
 
-        this.physics.add.collider(this.player, collision_layer);
+        this.physics.add.collider(this.player, this.collision_layer);
+        // this.physics.add.overlap(this.player, this.ground_decorations_layer);
+        // this.physics.add.overlap(this.player, this.ground_decorations_layer);
+
 
     }
 
@@ -99,20 +107,36 @@ class LevelScene extends Phaser.Scene {
         // if (this.input.keyboard.addKey('ENTER').isDown) {
         //     this.scene.restart(this);
         // }
+        if (this.player.body.onFloor()) {
+            this.playerInAir = false;
+        }
 
 
         if (cursors.right.isDown) {
-            this.player.setVelocity(100, 0);
+            this.player.setVelocityX(100);
             this.player.anims.play('WALK_RIGHT', true);
+            if (cursors.up.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
+                this.player.setVelocityY(-250);
+                this.playerInAir = true;
+                this.player.anims.play('JUMP', true);
+            }
         } else if (cursors.left.isDown) {
-            this.player.setVelocity(-100, 0);
+            this.player.setVelocityX(-100);
             this.player.anims.play('WALK_LEFT', true);
-        } else if (cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocity(0, -250);
+            if (cursors.up.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
+                this.player.setVelocityY(-250);
+                this.playerInAir = true;
+                this.player.anims.play('JUMP', true);
+            }
+        } else if (cursors.up.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
+            this.player.setVelocityY(-250);
+            this.playerInAir = true;
             this.player.anims.play('JUMP', true);
         } else {
-            this.player.anims.play('IDLE', true);
-            this.player.setVelocity(0, 0);
+            if (!this.playerInAir) {
+                this.player.anims.play('IDLE', true);
+                this.player.setVelocity(0, 0);
+            }
         }
 
 
