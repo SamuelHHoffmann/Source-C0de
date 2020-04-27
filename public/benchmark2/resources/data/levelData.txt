@@ -18,3 +18,21 @@ level_5_desc: "",
 
 level_6_name: "",
 level_6_desc: "",
+
+level_7_name: "",
+level_7_desc: "",
+
+level_8_name: "",
+level_8_desc: "",
+
+level_9_name: "",
+level_9_desc: "",
+
+level_10_name: "",
+level_10_desc: "",
+
+level_11_name: "",
+level_11_desc: "",
+
+level_12_name: "",
+level_12_desc: "",

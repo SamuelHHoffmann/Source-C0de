@@ -14,7 +14,7 @@ class LevelSelect extends Phaser.Scene {
     logoIMG;
     descBackground;
 
-    levelDatatxt;
+    levelDataText;
 
     // offsets
     spaceOff = 50;
@@ -30,16 +30,43 @@ class LevelSelect extends Phaser.Scene {
             this.scene.switch('MainMenu');
         } else {
             this.backgroundShowing = false;
+            this.levelName.setAlpha(0);
+            this.levelDesc.setAlpha(0);
             this.descBackground.setAlpha(0);
         }
     }
 
     levelClickedHandler(levelNumber) {
-        // transition back to MainMenu
-        this.backgroundShowing = true;
-        this.descBackground.setAlpha(1);
 
-        console.log(levelNumber);
+        if (this.backgroundShowing) {
+            return;
+        }
+
+        // transition back to MainMenu
+        this.levelName.setText("");
+        var searchName = "level_" + levelNumber + "_name: \"";
+        // console.log(searchName);
+        this.levelName.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
+            this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
+
+        searchName = "level_" + levelNumber + "_desc: \"";
+        this.levelDesc.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
+            this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
+
+        // console.log(this.levelName.text);
+        // console.log(this.levelDesc.text);
+
+        if (this.levelName.text == "") {
+            //if empty don't show anything
+            return;
+        }
+
+        this.backgroundShowing = true;
+
+        this.descBackground.setAlpha(1);
+        this.levelName.setAlpha(1);
+        this.levelDesc.setAlpha(1);
+        // console.log(levelNumber);
     }
 
     buttonHovered(button) {
@@ -58,7 +85,7 @@ class LevelSelect extends Phaser.Scene {
 
     makeHandler(val, callback) {
         // make into function using callback function
-        return function() { // outer function
+        return function () { // outer function
             callback(val); // inner function
         }
     }
@@ -86,9 +113,22 @@ class LevelSelect extends Phaser.Scene {
             .setDepth(1)
             .setAlpha(0);
 
+        this.levelName = this.add.text(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8) - (this.cameras.main.height / 17), "Name", { fill: '#000000', boundsAlignV: 'middle' })
+            .setFontSize(26).setOrigin(this.centerOriginOff)
+            .setAlign("center")
+            .setDepth(2)
+            .setAlpha(0);
+
+        this.levelDesc = this.add.text(cameraCenterX, cameraCenterY, "Desc", { fill: '#000000', boundsAlignV: 'middle' })
+            .setFontSize(18).setOrigin(this.centerOriginOff)
+            .setAlign("left")
+            .setWordWrapWidth(400)
+            .setDepth(2)
+            .setAlpha(0);
+
         this.levels = [];
-        var levelDataText = this.cache.text.get('levelData');
-        this.numLevels = parseInt(levelDataText.substring(levelDataText.search('level_count:') + 12, levelDataText.indexOf(',', levelDataText.search('level_count:') + 12)));
+        this.levelDataText = this.cache.text.get('levelData');
+        this.numLevels = parseInt(this.levelDataText.substring(this.levelDataText.search('level_count:') + 12, this.levelDataText.indexOf(',', this.levelDataText.search('level_count:') + 12)));
 
         var x = cameraCenterX - this.cameras.main.width / 5.5;
         var y = cameraCenterY;
@@ -99,7 +139,7 @@ class LevelSelect extends Phaser.Scene {
                 var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' });
                 levelButton.setOrigin(this.centerOriginOff)
                     .setInteractive({ 'useHandCursor': true })
-                    .on('pointerdown', this.makeHandler(i, (x) => this.levelClickedHandler(x)))
+                    .on('pointerdown', this.makeHandler(i + 1, (x) => this.levelClickedHandler(x)))
                     .on('pointerover', this.makeHandler(levelButton, (x) => this.buttonHovered(x)))
                     .on('pointerout', this.makeHandler(levelButton, (x) => this.buttonHoverExit(x)));
                 this.levels.push(levelButton);
