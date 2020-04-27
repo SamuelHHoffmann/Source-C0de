@@ -16,6 +16,8 @@ class LoadingScene extends Phaser.Scene {
         this.load.image('logo', 'resources/images/source-c0de-logo.png');
         this.load.image("tiles", "tilemapTest/tiles/Rectangle_64x64.png");
 
+        this.load.image('item', 'resources/images/temp-item.png');
+
         this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64 });
 
     }
@@ -84,9 +86,11 @@ class LoadingScene extends Phaser.Scene {
         // platform.create(this.cameras.main.centerX - 128 - 128, this.cameras.main.centerY + 320, 'tiles');
 
 
+        /* testing interaction */
 
-
-
+        //this.add.sprite(50, 50, 'item');
+        var tempitem = this.physics.add.sprite(50, 50, 'item')
+            .setCollideWorldBounds(true);
 
 
     }
