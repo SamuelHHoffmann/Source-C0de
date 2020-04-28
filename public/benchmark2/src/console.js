@@ -6,7 +6,8 @@ class Console extends Phaser.Scene {
 
     // current text in console
     userInput = '';
-    lastCMD = '';
+    CMDStack = [];
+    tempStack = [];
 
     // console text object
     console;
@@ -20,7 +21,12 @@ class Console extends Phaser.Scene {
         else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER) {
             // process cmd and update console text and last CMD
             this.checkCommand(this.userInput);
-            this.lastCMD = this.userInput;
+
+            // restore history
+            this.tempStack.reverse().forEach((e) => this.CMDStack.push(e));
+            this.tempStack = [];
+
+            this.CMDStack.push(this.userInput);
             this.userInput = '';
             this.console.setText(this.prompt + this.userInput);
         }
@@ -33,8 +39,11 @@ class Console extends Phaser.Scene {
         }
         else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.UP) {
             // load last command into input and update console
-            this.userInput = this.lastCMD;
-            this.console.setText(this.prompt + this.userInput);
+            if (this.CMDStack.length != 0) {
+                this.userInput = this.CMDStack.pop();
+                this.tempStack.push(this.userInput);
+                this.console.setText(this.prompt + this.userInput);
+            }
         }
         else {
             if (this.console.visible & event.keyCode != Phaser.Input.Keyboard.KeyCodes.SHIFT) {
