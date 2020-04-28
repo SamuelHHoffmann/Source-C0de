@@ -6,6 +6,7 @@ class Console extends Phaser.Scene {
 
     // current text in console
     userInput = '';
+    lastCMD = '';
 
     // console text object
     console;
@@ -13,12 +14,13 @@ class Console extends Phaser.Scene {
     // process keyboar input
     processInput(event) {
         // toggle visability
-        if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC)
+        if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC) {
             this.console.setVisible(!this.console.visible);
-
+        }
         else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER) {
-            // process cmd and update console text
+            // process cmd and update console text and last CMD
             this.checkCommand(this.userInput);
+            this.lastCMD = this.userInput;
             this.userInput = '';
             this.console.setText(this.prompt + this.userInput);
         }
@@ -29,8 +31,13 @@ class Console extends Phaser.Scene {
                 this.console.setText(this.prompt + this.userInput);
             }
         }
+        else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.UP) {
+            // load last command into input and update console
+            this.userInput = this.lastCMD;
+            this.console.setText(this.prompt + this.userInput);
+        }
         else {
-            if (event.keyCode != Phaser.Input.Keyboard.KeyCodes.SHIFT) {
+            if (this.console.visible & event.keyCode != Phaser.Input.Keyboard.KeyCodes.SHIFT) {
                 // append to current input text and update console
                 this.userInput += event.key;
                 this.console.setText(this.prompt + this.userInput);
@@ -41,9 +48,6 @@ class Console extends Phaser.Scene {
     checkCommand(cmdString) {
         var cmdParts = cmdString.split(' ');
 
-        // if we don't have at least two parts of cmd do nothing
-        if (cmdParts.length < 2)
-            return;
         // process rest of cmds accordingly
         switch (cmdParts[0].toLowerCase()) {
             case 'load':
@@ -55,9 +59,20 @@ class Console extends Phaser.Scene {
             case 'level':
                 this.processLevelSwitch(cmdParts[1]);
                 break;
+            case 'restart':
+                this.restartScene();
+                break;
             default:
                 return;
         }
+    }
+
+    restartScene() {
+        // restart scene we are in
+        // var currentScenes = this.scene.manager.getScenes(true, false);
+        // console.log(currentScenes);
+        // this.scene.manager.stop(currentScenes[0]);
+        // this.scene.manager.start(currentScenes[0]);
     }
 
     processSceneSwitch(level) {
@@ -76,7 +91,6 @@ class Console extends Phaser.Scene {
         this.scene.manager.getScene('LevelScene').setLevelNumber(number);
         this.scene.manager.getScene('LevelScene').reDrawLayer = true;
         this.scene.manager.switch(currentScenes[0], 'LevelScene');
-
     }
 
     changeVolume(vol) {
