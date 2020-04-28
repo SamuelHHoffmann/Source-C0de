@@ -13,9 +13,9 @@ class Console extends Phaser.Scene {
     // process keyboar input
     processInput(event) {
         // toggle visability
-        if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC)
+        if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC) {
             this.console.setVisible(!this.console.visible);
-
+        }
         else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER) {
             // process cmd and update console text
             this.checkCommand(this.userInput);
@@ -30,7 +30,7 @@ class Console extends Phaser.Scene {
             }
         }
         else {
-            if (event.keyCode != Phaser.Input.Keyboard.KeyCodes.SHIFT) {
+            if (this.console.visible & event.keyCode != Phaser.Input.Keyboard.KeyCodes.SHIFT) {
                 // append to current input text and update console
                 this.userInput += event.key;
                 this.console.setText(this.prompt + this.userInput);
