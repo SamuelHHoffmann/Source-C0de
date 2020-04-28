@@ -8,6 +8,8 @@ class LevelScene extends Phaser.Scene {
     player;
     playerInAir;
 
+    map;
+
     collision_layer;
     decoration_layer;
     ground_decorations_layer;
@@ -20,6 +22,22 @@ class LevelScene extends Phaser.Scene {
 
     setLevelNumber(number) {
         this.levelNumber = number;
+        // this.load.tilemapTiledJSON("map", "resources/tilemaps/level_" + this.levelNumber + ".json");
+        // try {
+        //     this.map.removeAllLayers();
+        //     this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
+
+        //     this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
+
+        //     this.collision_layer = this.map.createStaticLayer("Tile Layer 1", this.map.getTileset("tiles"), 0, 0).setDepth(2);
+        //     // this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
+        //     // this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
+
+        //     this.collision_layer.setCollisionBetween(0, 5);
+        //     this.physics.add.collider(this.player, this.collision_layer);
+        // } catch{
+
+        // }
     }
 
     preload() {
@@ -27,7 +45,14 @@ class LevelScene extends Phaser.Scene {
         // console.log(this.levelNumber);
 
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");
-        this.load.tilemapTiledJSON("map", "resources/tilemaps/level_" + this.levelNumber + ".json");
+
+        for (var x = 1; x < 13; x++) {
+            try {
+                this.load.tilemapTiledJSON("level_" + x, "resources/tilemaps/level_" + x + ".json");
+            } catch{
+
+            }
+        }
 
         // this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64, endFrame: 4 });
 
@@ -45,17 +70,17 @@ class LevelScene extends Phaser.Scene {
 
     create() {
 
-        // console.log(this.levelNumber);
+        console.log(this.levelNumber);
 
         // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
 
         this.cameras.main.setBackgroundColor('#595959');
 
-        const map = this.make.tilemap({ key: "map" });
+        this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
 
-        const tileset = map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
+        const tileset = this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
 
-        this.collision_layer = map.createStaticLayer("Tile Layer 1", tileset, 0, 0).setDepth(2);
+        this.collision_layer = this.map.createStaticLayer("Tile Layer 1", tileset, 0, 0).setDepth(2);
         // this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
         // this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
 

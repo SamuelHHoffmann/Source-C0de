@@ -1,6 +1,6 @@
 /** @type {import("../../typings/phaser")} */
 
-class Console extends Phaser.Scene{
+class Console extends Phaser.Scene {
     // console prompt text
     prompt = "Type Command:";
 
@@ -22,10 +22,10 @@ class Console extends Phaser.Scene{
             this.userInput = '';
             this.console.setText(this.prompt + this.userInput);
         }
-        else if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.BACKSPACE) {
+        else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.BACKSPACE) {
             // delete last key typed and update console
             if (this.userInput.length != 0) {
-                this.userInput = this.userInput.substr(0, this.userInput.length-1);
+                this.userInput = this.userInput.substr(0, this.userInput.length - 1);
                 this.console.setText(this.prompt + this.userInput);
             }
         }
@@ -42,26 +42,40 @@ class Console extends Phaser.Scene{
         var cmdParts = cmdString.split(' ');
 
         // if we don't have at least two parts of cmd do nothing
-        if (cmdParts.length  < 2)
+        if (cmdParts.length < 2)
             return;
         // process rest of cmds accordingly
         switch (cmdParts[0].toLowerCase()) {
             case 'load':
-                this.processLevelSwitch(cmdParts[1]);
+                this.processSceneSwitch(cmdParts[1]);
                 break;
             case 'vol':
                 this.changeVolume(cmdParts[1]);
+                break;
+            case 'level':
+                this.processLevelSwitch(cmdParts[1]);
                 break;
             default:
                 return;
         }
     }
 
-    processLevelSwitch(level) {
+    processSceneSwitch(level) {
         // find the scene we are currently in
         var currentScenes = this.scene.manager.getScenes(true, false);
         console.log(currentScenes);
         this.scene.manager.switch(currentScenes[0], level);
+    }
+
+    processLevelSwitch(number) {
+        // find the scene we are currently in
+        var currentScenes = this.scene.manager.getScenes(true, false);
+        console.log(currentScenes);
+        // this.scene.manager.remove('LevelScene');
+        // this.scene.manager.add('LevelScene', LevelScene);
+        this.scene.manager.getScene('LevelScene').setLevelNumber(number);
+        this.scene.manager.switch(currentScenes[0], 'LevelScene');
+
     }
 
     changeVolume(vol) {
