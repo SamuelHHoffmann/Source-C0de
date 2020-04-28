@@ -28,7 +28,9 @@ this.game.scene.add('LevelScene', LevelScene);
 this.game.scene.add('AboutMenu', AboutMenu);
 this.game.scene.add('SettingsMenu', SettingsMenu);
 this.game.scene.add('LevelSelect', LevelSelect);
+this.game.scene.add('Console', Console);
 //this.game.scene.add('EffectsTest', EffectsTest);
 
+this.game.scene.start('Console').bringToTop();
 this.game.scene.start('MainMenu');
 // this.game.scene.start('LevelScene');
