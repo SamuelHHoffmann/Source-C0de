@@ -49,6 +49,9 @@ class Console extends Phaser.Scene{
             case 'load':
                 this.processLevelSwitch(cmdParts[1]);
                 break;
+            case 'vol':
+                this.changeVolume(cmdParts[1]);
+                break;
             default:
                 return;
         }
@@ -61,6 +64,10 @@ class Console extends Phaser.Scene{
         this.scene.manager.switch(currentScenes[0], level);
     }
 
+    changeVolume(vol) {
+        this.sound.volume = vol;
+    }
+
     preload() {
     }
 
@@ -70,7 +77,7 @@ class Console extends Phaser.Scene{
             .setFontSize(26)
             .setVisible(false);
         // setup keyboard input
-        this.input.keyboard.on('keyup', (event) => this.processInput(event));
+        this.input.keyboard.on('keydown', (event) => this.processInput(event));
     }
 
     update() {
