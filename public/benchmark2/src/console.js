@@ -5,7 +5,7 @@ class Console extends Phaser.Scene{
     prompt = "Type Command:";
 
     // current text in console
-    input;
+    userInput = '';
 
     // console text object
     console;
@@ -15,6 +15,50 @@ class Console extends Phaser.Scene{
         // toggle visability
         if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC)
             this.console.setVisible(!this.console.visible);
+
+        else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER) {
+            // process cmd and update console text
+            this.checkCommand(this.userInput);
+            this.userInput = '';
+            this.console.setText(this.prompt + this.userInput);
+        }
+        else if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.BACKSPACE) {
+            // delete last key typed and update console
+            if (this.userInput.length != 0) {
+                this.userInput = this.userInput.substr(0, this.userInput.length-1);
+                this.console.setText(this.prompt + this.userInput);
+            }
+        }
+        else {
+            if (event.keyCode != Phaser.Input.Keyboard.KeyCodes.SHIFT) {
+                // append to current input text and update console
+                this.userInput += event.key;
+                this.console.setText(this.prompt + this.userInput);
+            }
+        }
+    }
+
+    checkCommand(cmdString) {
+        var cmdParts = cmdString.split(' ');
+
+        // if we don't have at least two parts of cmd do nothing
+        if (cmdParts.length  < 2)
+            return;
+        // process rest of cmds accordingly
+        switch (cmdParts[0].toLowerCase()) {
+            case 'load':
+                this.processLevelSwitch(cmdParts[1]);
+                break;
+            default:
+                return;
+        }
+    }
+
+    processLevelSwitch(level) {
+        // find the scene we are currently in
+        var currentScenes = this.scene.manager.getScenes(true, false);
+        console.log(currentScenes);
+        this.scene.manager.switch(currentScenes[0], level);
     }
 
     preload() {
