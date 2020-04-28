@@ -27,6 +27,7 @@ class LevelSelect extends Phaser.Scene {
     title;
 
     startClickHandler() {
+        this.game.scene.getScene('LevelScene').setLevelNumber(this.clickedLevel);
         this.scene.switch('LevelScene');
     }
 

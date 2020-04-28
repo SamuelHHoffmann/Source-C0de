@@ -3,6 +3,7 @@
 
 class LevelScene extends Phaser.Scene {
 
+    levelNumber = 0;
 
     player;
     playerInAir;
@@ -17,12 +18,16 @@ class LevelScene extends Phaser.Scene {
         this.parent = parent;
     }
 
+    setLevelNumber(number) {
+        this.levelNumber = number;
+    }
+
     preload() {
 
-
+        // console.log(this.levelNumber);
 
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");
-        this.load.tilemapTiledJSON("map", "resources/tilemaps/untitled.json");
+        this.load.tilemapTiledJSON("map", "resources/tilemaps/level_" + this.levelNumber + ".json");
 
         // this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64, endFrame: 4 });
 
@@ -40,6 +45,8 @@ class LevelScene extends Phaser.Scene {
 
     create() {
 
+        // console.log(this.levelNumber);
+
         // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
 
         this.cameras.main.setBackgroundColor('#595959');
@@ -48,9 +55,9 @@ class LevelScene extends Phaser.Scene {
 
         const tileset = map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
 
-        this.collision_layer = map.createStaticLayer("collide", tileset, 0, 0).setDepth(2);
-        this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
-        this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
+        this.collision_layer = map.createStaticLayer("Tile Layer 1", tileset, 0, 0).setDepth(2);
+        // this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
+        // this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
 
         this.collision_layer.setCollisionBetween(0, 5);
 

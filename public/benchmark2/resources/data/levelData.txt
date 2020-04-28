@@ -4,8 +4,8 @@ level_1_name: "Welcome to the Source C0de",
 level_1_desc: "Welcome to the Source C0de, you are Nort. The world hasn't been quite the same after the bugs broke free and now it is up to you to 
 fix the Source C0de. Let's just make sure you can walk around first before you start fixing everything...",
 
-level_2_name: "",
-level_2_desc: "",
+level_2_name: "Round 2",
+level_2_desc: "Another Level",
 
 level_3_name: "",
 level_3_desc: "",
