@@ -98,6 +98,7 @@ class Console extends Phaser.Scene {
         // this.scene.manager.remove('LevelScene');
         // this.scene.manager.add('LevelScene', LevelScene);
         this.scene.manager.getScene('LevelScene').setLevelNumber(number);
+        this.scene.manager.getScene('LevelScene').reDrawLayer = true;
         this.scene.manager.switch(currentScenes[0], 'LevelScene');
     }
 

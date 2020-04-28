@@ -5,6 +5,8 @@ class LevelScene extends Phaser.Scene {
 
     levelNumber = 0;
 
+    reDrawLayer = false;
+
     player;
     playerInAir;
 
@@ -68,17 +70,18 @@ class LevelScene extends Phaser.Scene {
 
     }
 
-    create() {
+    setUpMap() {
 
-        console.log(this.levelNumber);
-
-        // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
-
-        this.cameras.main.setBackgroundColor('#595959');
 
         this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
 
         const tileset = this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
+
+
+        try {
+            this.collision_layer.destroy();
+            this.player.destroy();
+        } catch{ }
 
         this.collision_layer = this.map.createStaticLayer("Tile Layer 1", tileset, 0, 0).setDepth(2);
         // this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
@@ -86,8 +89,29 @@ class LevelScene extends Phaser.Scene {
 
         this.collision_layer.setCollisionBetween(0, 5);
 
+        this.player = this.physics.add.sprite(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50, 'nort');
+
+        this.player.anims.play('IDLE')
+            .setDepth(1)
+            .setCollideWorldBounds(true);
 
 
+
+        this.physics.add.collider(this.player, this.collision_layer);
+
+        this.reDrawLayer = false;
+
+    }
+
+
+
+    create() {
+
+        console.log(this.levelNumber);
+
+        // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
+
+        this.cameras.main.setBackgroundColor('#595959');
 
 
 
@@ -127,22 +151,17 @@ class LevelScene extends Phaser.Scene {
         this.anims.create(config);
 
 
-        this.player = this.physics.add.sprite(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50, 'nort');
-
-        this.player.anims.play('IDLE')
-            .setDepth(1)
-            .setCollideWorldBounds(true);
-
-
-
-        this.physics.add.collider(this.player, this.collision_layer);
-        // this.physics.add.overlap(this.player, this.ground_decorations_layer);
-        // this.physics.add.overlap(this.player, this.ground_decorations_layer);
+        this.setUpMap();
 
 
     }
 
     update() {
+
+        if (this.reDrawLayer) {
+            this.setUpMap();
+        }
+
         var cursors = this.input.keyboard.createCursorKeys();
 
         // if (this.input.keyboard.addKey('ENTER').isDown) {
