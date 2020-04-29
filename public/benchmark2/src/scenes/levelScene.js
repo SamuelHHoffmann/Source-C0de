@@ -1,6 +1,5 @@
 /** @type {import("../../typings/phaser")} */
 
-
 class LevelScene extends Phaser.Scene {
 
     levelNumber = 0;
@@ -15,6 +14,9 @@ class LevelScene extends Phaser.Scene {
     collision_layer;
     decoration_layer;
     ground_decorations_layer;
+
+    // level properties from json
+    levelProperties;
 
     constructor(handle, parent) {
         super(handle);
@@ -55,6 +57,9 @@ class LevelScene extends Phaser.Scene {
 
             }
         }
+
+        // load json file with level properties
+        this.load.text('levelProperties', 'resources/data/levelProperties.json');
 
         // this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64, endFrame: 4 });
 
@@ -106,7 +111,10 @@ class LevelScene extends Phaser.Scene {
 
 
     create() {
-
+        // get json levelPropertyData (Example)
+        console.log(this.cache.text.get('levelProperties'));
+        this.levelProperties = JSON.parse(this.cache.text.get('levelProperties'));
+        console.log(this.levelProperties);
         console.log(this.levelNumber);
 
         // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
