@@ -20,6 +20,7 @@ class LevelScene extends Phaser.Scene {
 
     // sound effects
     jumpSound;
+    walkSound;
 
     constructor(handle, parent) {
         super(handle);
@@ -77,6 +78,7 @@ class LevelScene extends Phaser.Scene {
         this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 32, frameHeight: 64 });
 
         this.load.audio('jumpSound', 'resources/audio/soundEffects/jump.wav');
+        this.load.audio('walkSound', 'resources/audio/soundEffects/walk.wav');
 
     }
 
@@ -128,6 +130,7 @@ class LevelScene extends Phaser.Scene {
 
         // add sound effects
         this.jumpSound = this.sound.add('jumpSound');
+        this.walkSound = this.sound.add('walkSound', {rate: 1.4});
 
         var config = {
             key: 'WALK_RIGHT',
@@ -182,10 +185,13 @@ class LevelScene extends Phaser.Scene {
             this.playerInAir = false;
         }
 
-
         if (cursors.right.isDown) {
             this.player.setVelocityX(100);
             this.player.anims.play('WALK_RIGHT', true);
+            
+            // play walk sound
+            if (!this.walkSound.isPlaying && !this.playerInAir)
+                this.walkSound.play();
 
             // check if jumping
             if (cursors.up.isDown)
@@ -194,6 +200,10 @@ class LevelScene extends Phaser.Scene {
         else if (cursors.left.isDown) {
             this.player.setVelocityX(-100);
             this.player.anims.play('WALK_LEFT', true);
+
+            // play walk sound
+            if (!this.walkSound.isPlaying && !this.playerInAir)
+            this.walkSound.play();
 
             // check if jumping
             if (cursors.up.isDown)
