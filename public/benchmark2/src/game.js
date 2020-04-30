@@ -26,7 +26,7 @@ var game = new Phaser.Game(config);
 
 function preload() {
     // load all audio here
-    this.load.audio('backgroundMusic', 'resources/audio/music/temp_song.wav');
+    this.load.audio('backgroundMusic', 'resources/audio/music/NortsTheme.wav');
 }
 
 function create() {
