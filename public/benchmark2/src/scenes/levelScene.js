@@ -80,9 +80,9 @@ class LevelScene extends Phaser.Scene {
     setUpMap() {
 
 
-        // if (this.riftManager != undefined) {
-        //     this.riftManager.riftManagerTeardown(this);
-        // }
+        if (this.riftManager != undefined) {
+            this.riftManager.riftManagerTeardown(this);
+        }
 
         this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
 
@@ -127,14 +127,14 @@ class LevelScene extends Phaser.Scene {
         this.reDrawLayer = false;
 
 
-        // if (this.riftManager == undefined) {
-        //     this.riftManager = new RiftManager(this);
-        // }
+        if (this.riftManager == undefined) {
+            this.riftManager = new RiftManager(this);
+        }
 
-        // if (this.riftManager != undefined) {
-        //     this.riftManager.riftManagerLevelLoad(this);
-        //     this.setupRifts();
-        // }
+        if (this.riftManager != undefined) {
+            this.riftManager.riftManagerLevelLoad(this);
+            this.setupRifts();
+        }
 
     }
 
@@ -209,7 +209,7 @@ class LevelScene extends Phaser.Scene {
 
         this.setUpMap();
 
-        // this.riftManager.destroy();
+        //this.riftManager.destroy();
 
         //probably want to have this take in input data for each level
         //this.setupRifts();
@@ -259,7 +259,7 @@ class LevelScene extends Phaser.Scene {
             }
         }
 
-        // this.riftManager.riftManagerUpdate(this.player);
+        this.riftManager.riftManagerUpdate(this.player);
     }
 
     jump() {
