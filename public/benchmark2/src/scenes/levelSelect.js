@@ -27,6 +27,8 @@ class LevelSelect extends Phaser.Scene {
     title;
 
     startClickHandler() {
+        console.log("Start clicked");
+
         this.game.scene.getScene('LevelScene').reDrawLayer = true;
         this.game.scene.getScene('LevelScene').setLevelNumber(this.clickedLevel);
 
@@ -55,11 +57,11 @@ class LevelSelect extends Phaser.Scene {
 
     levelClickedHandler(levelNumber) {
 
-        this.clickedLevel = levelNumber;
-
         if (this.backgroundShowing) {
             return;
         }
+
+        this.clickedLevel = levelNumber;
 
         console.log(this.levelData);
 

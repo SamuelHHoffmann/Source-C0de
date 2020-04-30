@@ -36,9 +36,9 @@ class LevelScene extends Phaser.Scene {
 
 
     endLevel(sprite, tile) {
-        var currentScenes = this.scene.manager.getScenes(true, false);
-        this.scene.manager.switch(currentScenes[0], 'LevelSelect');
-        return false;
+        if (this.reDrawLayer) { return; }
+        this.scene.switch('LevelSelect');
+        return true;
     }
 
     preload() {
@@ -79,9 +79,11 @@ class LevelScene extends Phaser.Scene {
 
     setUpMap() {
 
-        if (this.riftManager != undefined) {
-            this.riftManager.riftManagerTeardown(this);
-        }
+
+        // if (this.riftManager != undefined) {
+        //     this.riftManager.riftManagerTeardown(this);
+        // }
+
         this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
 
         const tileset = this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
@@ -120,19 +122,19 @@ class LevelScene extends Phaser.Scene {
 
         this.physics.add.collider(this.player, this.collision_layer);
 
-        //needs a valid player object
-
+        this.input.keyboard.clearCaptures();
 
         this.reDrawLayer = false;
 
-        if (this.riftManager == undefined) {
-            this.riftManager = new RiftManager(this);
-        }
 
-        if (this.riftManager != undefined) {
-            this.riftManager.riftManagerLevelLoad(this);
-            this.setupRifts();
-        }
+        // if (this.riftManager == undefined) {
+        //     this.riftManager = new RiftManager(this);
+        // }
+
+        // if (this.riftManager != undefined) {
+        //     this.riftManager.riftManagerLevelLoad(this);
+        //     this.setupRifts();
+        // }
 
     }
 
@@ -223,6 +225,7 @@ class LevelScene extends Phaser.Scene {
             console.log(this.player.x, this.player.y);
         }
 
+
         if (this.input.keyboard.addKey(this.levelData.input.rightKey).isDown) {
             this.player.setVelocityX(this.levelData.input.speed);
             this.player.anims.play('WALK_RIGHT', true);
@@ -256,7 +259,7 @@ class LevelScene extends Phaser.Scene {
             }
         }
 
-        this.riftManager.riftManagerUpdate(this.player);
+        // this.riftManager.riftManagerUpdate(this.player);
     }
 
     jump() {
