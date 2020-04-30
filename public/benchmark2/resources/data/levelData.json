@@ -2,16 +2,33 @@
     "levelCount": 3,
     "levels": [
         {
+<<<<<<< HEAD
             "name": "Welcome to the Source C0de",
             "desc": "Welcome to the Source C0de, you are Nort. The world hasn't been quite the same after the bugs broke free and now it is up to you to fix the Source C0de. Let's just make sure you can walk around first before you start fixing everything..."
+=======
+            "name" : "Welcome to the Source C0de",
+            "desc" : "Welcome to the Source C0de, you are Nort. The world hasn't been quite the same after the bugs broke free and now it is up to you to fix the Source C0de. Let's just make sure you can walk around first before you start fixing everything...",
+            "tileMapPath" : "resources/tilemaps/level_1.json"
+>>>>>>> b8ee52e30ea631111f268f8d2e8842d701d4bf62
         },
         {
             "name": "Round 2",
+<<<<<<< HEAD
             "desc": "Another Level"
+=======
+            "desc" : "Another Level",
+            "tileMapPath" : "resources/tilemaps/level_2.json"
+>>>>>>> b8ee52e30ea631111f268f8d2e8842d701d4bf62
         },
         {
+<<<<<<< HEAD
             "name": "Treasure Chest",
             "desc": "Maybe..."
+=======
+            "name" : "Treasure Chest",
+            "desc" : "Maybe...",
+            "tileMapPath" : "resources/tilemaps/level_3.json"
+>>>>>>> b8ee52e30ea631111f268f8d2e8842d701d4bf62
         }
     ]
 }

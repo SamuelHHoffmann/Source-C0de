@@ -16,7 +16,7 @@ class LevelScene extends Phaser.Scene {
     ground_decorations_layer;
 
     // level properties from json
-    levelProperties;
+    levelData;
 
     // sound effects
     jumpSound;
@@ -45,18 +45,23 @@ class LevelScene extends Phaser.Scene {
         // console.log(this.levelNumber);
 
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");
+        this.load.text('levelData', "resources/data/levelData.json");
 
-        for (var x = 1; x < 13; x++) {
+        // parse json text
+        this.levelData = JSON.parse(this.cache.text.get('levelData'));
+
+        for (var x = 0; x < this.levelData.levelCount; x++) {
             try {
-                this.load.tilemapTiledJSON("level_" + x, "resources/tilemaps/level_" + x + ".json");
-            } catch{
-
-            }
+                this.load.tilemapTiledJSON("level_" + (x+1), this.levelData.levels[x].tileMapPath);
+            } catch{ console.error('Path in json file invalid for level ' + (x+1)) }
         }
 
+<<<<<<< HEAD
         // load json file with level properties
         this.load.text('levelProperties', 'resources/data/levelData.json');
 
+=======
+>>>>>>> b8ee52e30ea631111f268f8d2e8842d701d4bf62
         // this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64, endFrame: 4 });
 
         // graphics = this.make.graphics({ x: 0, y: 0, add: true });
@@ -115,11 +120,8 @@ class LevelScene extends Phaser.Scene {
 
 
     create() {
-        // get json levelPropertyData (Example)
-        console.log(this.cache.text.get('levelProperties'));
-        this.levelProperties = JSON.parse(this.cache.text.get('levelProperties'));
-        console.log(this.levelProperties);
-        console.log(this.levelNumber);
+        // get json levelData
+
 
         // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
 
