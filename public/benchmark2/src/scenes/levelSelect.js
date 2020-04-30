@@ -15,13 +15,13 @@ class LevelSelect extends Phaser.Scene {
     logoIMG;
     descBackground;
 
-    levelDataText;
+    // level data
+    levelData;
 
     // offsets
     spaceOff = 50;
     topOff = this.spaceOff;
     centerOriginOff = .5;
-
 
     // static text
     title;
@@ -54,16 +54,20 @@ class LevelSelect extends Phaser.Scene {
             return;
         }
 
-        // transition back to MainMenu
-        this.levelName.setText("");
-        var searchName = "level_" + levelNumber + "_name: \"";
-        // console.log(searchName);
-        this.levelName.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
-            this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
+        console.log(this.levelData);
 
-        searchName = "level_" + levelNumber + "_desc: \"";
-        this.levelDesc.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
-            this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
+        // transition back to MainMenu
+        // this.levelName.setText("");
+        // var searchName = "level_" + levelNumber + "_name: \"";
+        // console.log(searchName);
+        // this.levelName.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
+        //     this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
+        this.levelName.setText(this.levelData.levels[levelNumber-1].name);
+
+        // searchName = "level_" + levelNumber + "_desc: \"";
+        // this.levelDesc.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
+        //     this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
+        this.levelDesc.setText(this.levelData.levels[levelNumber-1].desc);
 
         // console.log(this.levelName.text);
         // console.log(this.levelDesc.text);
@@ -104,11 +108,18 @@ class LevelSelect extends Phaser.Scene {
     }
 
     preload() {
-        this.load.text('levelData', 'resources/data/levelData.txt');
+        //this.load.text('levelData', 'resources/data/levelData.txt');
+
+        // load level data
+        this.load.text('levelData', 'resources/data/levelData.json');
         this.load.image('levelDescBackground', 'resources/images/levelSelectBackground.png');
     }
 
     create() {
+        // parse level data
+        this.levelData = JSON.parse(this.cache.text.get('levelData'));
+        console.log(this.levelData);
+
         // get camera center x and y
         var cameraCenterX = this.cameras.main.centerX;
         var cameraCenterY = this.cameras.main.centerY;
@@ -146,15 +157,18 @@ class LevelSelect extends Phaser.Scene {
             .setAlpha(0);
 
         this.levels = [];
-        this.levelDataText = this.cache.text.get('levelData');
-        this.numLevels = parseInt(this.levelDataText.substring(this.levelDataText.search('level_count:') + 12, this.levelDataText.indexOf(',', this.levelDataText.search('level_count:') + 12)));
+        // this.levelDataText = this.cache.text.get('levelData');
+        // this.numLevels = parseInt(this.levelDataText.substring(this.levelDataText.search('level_count:') + 12, this.levelDataText.indexOf(',', this.levelDataText.search('level_count:') + 12)));
+        this.numLevels = this.levelData.levelCount;
 
         var x = cameraCenterX - this.cameras.main.width / 5.5;
         var y = cameraCenterY;
         var amountPerRow = 4;
 
         for (var i = 0; i < this.numLevels; i++) {
-            for (var j = 0; j < amountPerRow; j++) {
+            var minRowAmount = Math.min(Math.max(0, this.numLevels - (i*amountPerRow)), amountPerRow);
+
+            for (var j = 0; j < minRowAmount; j++) {
                 var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' });
                 levelButton.setOrigin(this.centerOriginOff)
                     .setInteractive({ 'useHandCursor': true })

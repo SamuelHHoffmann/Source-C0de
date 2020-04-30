@@ -18,6 +18,10 @@ class LevelScene extends Phaser.Scene {
     // level properties from json
     levelProperties;
 
+    // sound effects
+    jumpSound;
+    walkSound;
+
     constructor(handle, parent) {
         super(handle);
 
@@ -73,6 +77,9 @@ class LevelScene extends Phaser.Scene {
 
         this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 32, frameHeight: 64 });
 
+        this.load.audio('jumpSound', 'resources/audio/soundEffects/jump.wav');
+        this.load.audio('walkSound', 'resources/audio/soundEffects/walk.wav');
+
     }
 
     setUpMap() {
@@ -121,7 +128,9 @@ class LevelScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#595959');
 
-
+        // add sound effects
+        this.jumpSound = this.sound.add('jumpSound');
+        this.walkSound = this.sound.add('walkSound', {rate: 1.4});
 
         var config = {
             key: 'WALK_RIGHT',
@@ -160,12 +169,9 @@ class LevelScene extends Phaser.Scene {
 
 
         this.setUpMap();
-
-
     }
 
     update() {
-
         if (this.reDrawLayer) {
             this.setUpMap();
         }
@@ -179,35 +185,48 @@ class LevelScene extends Phaser.Scene {
             this.playerInAir = false;
         }
 
-
         if (cursors.right.isDown) {
             this.player.setVelocityX(100);
             this.player.anims.play('WALK_RIGHT', true);
-            if (cursors.up.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
-                this.player.setVelocityY(-250);
-                this.playerInAir = true;
-                this.player.anims.play('JUMP', true);
-            }
-        } else if (cursors.left.isDown) {
+            
+            // play walk sound
+            if (!this.walkSound.isPlaying && !this.playerInAir)
+                this.walkSound.play();
+
+            // check if jumping
+            if (cursors.up.isDown)
+                this.jump();
+        } 
+        else if (cursors.left.isDown) {
             this.player.setVelocityX(-100);
             this.player.anims.play('WALK_LEFT', true);
-            if (cursors.up.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
-                this.player.setVelocityY(-250);
-                this.playerInAir = true;
-                this.player.anims.play('JUMP', true);
-            }
-        } else if (cursors.up.isDown && (this.player.body.touching.down || this.player.body.onFloor())) {
-            this.player.setVelocityY(-250);
-            this.playerInAir = true;
-            this.player.anims.play('JUMP', true);
-        } else {
+
+            // play walk sound
+            if (!this.walkSound.isPlaying && !this.playerInAir)
+            this.walkSound.play();
+
+            // check if jumping
+            if (cursors.up.isDown)
+                this.jump();
+        } 
+        else if (cursors.up.isDown)
+            this.jump();
+        else {
             if (!this.playerInAir) {
                 this.player.anims.play('IDLE', true);
                 this.player.setVelocity(0, 0);
             }
         }
-
-
     }
 
+    jump() {
+        if (this.player.body.touching.down || this.player.body.onFloor()) {
+            this.player.setVelocityY(-250);
+            this.playerInAir = true;
+            this.player.anims.play('JUMP', true);
+
+            // play jump sound
+            this.jumpSound.play();
+        } 
+    }
 }

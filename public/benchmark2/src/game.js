@@ -21,7 +21,6 @@ var config = {
 
 var game = new Phaser.Game(config);
 
-
 // add all scenes to game
 this.game.scene.add('MainMenu', MainMenu);
 this.game.scene.add('LevelScene', LevelScene);
