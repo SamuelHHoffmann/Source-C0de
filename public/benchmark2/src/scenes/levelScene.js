@@ -52,16 +52,13 @@ class LevelScene extends Phaser.Scene {
 
         for (var x = 0; x < this.levelData.levelCount; x++) {
             try {
-                this.load.tilemapTiledJSON("level_" + (x+1), this.levelData.levels[x].tileMapPath);
-            } catch{ console.error('Path in json file invalid for level ' + (x+1)) }
+                this.load.tilemapTiledJSON("level_" + (x + 1), this.levelData.levels[x].tileMapPath);
+            } catch{ console.error('Path in json file invalid for level ' + (x + 1)) }
         }
 
-<<<<<<< HEAD
         // load json file with level properties
         this.load.text('levelProperties', 'resources/data/levelData.json');
 
-=======
->>>>>>> b8ee52e30ea631111f268f8d2e8842d701d4bf62
         // this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64, endFrame: 4 });
 
         // graphics = this.make.graphics({ x: 0, y: 0, add: true });
@@ -102,7 +99,14 @@ class LevelScene extends Phaser.Scene {
 
         // this.matter.world.convertTilemapLayer(this.collision_layer);
 
-        this.player = this.physics.add.sprite(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50, 'nort');
+        console.log(this.levelData.levels[this.levelNumber - 1].startPositionX);
+        console.log(this.levelData.levels[this.levelNumber - 1].startPositionY);
+
+        var xPos = this.levelData.levels[this.levelNumber - 1].startPositionX;
+        var yPos = this.levelData.levels[this.levelNumber - 1].startPositionY;
+
+        this.player = this.physics.add.sprite(parseInt(xPos), parseInt(yPos), 'nort');
+        // console.log(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50);
 
         this.player.anims.play('IDLE')
             .setDepth(1)

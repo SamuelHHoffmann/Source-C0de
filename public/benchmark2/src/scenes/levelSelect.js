@@ -29,6 +29,13 @@ class LevelSelect extends Phaser.Scene {
     startClickHandler() {
         this.game.scene.getScene('LevelScene').reDrawLayer = true;
         this.game.scene.getScene('LevelScene').setLevelNumber(this.clickedLevel);
+
+        this.backgroundShowing = false;
+        this.levelName.setAlpha(0);
+        this.levelDesc.setAlpha(0);
+        this.descBackground.setAlpha(0);
+        this.title.setAlpha(0);
+
         this.scene.switch('LevelScene');
     }
 
@@ -62,12 +69,12 @@ class LevelSelect extends Phaser.Scene {
         // console.log(searchName);
         // this.levelName.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
         //     this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
-        this.levelName.setText(this.levelData.levels[levelNumber-1].name);
+        this.levelName.setText(this.levelData.levels[levelNumber - 1].name);
 
         // searchName = "level_" + levelNumber + "_desc: \"";
         // this.levelDesc.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
         //     this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
-        this.levelDesc.setText(this.levelData.levels[levelNumber-1].desc);
+        this.levelDesc.setText(this.levelData.levels[levelNumber - 1].desc);
 
         // console.log(this.levelName.text);
         // console.log(this.levelDesc.text);
@@ -166,7 +173,7 @@ class LevelSelect extends Phaser.Scene {
         var amountPerRow = 4;
 
         for (var i = 0; i < this.numLevels; i++) {
-            var minRowAmount = Math.min(Math.max(0, this.numLevels - (i*amountPerRow)), amountPerRow);
+            var minRowAmount = Math.min(Math.max(0, this.numLevels - (i * amountPerRow)), amountPerRow);
 
             for (var j = 0; j < minRowAmount; j++) {
                 var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' });

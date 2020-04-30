@@ -509,7 +509,7 @@
             "tilewidth": 32,
             "image": "../spriteSheets/nort_platform_tiles-Sheet.png",
             "imageheight": 32,
-            "imagewidth": 1056
+            "imagewidth": 1120
         }
     ],
     "tilewidth": 32,
