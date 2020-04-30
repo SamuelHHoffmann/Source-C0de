@@ -56,21 +56,13 @@ class MainMenu extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo', 'resources/images/source-c0de-logo.png');   
-        this.load.audio('backgroundMusic', 'resources/audio/music/temp_song.wav');
+        this.load.image('logo', 'resources/images/source-c0de-logo.png');
     }
 
     create() {
         // start playing music
         this.backgroundMusic = this.sound.add('backgroundMusic');
-        var config = {
-        name: 'loop',
-            config: {
-                loop: true
-            }
-        };
-        this.backgroundMusic.addMarker(config);
-        this.backgroundMusic.play('loop');
+        this.backgroundMusic.play({loop: true});
 
         // get camera center x and y
         var cameraCenterX = this.cameras.main.centerX;

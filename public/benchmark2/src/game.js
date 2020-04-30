@@ -1,6 +1,5 @@
 /** @type {import("../typings/phaser)} */
 
-
 var config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
@@ -16,20 +15,31 @@ var config = {
             gravity: { y: 300 },
             debug: false
         }
+    },
+    scene: {
+        preload: preload,
+        create: create
     }
 };
 
 var game = new Phaser.Game(config);
 
-// add all scenes to game
-this.game.scene.add('MainMenu', MainMenu);
-this.game.scene.add('LevelScene', LevelScene);
-this.game.scene.add('AboutMenu', AboutMenu);
-this.game.scene.add('SettingsMenu', SettingsMenu);
-this.game.scene.add('LevelSelect', LevelSelect);
-this.game.scene.add('Console', Console);
-//this.game.scene.add('EffectsTest', EffectsTest);
+function preload() {
+    // load all audio here
+    this.load.audio('backgroundMusic', 'resources/audio/music/temp_song.wav');
+}
 
-this.game.scene.start('Console').bringToTop();
-this.game.scene.start('MainMenu');
-// this.game.scene.start('LevelScene');
+function create() {
+    // add all scenes to game
+    this.game.scene.add('MainMenu', MainMenu);
+    this.game.scene.add('LevelScene', LevelScene);
+    this.game.scene.add('AboutMenu', AboutMenu);
+    this.game.scene.add('SettingsMenu', SettingsMenu);
+    this.game.scene.add('LevelSelect', LevelSelect);
+    this.game.scene.add('Console', Console);
+    //this.game.scene.add('EffectsTest', EffectsTest);
+
+    this.game.scene.start('Console').bringToTop();
+    this.game.scene.start('MainMenu');
+    // this.game.scene.start('LevelScene');
+}
