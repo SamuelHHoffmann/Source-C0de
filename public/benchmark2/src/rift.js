@@ -13,6 +13,20 @@ class RiftManager {
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
 
+        /* allows for block-rift interaction */
+        scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
+            zone.overlapCallback(input);
+            input.overlapCallback(zone);
+        });
+
+        /* allows for block-world interaction */
+        scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
+
+        /* allows for player-block interaction */
+        scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
+            input.playerTouchCallback(player);
+        });
+
         /* current effects */
         this.riftEffects;
 
@@ -28,29 +42,19 @@ class RiftManager {
         }, scene);
     }
 
-    riftManagerTeardown() {
+    riftManagerTeardown(scene) {
+        this.rifts = [];
         this.riftZones.destroy(this.riftZones.getChildren());
         this.riftInputBlocks.destroy(this.riftInputBlocks.getChildren());
-        this.rifts = [];
+        
+        //scene.physics.world.coll
+
     }
 
     riftManagerLevelLoad(scene) {
-        /* allows for block-rift interaction */
-        scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
-            zone.overlapCallback(input);
-            input.overlapCallback(zone);
-        });
-
-        /* allows for block-world interaction */
-        scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
-
+    
         /* variable for picked up blocks */
-        scene.player.pickedUp;
-
-        /* allows for player-block interaction */
-        scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
-            input.playerTouchCallback(player);
-        });
+        scene.player.pickedUp = null; 
     }
 
     createNewRift(scene, x, y, codeText, acceptedType) {
@@ -76,6 +80,7 @@ class RiftManager {
 
         /* rifts reject blocks that aren't of the same type */
         
+        /*
         var rzChildren = this.riftZones.getChildren();
         if(rzChildren != null) {
             for(let child of rzChildren) {
@@ -94,14 +99,15 @@ class RiftManager {
                             wiggledRZ = false;
                         }
                         
-                        /*
+                        
                         if(child.currentBlock.velocity.x > 0) {
                             child.currentBlock = null;
-                        }*/
+                        }
                     }
                 }
             }
         }
+        */
     }
 
 }
