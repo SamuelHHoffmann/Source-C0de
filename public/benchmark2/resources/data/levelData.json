@@ -5,19 +5,24 @@
             "name": "Welcome to the Source C0de",
             "desc": "Welcome to the Source C0de, you are Nort. The world hasn't been quite the same after the bugs broke free and now it is up to you to fix the Source C0de. Let's just make sure you can walk around first before you start fixing everything...",
             "tileMapPath": "resources/tilemaps/level_1.json",
-            "startPositionX": "25",
-            "startPositionY": "346",
+            "startPositionX": "16",
+            "startPositionY": "352",
             "numRifts": "1",
             "rifts": [
                 {
                     "bodyText": "Hello, world = ",
-                    "type": "int",
-                    "dropText": "Test",
                     "xPos": "200",
                     "yPos": "200",
-                    "inputXPos": "300",
-                    "inputYPos": "300",
-                    "riftInputType": "int"
+                    "inputType": "int"
+                }
+            ],
+            "numRiftElements": "1",
+            "riftElements": [
+                {
+                    "xPos": "200",
+                    "yPos": "200",
+                    "text": "Test",
+                    "inputType": "int"
                 }
             ]
         },
@@ -25,19 +30,24 @@
             "name": "Round 2",
             "desc": "Another Level",
             "tileMapPath": "resources/tilemaps/level_2.json",
-            "startPositionX": "200",
-            "startPositionY": "250",
+            "startPositionX": "16",
+            "startPositionY": "352",
             "numRifts": "1",
             "rifts": [
                 {
                     "bodyText": "Hello, world = ",
-                    "type": "int",
-                    "dropText": "Test",
                     "xPos": "200",
                     "yPos": "200",
-                    "inputXPos": "300",
-                    "inputYPos": "300",
-                    "riftInputType": "int"
+                    "inputType": "int"
+                }
+            ],
+            "numRiftElements": "1",
+            "riftElements": [
+                {
+                    "xPos": "200",
+                    "yPos": "200",
+                    "text": "Test",
+                    "inputType": "int"
                 }
             ]
         },
@@ -45,19 +55,24 @@
             "name": "Treasure Chest",
             "desc": "Maybe...",
             "tileMapPath": "resources/tilemaps/level_3.json",
-            "startPositionX": "200",
-            "startPositionY": "250",
+            "startPositionX": "16",
+            "startPositionY": "96",
             "numRifts": "1",
             "rifts": [
                 {
                     "bodyText": "Hello, world = ",
-                    "type": "int",
-                    "dropText": "Test",
                     "xPos": "200",
                     "yPos": "200",
-                    "inputXPos": "300",
-                    "inputYPos": "300",
-                    "riftInputType": "str"
+                    "inputType": "int"
+                }
+            ],
+            "numRiftElements": "1",
+            "riftElements": [
+                {
+                    "xPos": "200",
+                    "yPos": "200",
+                    "text": "Test",
+                    "inputType": "int"
                 }
             ]
         }
