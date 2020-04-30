@@ -90,9 +90,9 @@ class LevelScene extends Phaser.Scene {
             this.player.destroy();
         } catch{ }
 
-        this.collision_layer = this.map.createStaticLayer("Tile Layer 1", tileset, 0, 0).setDepth(2);
-        // this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
-        // this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
+        this.collision_layer = this.map.createStaticLayer("collision", tileset, 0, 0).setDepth(2);
+        this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
+        this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
 
         this.collision_layer.setCollisionBetween(0, 5);
 
@@ -132,11 +132,10 @@ class LevelScene extends Phaser.Scene {
             var riftType = this.levelData.levels[this.levelNumber - 1].rifts[i].type;
             var riftInputX = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputXPos);
             var riftInputY = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputYPos);
-            var riftInputType = this.levelData.levels[this.levelNumber - 1].rifts[i].riftInputType;
 
 
             this.riftManager.createNewRift(this, riftX, riftY, riftBody, riftType);
-            this.riftManager.createNewRiftInput(this, riftInputX, riftInputY, riftDrop, riftInputType);
+            this.riftManager.createNewRiftInput(this, riftInputX, riftInputY, riftDrop, riftType);
             // this.riftManager.createNewRift(this, 200, 200, "Hello, world = ", "int");
             // this.riftManager.createNewRiftInput(this, 300, 300, "test", "int");
         }
@@ -191,9 +190,9 @@ class LevelScene extends Phaser.Scene {
 
         this.setUpMap();
 
-        
-        this.riftManager = new RiftManager(this);
-        
+        //needs a valid player object
+        this.riftManager = new RiftManager(this, this.player, this.collision_layer);
+        //probably want to have this take in input data for each level
         this.setupRifts();
     }
 
