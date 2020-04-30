@@ -3,6 +3,60 @@
     and rift effect pipelines/shaders.
 */
 
+class RiftManager {
+    /*  Manages rifts and inputs,
+        constructor for this should be called in create() 
+    */
+    constructor(scene, player) {
+        /* group objects contain all rifts and all riftinputs */
+        this.riftZones = scene.physics.add.group([]);
+        this.riftInputBlocks = scene.physics.add.group([]);
+
+        /* allows for block-rift interaction */
+        scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
+            zone.overlapCallback(input);
+            input.overlapCallback(zone);
+        });
+
+        /* variable for picked up blocks */
+        player.pickedUp;
+
+        /* allows for player-block interaction */
+        scene.physics.add.overlap(player, this.riftInputBlocks, function(player, input) {
+            input.playerTouchCallback(player);
+        });
+
+        /* allows for the throwing of objects */
+        scene.input.on('pointerdown', function() {
+            var angle = Phaser.Math.Angle.BetweenPoints(player, scene.input);
+            scene.physics.velocityFromRotation(angle, 300, player.pickedUp.body.velocity);
+            player.pickedUp.yeetCallback();
+
+            player.pickedUp = null;
+        }, scene);
+    }
+
+    createNewRift(scene, x, y, codeText, acceptedType) {
+        var rift = new Rift(scene, x, y, codeText, acceptedType);
+
+        this.riftZones.add(rift.riftZone);
+    }
+
+    createNewRiftInput(scene, x, y, inputText, inputType) {
+        var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType);
+
+        this.riftInputBlocks.add(riftInput);
+    }
+
+    riftManagerUpdate() {
+        if(player.pickedUp != null) {
+            player.pickedUp.x = player.x - player.width;
+            player.pickedUp.y = player.y - 50;
+        }
+    }
+
+}
+
 class RiftInputBlock extends Phaser.GameObjects.Text {
     constructor(scene, x, y, text, type) {
         super(scene, x, y, text);
@@ -18,6 +72,26 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         this.body.setCollideWorldBounds(true);
     }
 
+    overlapCallback(rift) {
+        this.body.setAllowGravity(false);
+        this.body.setVelocity(0, 0);
+
+        this.x = rift.x - (rift.width/2);
+        this.y = rift.y - (rift.height/2);
+    }
+
+    playerTouchCallback(player) {
+        if(player.pickedUp == null) {
+            player.pickedUp = this;
+            this.body.setAllowGravity(false);
+            this.body.setVelocity(0, 0);
+        }
+    }
+
+    yeetCallback() {
+        this.body.setAllowGravity(true);
+    }
+
     // preUpdate() { }
 }
 
@@ -30,8 +104,10 @@ class Rift {
     constructor(scene, x, y, codeText, acceptedType) {
         var zoneWidth = 100, zoneHeight = 20;
 
+        /* The type of block this rift accepts, e.g. 'int', 'float', 'string', ... */
         this.acceptedType = acceptedType;
 
+        /* rift objects */
         this.codeText = new RiftText(scene, x, y, codeText);
 
         this.riftZone = new RiftZone(scene, 
@@ -41,18 +117,24 @@ class Rift {
             zoneHeight 
         );
 
+        /* currently unused
         this.zoneText = new RiftText(scene, 
             this.riftZone.x - this.riftZone.width,
             this.riftZone.y - this.height / 2,
             ""
-        );
+        );*/
     }
 }
 
 class RiftZone extends Phaser.GameObjects.Zone {
     /* Zone for capturing overlap events and dealing with them */
-    constructor(scene, x, y, width, height) {
+    constructor(scene, x, y, width, height, acceptedType) {
         super(scene, x, y, width, height);
+
+        /* The type of block this rift accepts, e.g. 'int', 'float', 'string', ... */
+        this.acceptedType = acceptedType;
+
+        this.currentBlock;
 
         scene.sys.displayList.add(this);
         scene.sys.updateList.add(this);
@@ -60,6 +142,13 @@ class RiftZone extends Phaser.GameObjects.Zone {
 
         this.body.setAllowGravity(false);
     }
+    
+    overlapCallback(inputBlock) {
+        this.body.checkCollision.none = true;
+        this.currentBlock = inputBlock;
+    }
+
+    // preUpdate(){}
 }
 
 class RiftText extends Phaser.GameObjects.Text {
