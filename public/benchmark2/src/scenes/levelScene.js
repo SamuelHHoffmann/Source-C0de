@@ -122,8 +122,23 @@ class LevelScene extends Phaser.Scene {
 
 
     setupRifts() {
-        this.riftManager.createNewRift(this, 200, 200, "Hello, world = ", "int");
-        this.riftManager.createNewRiftInput(this, 300, 300, "test", "int");
+        var numRifts = parseInt(this.levelData.levels[this.levelNumber - 1].numRifts);
+
+        for (var i = 0; i < numRifts; i++) {
+            var riftX = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].xPos);
+            var riftY = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].yPos);
+            var riftBody = this.levelData.levels[this.levelNumber - 1].rifts[i].bodyText;
+            var riftDrop = this.levelData.levels[this.levelNumber - 1].rifts[i].dropText;
+            var riftType = this.levelData.levels[this.levelNumber - 1].rifts[i].type;
+            var riftInputX = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputXPos);
+            var riftInputY = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputYPos);
+
+
+            this.riftManager.createNewRift(this, riftX, riftY, riftBody, riftType);
+            this.riftManager.createNewRiftInput(this, riftInputX, riftInputY, riftDrop, riftType);
+            // this.riftManager.createNewRift(this, 200, 200, "Hello, world = ", "int");
+            // this.riftManager.createNewRiftInput(this, 300, 300, "test", "int");
+        }
     }
 
     create() {
