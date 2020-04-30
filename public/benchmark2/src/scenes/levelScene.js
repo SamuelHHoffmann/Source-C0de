@@ -1,6 +1,7 @@
 /** @type {import("../../typings/phaser")} */
 
 class LevelScene extends Phaser.Scene {
+    riftManager;
 
     levelNumber = 0;
 
@@ -120,11 +121,13 @@ class LevelScene extends Phaser.Scene {
     }
 
 
-
+    setupRifts() {
+        this.riftManager.createNewRift(this, 200, 200, "Hello, world = ", "int");
+        this.riftManager.createNewRiftInput(this, 300, 300, "test", "int");
+    }
 
     create() {
         // get json levelData
-
 
         // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
 
@@ -171,6 +174,11 @@ class LevelScene extends Phaser.Scene {
 
 
         this.setUpMap();
+
+        //needs a valid player object
+        this.riftManager = new RiftManager(this, this.player, this.collision_layer);
+        //probably want to have this take in input data for each level
+        this.setupRifts();
     }
 
     update() {
@@ -213,6 +221,8 @@ class LevelScene extends Phaser.Scene {
                 this.player.setVelocity(0, 0);
             }
         }
+
+        this.riftManager.riftManagerUpdate(this.player);
     }
 
     jump() {

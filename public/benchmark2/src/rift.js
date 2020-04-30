@@ -7,7 +7,7 @@ class RiftManager {
     /*  Manages rifts and inputs,
         constructor for this should be called in create() 
     */
-    constructor(scene, player) {
+    constructor(scene, player, collision_layer) {
         /* group objects contain all rifts and all riftinputs */
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
@@ -17,6 +17,9 @@ class RiftManager {
             zone.overlapCallback(input);
             input.overlapCallback(zone);
         });
+
+        /* allows for block-world interaction */
+        scene.physics.add.collider(collision_layer, this.riftInputBlocks);
 
         /* variable for picked up blocks */
         player.pickedUp;
@@ -28,11 +31,13 @@ class RiftManager {
 
         /* allows for the throwing of objects */
         scene.input.on('pointerdown', function() {
-            var angle = Phaser.Math.Angle.BetweenPoints(player, scene.input);
-            scene.physics.velocityFromRotation(angle, 300, player.pickedUp.body.velocity);
-            player.pickedUp.yeetCallback();
+            if(player.pickedUp != null) {
+                var angle = Phaser.Math.Angle.BetweenPoints(player, scene.input);
+                scene.physics.velocityFromRotation(angle, 300, player.pickedUp.body.velocity);
+                player.pickedUp.yeetCallback();
 
-            player.pickedUp = null;
+                player.pickedUp = null;
+            }            
         }, scene);
     }
 
@@ -48,10 +53,12 @@ class RiftManager {
         this.riftInputBlocks.add(riftInput);
     }
 
-    riftManagerUpdate() {
-        if(player.pickedUp != null) {
-            player.pickedUp.x = player.x - player.width;
-            player.pickedUp.y = player.y - 50;
+    riftManagerUpdate(player) {
+        if (player != null) {
+            if(player.pickedUp != null) {
+                player.pickedUp.x = player.x - player.width;
+                player.pickedUp.y = player.y - 50;
+            }
         }
     }
 
@@ -92,7 +99,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         this.body.setAllowGravity(true);
     }
 
-    // preUpdate() { }
+    preUpdate() { }
 }
 
 class Rift {
@@ -148,7 +155,7 @@ class RiftZone extends Phaser.GameObjects.Zone {
         this.currentBlock = inputBlock;
     }
 
-    // preUpdate(){}
+    preUpdate(){}
 }
 
 class RiftText extends Phaser.GameObjects.Text {
@@ -159,4 +166,6 @@ class RiftText extends Phaser.GameObjects.Text {
         scene.sys.displayList.add(this);
         scene.sys.updateList.add(this);
     }
+
+    preUpdate(){}
 }
