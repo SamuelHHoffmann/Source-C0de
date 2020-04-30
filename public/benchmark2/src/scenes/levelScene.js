@@ -79,7 +79,7 @@ class LevelScene extends Phaser.Scene {
 
     setUpMap() {
 
-        if (this.riftManager != null) {
+        if (this.riftManager != undefined) {
             this.riftManager.riftManagerTeardown();
         }
         this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
@@ -125,11 +125,11 @@ class LevelScene extends Phaser.Scene {
 
         this.reDrawLayer = false;
 
-        if (this.riftManager == null) {
+        if (this.riftManager == undefined) {
             this.riftManager = new RiftManager(this);
         }
 
-        if (this.riftManager != null) {
+        if (this.riftManager != undefined) {
             this.riftManager.riftManagerLevelLoad(this);
             this.setupRifts();
         }
