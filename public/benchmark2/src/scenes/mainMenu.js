@@ -28,16 +28,25 @@ class MainMenu extends Phaser.Scene {
         // transition to level select
         // TODO change to level select scene
         this.scene.switch('LevelSelect');
+
+        // play sound
+        this.sound.play('clickSound');
     }
 
     settingsClickHandler() {
         // transition to settings menu
         this.scene.switch('SettingsMenu');
+
+        // play sound
+        this.sound.play('clickSound');
     }
 
     aboutClickHandler() {
         // transition to about menu
         this.scene.switch('AboutMenu');
+
+        // play sound
+        this.sound.play('clickSound');
     }
 
     buttonHovered(button) {

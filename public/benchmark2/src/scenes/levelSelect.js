@@ -39,6 +39,9 @@ class LevelSelect extends Phaser.Scene {
         this.title.setAlpha(0);
 
         this.scene.switch('LevelScene');
+
+        // play sound
+        this.sound.play('clickSound');
     }
 
 
@@ -53,6 +56,9 @@ class LevelSelect extends Phaser.Scene {
             this.descBackground.setAlpha(0);
             this.title.setAlpha(0);
         }
+
+        // play sound
+        this.sound.play('clickSound');
     }
 
     levelClickedHandler(levelNumber) {
@@ -93,6 +99,9 @@ class LevelSelect extends Phaser.Scene {
         this.levelDesc.setAlpha(1);
         this.title.setAlpha(1);
         // console.log(levelNumber);
+        
+        // play sound
+        this.sound.play('clickSound');
     }
 
     buttonHovered(button) {

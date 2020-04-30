@@ -16,6 +16,9 @@ class AboutMenu extends Phaser.Scene {
     backClickHandler() {
         // transition back to MainMenu
         this.scene.switch('MainMenu');
+
+        // play sound
+        this.sound.play('clickSound');
     }
 
     buttonHovered(button) {

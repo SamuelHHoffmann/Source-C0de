@@ -28,6 +28,7 @@ function preload() {
     // load all audio here
     this.load.audio('backgroundMusic', 'resources/audio/music/NortsTheme.wav');
     this.load.audio('hoverSound', 'resources/audio/soundEffects/hover.wav');
+    this.load.audio('clickSound', 'resources/audio/soundEffects/click.wav');
 }
 
 function create() {
