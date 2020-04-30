@@ -9,12 +9,32 @@ class RiftManager {
     */
     constructor(scene) {
         /* group objects contain all rifts and all riftinputs */
+        this.rifts = [];
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
 
         /* current effects */
         this.riftEffects;
 
+        /* allows for the throwing of objects */
+        scene.input.on('pointerdown', function() {
+            if(scene.player.pickedUp != null) {
+                var angle = Phaser.Math.Angle.BetweenPoints(scene.player, scene.input);
+                scene.physics.velocityFromRotation(angle, 300, scene.player.pickedUp.body.velocity);
+                scene.player.pickedUp.yeetCallback();
+
+                scene.player.pickedUp = null;
+            }            
+        }, scene);
+    }
+
+    riftManagerTeardown() {
+        this.riftZones.destroy(this.riftZones.getChildren());
+        this.riftInputBlocks.destroy(this.riftInputBlocks.getChildren());
+        this.rifts = [];
+    }
+
+    riftManagerLevelLoad(scene) {
         /* allows for block-rift interaction */
         scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
             zone.overlapCallback(input);
@@ -31,22 +51,12 @@ class RiftManager {
         scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
             input.playerTouchCallback(player);
         });
-
-        /* allows for the throwing of objects */
-        scene.input.on('pointerdown', function() {
-            if(scene.player.pickedUp != null) {
-                var angle = Phaser.Math.Angle.BetweenPoints(scene.player, scene.input);
-                scene.physics.velocityFromRotation(angle, 300, scene.player.pickedUp.body.velocity);
-                scene.player.pickedUp.yeetCallback();
-
-                scene.player.pickedUp = null;
-            }            
-        }, scene);
     }
 
     createNewRift(scene, x, y, codeText, acceptedType) {
         var rift = new Rift(scene, x, y, codeText, acceptedType);
-
+        
+        this.rifts.push(rift);
         this.riftZones.add(rift.riftZone);
     }
 
@@ -67,13 +77,27 @@ class RiftManager {
         /* rifts reject blocks that aren't of the same type */
         
         var rzChildren = this.riftZones.getChildren();
-        for(var child in rzChildren) {
-            if(child.currentBlock != null) {
-                if(child.acceptedType != child.currentBlock.blockType){
-    
-                    child.currentBlock.wiggle(5);
-                    if(child.currentBlock.velocity.x > 0) {
-                        child.currentBlock = null;
+        if(rzChildren != null) {
+            for(let child of rzChildren) {
+                if(child.currentBlock != null) {
+                    var wiggledRZ = false;
+                    var wiggle = [0, 0];
+                    if(child.acceptedType != child.currentBlock.blockType){
+                        if(!wiggledRZ) {
+                            wiggle = child.currentBlock.wiggle(2);
+                            wiggledRZ = true;
+                        }
+                        else {
+                            console.log(wiggle);
+                            child.currentBlock.x -= wiggle[0];
+                            child.currentBlock.y -= wiggle[1];
+                            wiggledRZ = false;
+                        }
+                        
+                        /*
+                        if(child.currentBlock.velocity.x > 0) {
+                            child.currentBlock = null;
+                        }*/
                     }
                 }
             }
@@ -85,7 +109,7 @@ class RiftManager {
 class RiftInputBlock extends Phaser.GameObjects.Text {
     constructor(scene, x, y, text, type) {
         super(scene, x, y, text);
-
+        
         /* The type of this block, e.g. 'int', 'float', 'string', ... */
         this.blockType = type;
 
@@ -97,6 +121,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         scene.sys.arcadePhysics.world.enableBody(this, 0);
 
         this.body.setCollideWorldBounds(true);
+        this.body.setFriction(100, 0);
     }
 
     overlapCallback(rift) {
@@ -129,16 +154,21 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
     }
 
     wiggle(factor) {
-        var randX = randY = Math.floor(Math.random()*factor);
+        var negative = Math.random() < 0.5 ? -1 : 1;
+        var randX = Math.floor(Math.random()*factor) * negative;
+        var randY = Math.floor(Math.random()*factor) * negative;
 
-        this.x += randX;
-        this.y += randY;
+        this.x = this.x + randX;
+        this.y = this.y + randY;
 
+        /*
         if(randX == factor-1) {
             this.body.setVelocity(Math.floor(Math.random()*50) + 20, 
                                 Math.floor(Math.random()*50) + 20);
             this.yeetCallback();
-        }
+        }*/
+
+        return [randX, randY];
     }
 
     preUpdate() { }

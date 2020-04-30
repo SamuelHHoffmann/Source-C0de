@@ -79,7 +79,9 @@ class LevelScene extends Phaser.Scene {
 
     setUpMap() {
 
-
+        if(this.riftManager != null) {
+            this.riftManager.riftManagerTeardown();
+        }
         this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
 
         const tileset = this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
@@ -122,6 +124,15 @@ class LevelScene extends Phaser.Scene {
 
 
         this.reDrawLayer = false;
+
+        if(this.riftManager == null) {
+            this.riftManager = new RiftManager(this);
+        }
+
+        if(this.riftManager != null) {
+            this.riftManager.riftManagerLevelLoad(this);
+            this.setupRifts();
+        }
 
     }
 
@@ -196,9 +207,9 @@ class LevelScene extends Phaser.Scene {
         this.setUpMap();
 
         // this.riftManager.destroy();
-        this.riftManager = new RiftManager(this, this.player, this.collision_layer);
+        
         //probably want to have this take in input data for each level
-        this.setupRifts();
+        //this.setupRifts();
 
     }
 
