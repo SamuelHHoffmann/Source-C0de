@@ -19,9 +19,6 @@ class RiftManager {
             input.overlapCallback(zone);
         });
 
-        /* allows for block-world interaction */
-        scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
-
         /* allows for player-block interaction */
         scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
             input.playerTouchCallback(player);
@@ -44,14 +41,18 @@ class RiftManager {
 
     riftManagerTeardown(scene) {
         this.rifts = [];
-        this.riftZones.destroy(this.riftZones.getChildren());
-        this.riftInputBlocks.destroy(this.riftInputBlocks.getChildren());
+        this.riftZones.clear();
+        this.riftInputBlocks.clear();
         
-        //scene.physics.world.coll
+        scene.physics.world.colliders.destroy();
+        //scene.physics.world.overlaps.destroy();
 
     }
 
     riftManagerLevelLoad(scene) {
+
+        /* allows for block-world interaction */
+        scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
     
         /* variable for picked up blocks */
         scene.player.pickedUp = null; 
@@ -61,6 +62,7 @@ class RiftManager {
         var rift = new Rift(scene, x, y, codeText, acceptedType);
         
         this.rifts.push(rift);
+        console.log(this.rifts);
         this.riftZones.add(rift.riftZone);
     }
 
