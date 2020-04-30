@@ -41,8 +41,8 @@ class RiftManager {
 
     riftManagerTeardown(scene) {
         this.rifts = [];
-        this.riftZones.clear();
-        this.riftInputBlocks.clear();
+        this.riftZones.clear(true, true);
+        this.riftInputBlocks.clear(true, true);
         
         scene.physics.world.colliders.destroy();
         //scene.physics.world.overlaps.destroy();
