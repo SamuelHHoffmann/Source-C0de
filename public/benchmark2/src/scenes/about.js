@@ -52,7 +52,7 @@ class AboutMenu extends Phaser.Scene {
 
         // setup info
         this.info = this.add.text(cameraCenterX, cameraCenterY - this.topOff, this.cache.text.get('infoText'), { fill: '#ffffff', boundsAlignV: 'middle' })
-            .setFontSize(36)
+            .setFontSize(20)
             .setOrigin(this.centerOriginOff)
             .setWordWrapWidth(this.cameras.main.width);
 
