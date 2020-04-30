@@ -7,22 +7,40 @@
             "tileMapPath": "resources/tilemaps/level_1.json",
             "startPositionX": 16,
             "startPositionY": 352,
-            "numRifts": 1,
+            "numRifts": 4,
             "rifts": [
                 {
-                    "text": "Hello, world = ",
-                    "xPos": 200,
-                    "yPos": 200,
-                    "inputType": "int"
+                    "text": "To jump press: ",
+                    "xPos": 391,
+                    "yPos": 330,
+                    "inputType": "str"
+                },
+                {
+                    "text": "Click to throw blocks",
+                    "xPos": 112,
+                    "yPos": 115,
+                    "inputType": "none"
+                },
+                {
+                    "text": "Click 'D' to move right",
+                    "xPos": 165,
+                    "yPos": 467,
+                    "inputType": "none"
+                },
+                {
+                    "text": "Click 'A' to move left",
+                    "xPos": 435,
+                    "yPos": 500,
+                    "inputType": "none"
                 }
             ],
             "numRiftElements": 1,
             "riftElements": [
                 {
-                    "xPos": 300,
-                    "yPos": 300,
-                    "text": "Test",
-                    "inputType": "int"
+                    "xPos": 252,
+                    "yPos": 352,
+                    "text": "SPACE",
+                    "inputType": "str"
                 }
             ]
         },
