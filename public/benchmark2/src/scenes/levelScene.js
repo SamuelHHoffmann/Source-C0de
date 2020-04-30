@@ -97,10 +97,9 @@ class LevelScene extends Phaser.Scene {
 
         this.collision_layer.setTileIndexCallback(34, this.endLevel, this);
 
-        // this.matter.world.convertTilemapLayer(this.collision_layer);
 
-        console.log(this.levelData.levels[this.levelNumber - 1].startPositionX);
-        console.log(this.levelData.levels[this.levelNumber - 1].startPositionY);
+        // console.log(this.levelData.levels[this.levelNumber - 1].startPositionX);
+        // console.log(this.levelData.levels[this.levelNumber - 1].startPositionY);
 
         var xPos = this.levelData.levels[this.levelNumber - 1].startPositionX;
         var yPos = this.levelData.levels[this.levelNumber - 1].startPositionY;
@@ -175,21 +174,15 @@ class LevelScene extends Phaser.Scene {
     }
 
     update() {
-        if (this.reDrawLayer) {
-            this.setUpMap();
+        if (this.reDrawLayer) { this.setUpMap(); }
+        if (this.player.body.onFloor()) { this.playerInAir = false; }
+
+        if (this.input.keyboard.addKey('P').isDown) {
+            this.levelData.input.jumpHeight = -300;
         }
 
-        var cursors = this.input.keyboard.createCursorKeys();
-
-        // if (this.input.keyboard.addKey('ENTER').isDown) {
-        //     this.scene.restart(this);
-        // }
-        if (this.player.body.onFloor()) {
-            this.playerInAir = false;
-        }
-
-        if (cursors.right.isDown) {
-            this.player.setVelocityX(100);
+        if (this.input.keyboard.addKey(this.levelData.input.rightKey).isDown) {
+            this.player.setVelocityX(parseInt(this.levelData.input.speed));
             this.player.anims.play('WALK_RIGHT', true);
 
             // play walk sound
@@ -197,11 +190,11 @@ class LevelScene extends Phaser.Scene {
                 this.walkSound.play();
 
             // check if jumping
-            if (cursors.up.isDown)
+            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown || this.input.keyboard.addKey(this.levelData.input.upKey).isDown)
                 this.jump();
         }
-        else if (cursors.left.isDown) {
-            this.player.setVelocityX(-100);
+        else if (this.input.keyboard.addKey(this.levelData.input.leftKey).isDown) {
+            this.player.setVelocityX(-1 * parseInt(this.levelData.input.speed));
             this.player.anims.play('WALK_LEFT', true);
 
             // play walk sound
@@ -209,10 +202,10 @@ class LevelScene extends Phaser.Scene {
                 this.walkSound.play();
 
             // check if jumping
-            if (cursors.up.isDown)
+            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown || this.input.keyboard.addKey(this.levelData.input.upKey).isDown)
                 this.jump();
         }
-        else if (cursors.up.isDown)
+        else if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown || this.input.keyboard.addKey(this.levelData.input.upKey).isDown)
             this.jump();
         else {
             if (!this.playerInAir) {
@@ -224,7 +217,7 @@ class LevelScene extends Phaser.Scene {
 
     jump() {
         if (this.player.body.touching.down || this.player.body.onFloor()) {
-            this.player.setVelocityY(-250);
+            this.player.setVelocityY(parseInt(this.levelData.input.jumpHeight));
             this.playerInAir = true;
             this.player.anims.play('JUMP', true);
 

@@ -22,5 +22,15 @@
             "startPositionX": "200",
             "startPositionY": "250"
         }
-    ]
+    ],
+    "input": {
+        "upKey": "W",
+        "downKey": "S",
+        "leftKey": "A",
+        "rightKey": "D",
+        "jumpKey": "SPACE",
+        "gravity": "200",
+        "jumpHeight": "-250",
+        "speed": "100"
+    }
 }
