@@ -12,6 +12,9 @@ class Console extends Phaser.Scene {
     // console text object
     console;
 
+    // level data
+    levelData;
+
     // process keyboar input
     processInput(event) {
         // toggle visability
@@ -97,9 +100,15 @@ class Console extends Phaser.Scene {
         console.log(currentScenes);
         // this.scene.manager.remove('LevelScene');
         // this.scene.manager.add('LevelScene', LevelScene);
-        this.scene.manager.getScene('LevelScene').setLevelNumber(number);
-        this.scene.manager.getScene('LevelScene').reDrawLayer = true;
-        this.scene.manager.switch(currentScenes[0], 'LevelScene');
+
+        // check if level exists
+        if (this.levelData.levelCount >= number & number > 0) {
+            this.scene.manager.getScene('LevelScene').setLevelNumber(number);
+            this.scene.manager.getScene('LevelScene').reDrawLayer = true;
+            this.scene.manager.switch(currentScenes[0], 'LevelScene');
+        }
+        else
+            console.error('Level ' + number + ' is an invalid level.');
     }
 
     changeVolume(vol) {
@@ -107,9 +116,13 @@ class Console extends Phaser.Scene {
     }
 
     preload() {
+        this.load.text('levelData', 'resources/data/levelData.json');
     }
 
     create() {
+        // load level data
+        this.levelData = JSON.parse(this.cache.text.get('levelData'));
+
         // add the text to the scene
         this.console = this.add.text(0, 0, this.prompt, { fill: '#ffffff' })
             .setFontSize(26)
