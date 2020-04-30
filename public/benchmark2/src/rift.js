@@ -13,17 +13,6 @@ class RiftManager {
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
 
-        /* allows for block-rift interaction */
-        scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
-            zone.overlapCallback(input);
-            input.overlapCallback(zone);
-        });
-
-        /* allows for player-block interaction */
-        scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
-            input.playerTouchCallback(player);
-        });
-
         /* current effects */
         this.riftEffects;
 
@@ -51,6 +40,17 @@ class RiftManager {
 
     riftManagerLevelLoad(scene) {
 
+        /* allows for block-rift interaction */
+        scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
+            zone.overlapCallback(input);
+            input.overlapCallback(zone);
+        });
+
+        /* allows for player-block interaction */
+        scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
+            input.playerTouchCallback(player);
+        });
+        
         /* allows for block-world interaction */
         scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
     
