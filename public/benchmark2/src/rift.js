@@ -30,8 +30,8 @@ class RiftManager {
 
     riftManagerTeardown(scene) {
         this.rifts = [];
-        this.riftZones.clear(false, true);
-        this.riftInputBlocks.clear(false, true);
+        this.riftZones.clear(true, true);
+        this.riftInputBlocks.clear(true, true);
         
         scene.physics.world.colliders.destroy();
         //scene.physics.world.overlaps.destroy();
@@ -50,7 +50,7 @@ class RiftManager {
         scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
             input.playerTouchCallback(player);
         });
-        
+
         /* allows for block-world interaction */
         scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
     
@@ -86,30 +86,23 @@ class RiftManager {
         var rzChildren = this.riftZones.getChildren();
         if(rzChildren != null) {
             for(let child of rzChildren) {
+                child.wiggledRZ = false;
                 if(child.currentBlock != null) {
-                    var wiggledRZ = false;
-                    var wiggle = [0, 0];
-                    if(child.acceptedType != child.currentBlock.blockType){
-                        if(!wiggledRZ) {
-                            wiggle = child.currentBlock.wiggle(2);
-                            wiggledRZ = true;
+                    if(child.acceptedType != child.currentBlock.blockType) {
+                        if(child.wiggledRZ == false) {
+                            child.prevWiggle = child.currentBlock.wiggle(2);
+                            child.wiggledRZ = true;
                         }
                         else {
-                            console.log(wiggle);
-                            child.currentBlock.x -= wiggle[0];
-                            child.currentBlock.y -= wiggle[1];
+                            child.currentBlock.x -= child.prevWiggle[0];
+                            child.currentBlock.y -= child.prevWiggle[1];
                             wiggledRZ = false;
-                        }
-                        
-                        
-                        if(child.currentBlock.velocity.x > 0) {
-                            child.currentBlock = null;
                         }
                     }
                 }
             }
-        }
-        */
+        }*/
+        
     }
 
 }
@@ -129,20 +122,22 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         scene.sys.arcadePhysics.world.enableBody(this, 0);
 
         this.body.setCollideWorldBounds(true);
-        this.body.setFriction(100, 0);
+        this.body.setFrictionX(1);
     }
 
     overlapCallback(rift) {
         if(this.caughtInRift == false) {
-            this.body.setAllowGravity(false);
-            this.body.setVelocity(0, 0);
+            if(this.blockType == rift.acceptedType) {
+                this.body.setAllowGravity(false);
+                this.body.setVelocity(0, 0);
 
-            this.x = rift.x - (rift.width/2);
-            this.y = rift.y - (rift.height/2);
+                this.x = rift.x - (rift.width/2);
+                this.y = rift.y - (rift.height/2);
 
-            rift.currentBlock = this;
+                //rift.currentBlock = this;
 
-            this.caughtInRift = true;
+                this.caughtInRift = true;
+            }
         }
     }
 
@@ -201,7 +196,8 @@ class Rift {
             x + this.codeText.width + zoneWidth/2,
             y + this.codeText.height / 2,
             zoneWidth,
-            zoneHeight 
+            zoneHeight,
+            acceptedType
         );
 
         /* currently unused
@@ -231,8 +227,10 @@ class RiftZone extends Phaser.GameObjects.Zone {
     }
     
     overlapCallback(inputBlock) {
-        this.body.checkCollision.none = true;
-        this.currentBlock = inputBlock;
+        if(this.acceptedType == inputBlock.blockType) {
+            this.body.checkCollision.none = true;
+            this.currentBlock = inputBlock;
+        }
     }
 
     preUpdate(){}
