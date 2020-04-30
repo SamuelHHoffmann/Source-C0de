@@ -1,7 +1,7 @@
 /** @type {import("../../typings/phaser")} */
 
 class LevelScene extends Phaser.Scene {
-    riftManager = null;
+    riftManager;
 
     levelNumber = 0;
 
