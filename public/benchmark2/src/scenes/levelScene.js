@@ -156,7 +156,7 @@ class LevelScene extends Phaser.Scene {
             var riftY = this.levelData.levels[this.levelNumber - 1].riftElements[i].yPos;
             var riftDrop = this.levelData.levels[this.levelNumber - 1].riftElements[i].text;
             var riftType = this.levelData.levels[this.levelNumber - 1].riftElements[i].inputType;
-            this.riftManager.createNewRiftInput(this, riftX, riftY, riftDrop, riftType);
+            this.riftManager.createNewRiftInput(this, riftX, riftY, riftDrop, riftType, () => { this.levelData.input.jumpKey = "SPACE" });
         }
     }
 
@@ -235,7 +235,7 @@ class LevelScene extends Phaser.Scene {
                 this.walkSound.play();
 
             // check if jumping
-            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown || this.input.keyboard.addKey(this.levelData.input.upKey).isDown)
+            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
                 this.jump();
         }
         else if (this.input.keyboard.addKey(this.levelData.input.leftKey).isDown) {
@@ -247,10 +247,10 @@ class LevelScene extends Phaser.Scene {
                 this.walkSound.play();
 
             // check if jumping
-            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown || this.input.keyboard.addKey(this.levelData.input.upKey).isDown)
+            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
                 this.jump();
         }
-        else if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown || this.input.keyboard.addKey(this.levelData.input.upKey).isDown)
+        else if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
             this.jump();
         else {
             if (!this.playerInAir) {

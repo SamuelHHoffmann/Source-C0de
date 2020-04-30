@@ -17,14 +17,14 @@ class RiftManager {
         this.riftEffects;
 
         /* allows for the throwing of objects */
-        scene.input.on('pointerdown', function() {
-            if(scene.player.pickedUp != null) {
+        scene.input.on('pointerdown', function () {
+            if (scene.player.pickedUp != null) {
                 var angle = Phaser.Math.Angle.BetweenPoints(scene.player, scene.input);
                 scene.physics.velocityFromRotation(angle, 300, scene.player.pickedUp.body.velocity);
                 scene.player.pickedUp.yeetCallback();
 
                 scene.player.pickedUp = null;
-            }            
+            }
         }, scene);
     }
 
@@ -32,7 +32,7 @@ class RiftManager {
         this.rifts = [];
         this.riftZones.clear(true, true);
         this.riftInputBlocks.clear(true, true);
-        
+
         scene.physics.world.colliders.destroy();
         //scene.physics.world.overlaps.destroy();
 
@@ -41,47 +41,47 @@ class RiftManager {
     riftManagerLevelLoad(scene) {
 
         /* allows for block-rift interaction */
-        scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
+        scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function (zone, input) {
             zone.overlapCallback(input);
             input.overlapCallback(zone);
         });
 
         /* allows for player-block interaction */
-        scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
+        scene.physics.add.overlap(scene.player, this.riftInputBlocks, function (player, input) {
             input.playerTouchCallback(player);
         });
 
         /* allows for block-world interaction */
         scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
-    
+
         /* variable for picked up blocks */
-        scene.player.pickedUp = null; 
+        scene.player.pickedUp = null;
     }
 
     createNewRift(scene, x, y, codeText, acceptedType) {
         var rift = new Rift(scene, x, y, codeText, acceptedType);
-        
+
         this.rifts.push(rift);
         console.log(this.rifts);
         this.riftZones.add(rift.riftZone);
     }
 
-    createNewRiftInput(scene, x, y, inputText, inputType) {
-        var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType);
+    createNewRiftInput(scene, x, y, inputText, inputType, fn) {
+        var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType, fn);
 
         this.riftInputBlocks.add(riftInput);
     }
 
     riftManagerUpdate(player) {
         if (player != null) {
-            if(player.pickedUp != null) {
+            if (player.pickedUp != null) {
                 player.pickedUp.x = player.x - player.width;
                 player.pickedUp.y = player.y - 50;
             }
         }
 
         /* rifts reject blocks that aren't of the same type */
-        
+
         /*
         var rzChildren = this.riftZones.getChildren();
         if(rzChildren != null) {
@@ -102,17 +102,18 @@ class RiftManager {
                 }
             }
         }*/
-        
+
     }
 
 }
 
 class RiftInputBlock extends Phaser.GameObjects.Text {
-    constructor(scene, x, y, text, type) {
+    constructor(scene, x, y, text, type, fn) {
         super(scene, x, y, text);
-        
+
         /* The type of this block, e.g. 'int', 'float', 'string', ... */
         this.blockType = type;
+        this.connectedCallback = fn
 
         this.caughtInRift = false;
 
@@ -126,23 +127,26 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
     }
 
     overlapCallback(rift) {
-        if(this.caughtInRift == false) {
-            if(this.blockType == rift.acceptedType) {
+        if (this.caughtInRift == false) {
+            if (this.blockType == rift.acceptedType) {
                 this.body.setAllowGravity(false);
                 this.body.setVelocity(0, 0);
 
-                this.x = rift.x - (rift.width/2);
-                this.y = rift.y - (rift.height/2);
+                this.x = rift.x - (rift.width / 2);
+                this.y = rift.y - (rift.height / 2);
 
                 //rift.currentBlock = this;
+                //callback (i think)
+                this.connectedCallback();
 
                 this.caughtInRift = true;
+
             }
         }
     }
 
     playerTouchCallback(player) {
-        if(player.pickedUp == null && this.caughtInRift == false) {
+        if (player.pickedUp == null && this.caughtInRift == false) {
             player.pickedUp = this;
             this.body.setAllowGravity(false);
             this.body.setVelocity(0, 0);
@@ -158,8 +162,8 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
 
     wiggle(factor) {
         var negative = Math.random() < 0.5 ? -1 : 1;
-        var randX = Math.floor(Math.random()*factor) * negative;
-        var randY = Math.floor(Math.random()*factor) * negative;
+        var randX = Math.floor(Math.random() * factor) * negative;
+        var randY = Math.floor(Math.random() * factor) * negative;
 
         this.x = this.x + randX;
         this.y = this.y + randY;
@@ -192,8 +196,8 @@ class Rift {
         /* rift objects */
         this.codeText = new RiftText(scene, x, y, codeText);
 
-        this.riftZone = new RiftZone(scene, 
-            x + this.codeText.width + zoneWidth/2,
+        this.riftZone = new RiftZone(scene,
+            x + this.codeText.width + zoneWidth / 2,
             y + this.codeText.height / 2,
             zoneWidth,
             zoneHeight,
@@ -225,15 +229,15 @@ class RiftZone extends Phaser.GameObjects.Zone {
 
         this.body.setAllowGravity(false);
     }
-    
+
     overlapCallback(inputBlock) {
-        if(this.acceptedType == inputBlock.blockType) {
+        if (this.acceptedType == inputBlock.blockType) {
             this.body.checkCollision.none = true;
             this.currentBlock = inputBlock;
         }
     }
 
-    preUpdate(){}
+    preUpdate() { }
 }
 
 class RiftText extends Phaser.GameObjects.Text {
@@ -245,5 +249,5 @@ class RiftText extends Phaser.GameObjects.Text {
         scene.sys.updateList.add(this);
     }
 
-    preUpdate(){}
+    preUpdate() { }
 }

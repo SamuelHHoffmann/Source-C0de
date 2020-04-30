@@ -1,5 +1,5 @@
 {
-    "levelCount": 3,
+    "levelCount": 1,
     "levels": [
         {
             "name": "Welcome to the Source C0de",
@@ -100,7 +100,7 @@
         "downKey": "S",
         "leftKey": "A",
         "rightKey": "D",
-        "jumpKey": "SPACE",
+        "jumpKey": "",
         "gravity": 200,
         "jumpHeight": -250,
         "speed": 100
