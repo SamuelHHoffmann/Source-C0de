@@ -56,12 +56,26 @@ class RiftManager {
         this.riftInputBlocks.add(riftInput);
     }
 
-
     riftManagerUpdate(player) {
         if (player != null) {
             if(player.pickedUp != null) {
                 player.pickedUp.x = player.x - player.width;
                 player.pickedUp.y = player.y - 50;
+            }
+        }
+
+        /* rifts reject blocks that aren't of the same type */
+        
+        var rzChildren = this.riftZones.getChildren();
+        for(var child in rzChildren) {
+            if(child.currentBlock != null) {
+                if(child.acceptedType != child.currentBlock.blockType){
+    
+                    child.currentBlock.wiggle(5);
+                    if(child.currentBlock.velocity.x > 0) {
+                        child.currentBlock = null;
+                    }
+                }
             }
         }
     }
@@ -86,14 +100,17 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
     }
 
     overlapCallback(rift) {
-        this.body.setAllowGravity(false);
-        this.body.setVelocity(0, 0);
+        if(this.caughtInRift == false) {
+            this.body.setAllowGravity(false);
+            this.body.setVelocity(0, 0);
 
-        this.x = rift.x - (rift.width/2);
-        this.y = rift.y - (rift.height/2);
+            this.x = rift.x - (rift.width/2);
+            this.y = rift.y - (rift.height/2);
 
-        rift.currentBlock = this;
-        this.caughtInRift = true;
+            rift.currentBlock = this;
+
+            this.caughtInRift = true;
+        }
     }
 
     playerTouchCallback(player) {
@@ -101,11 +118,27 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
             player.pickedUp = this;
             this.body.setAllowGravity(false);
             this.body.setVelocity(0, 0);
+
+            this.caughtInRift = true;
         }
     }
 
     yeetCallback() {
         this.body.setAllowGravity(true);
+        this.caughtInRift = false;
+    }
+
+    wiggle(factor) {
+        var randX = randY = Math.floor(Math.random()*factor);
+
+        this.x += randX;
+        this.y += randY;
+
+        if(randX == factor-1) {
+            this.body.setVelocity(Math.floor(Math.random()*50) + 20, 
+                                Math.floor(Math.random()*50) + 20);
+            this.yeetCallback();
+        }
     }
 
     preUpdate() { }

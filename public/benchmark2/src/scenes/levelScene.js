@@ -132,10 +132,11 @@ class LevelScene extends Phaser.Scene {
             var riftType = this.levelData.levels[this.levelNumber - 1].rifts[i].type;
             var riftInputX = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputXPos);
             var riftInputY = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputYPos);
+            var riftInputType = this.levelData.levels[this.levelNumber - 1].rifts[i].riftInputType;
 
 
             this.riftManager.createNewRift(this, riftX, riftY, riftBody, riftType);
-            this.riftManager.createNewRiftInput(this, riftInputX, riftInputY, riftDrop, riftType);
+            this.riftManager.createNewRiftInput(this, riftInputX, riftInputY, riftDrop, riftInputType);
             // this.riftManager.createNewRift(this, 200, 200, "Hello, world = ", "int");
             // this.riftManager.createNewRiftInput(this, 300, 300, "test", "int");
         }
@@ -190,9 +191,9 @@ class LevelScene extends Phaser.Scene {
 
         this.setUpMap();
 
-        //needs a valid player object
+        
         this.riftManager = new RiftManager(this);
-        //probably want to have this take in input data for each level
+        
         this.setupRifts();
     }
 

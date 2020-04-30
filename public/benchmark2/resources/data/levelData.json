@@ -16,7 +16,8 @@
                     "xPos": "200",
                     "yPos": "200",
                     "inputXPos": "300",
-                    "inputYPos": "300"
+                    "inputYPos": "300",
+                    "riftInputType": "int"
                 }
             ]
         },
@@ -35,7 +36,8 @@
                     "xPos": "200",
                     "yPos": "200",
                     "inputXPos": "300",
-                    "inputYPos": "300"
+                    "inputYPos": "300",
+                    "riftInputType": "int"
                 }
             ]
         },
@@ -54,7 +56,8 @@
                     "xPos": "200",
                     "yPos": "200",
                     "inputXPos": "300",
-                    "inputYPos": "300"
+                    "inputYPos": "300",
+                    "riftInputType": "str"
                 }
             ]
         }
