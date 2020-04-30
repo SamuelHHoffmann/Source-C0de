@@ -92,7 +92,7 @@ class Console extends Phaser.Scene {
         // find the scene we are currently in
         var currentScenes = this.scene.manager.getScenes(true, false);
         console.log(currentScenes);
-        this.scene.manager.switch(currentScenes[0], level);
+        this.scene.manager.switch(currentScenes[1], level);
     }
 
     processLevelSwitch(number) {
@@ -106,7 +106,7 @@ class Console extends Phaser.Scene {
         if (this.levelData.levelCount >= number & number > 0) {
             this.scene.manager.getScene('LevelScene').setLevelNumber(number);
             this.scene.manager.getScene('LevelScene').reDrawLayer = true;
-            this.scene.manager.switch(currentScenes[0], 'LevelScene');
+            this.scene.manager.switch(currentScenes[1], 'LevelScene');
         }
         else
             console.error('Level ' + number + ' is an invalid level.');
