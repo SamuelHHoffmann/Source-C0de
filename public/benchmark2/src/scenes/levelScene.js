@@ -109,7 +109,7 @@ class LevelScene extends Phaser.Scene {
         var xPos = this.levelData.levels[this.levelNumber - 1].startPositionX;
         var yPos = this.levelData.levels[this.levelNumber - 1].startPositionY;
 
-        this.player = this.physics.add.sprite(parseInt(xPos), parseInt(yPos), 'nort');
+        this.player = this.physics.add.sprite(xPos, yPos, 'nort');
         // console.log(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50);
 
         this.player.anims.play('IDLE')
@@ -138,16 +138,16 @@ class LevelScene extends Phaser.Scene {
 
 
     setupRifts() {
-        var numRifts = parseInt(this.levelData.levels[this.levelNumber - 1].numRifts);
+        var numRifts = this.levelData.levels[this.levelNumber - 1].numRifts;
 
         for (var i = 0; i < numRifts; i++) {
-            var riftX = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].xPos);
-            var riftY = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].yPos);
+            var riftX = this.levelData.levels[this.levelNumber - 1].rifts[i].xPos;
+            var riftY = this.levelData.levels[this.levelNumber - 1].rifts[i].yPos;
             var riftBody = this.levelData.levels[this.levelNumber - 1].rifts[i].bodyText;
             var riftDrop = this.levelData.levels[this.levelNumber - 1].rifts[i].dropText;
             var riftType = this.levelData.levels[this.levelNumber - 1].rifts[i].type;
-            var riftInputX = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputXPos);
-            var riftInputY = parseInt(this.levelData.levels[this.levelNumber - 1].rifts[i].inputYPos);
+            var riftInputX = this.levelData.levels[this.levelNumber - 1].rifts[i].inputXPos;
+            var riftInputY = this.levelData.levels[this.levelNumber - 1].rifts[i].inputYPos;
 
 
             this.riftManager.createNewRift(this, riftX, riftY, riftBody, riftType);
@@ -223,7 +223,7 @@ class LevelScene extends Phaser.Scene {
         }
 
         if (this.input.keyboard.addKey(this.levelData.input.rightKey).isDown) {
-            this.player.setVelocityX(parseInt(this.levelData.input.speed));
+            this.player.setVelocityX(this.levelData.input.speed);
             this.player.anims.play('WALK_RIGHT', true);
 
             // play walk sound
@@ -235,7 +235,7 @@ class LevelScene extends Phaser.Scene {
                 this.jump();
         }
         else if (this.input.keyboard.addKey(this.levelData.input.leftKey).isDown) {
-            this.player.setVelocityX(-1 * parseInt(this.levelData.input.speed));
+            this.player.setVelocityX(-1 * this.levelData.input.speed);
             this.player.anims.play('WALK_LEFT', true);
 
             // play walk sound
@@ -260,7 +260,7 @@ class LevelScene extends Phaser.Scene {
 
     jump() {
         if (this.player.body.touching.down || this.player.body.onFloor()) {
-            this.player.setVelocityY(parseInt(this.levelData.input.jumpHeight));
+            this.player.setVelocityY(this.levelData.input.jumpHeight);
             this.playerInAir = true;
             this.player.anims.play('JUMP', true);
 
