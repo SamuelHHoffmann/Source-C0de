@@ -191,7 +191,7 @@ class LevelScene extends Phaser.Scene {
         this.setUpMap();
 
         //needs a valid player object
-        this.riftManager = new RiftManager(this, this.player, this.collision_layer);
+        this.riftManager = new RiftManager(this);
         //probably want to have this take in input data for each level
         this.setupRifts();
     }

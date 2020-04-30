@@ -7,7 +7,7 @@ class RiftManager {
     /*  Manages rifts and inputs,
         constructor for this should be called in create() 
     */
-    constructor(scene, player, collision_layer) {
+    constructor(scene) {
         /* group objects contain all rifts and all riftinputs */
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
@@ -19,24 +19,24 @@ class RiftManager {
         });
 
         /* allows for block-world interaction */
-        scene.physics.add.collider(collision_layer, this.riftInputBlocks);
+        scene.physics.add.collider(scene.collision_layer, this.riftInputBlocks);
 
         /* variable for picked up blocks */
-        player.pickedUp;
+        scene.player.pickedUp;
 
         /* allows for player-block interaction */
-        scene.physics.add.overlap(player, this.riftInputBlocks, function(player, input) {
+        scene.physics.add.overlap(scene.player, this.riftInputBlocks, function(player, input) {
             input.playerTouchCallback(player);
         });
 
         /* allows for the throwing of objects */
         scene.input.on('pointerdown', function() {
-            if(player.pickedUp != null) {
-                var angle = Phaser.Math.Angle.BetweenPoints(player, scene.input);
-                scene.physics.velocityFromRotation(angle, 300, player.pickedUp.body.velocity);
-                player.pickedUp.yeetCallback();
+            if(scene.player.pickedUp != null) {
+                var angle = Phaser.Math.Angle.BetweenPoints(scene.player, scene.input);
+                scene.physics.velocityFromRotation(angle, 300, scene.player.pickedUp.body.velocity);
+                scene.player.pickedUp.yeetCallback();
 
-                player.pickedUp = null;
+                scene.player.pickedUp = null;
             }            
         }, scene);
     }
