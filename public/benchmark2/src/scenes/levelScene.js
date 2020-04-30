@@ -87,12 +87,14 @@ class LevelScene extends Phaser.Scene {
 
         try {
             this.collision_layer.destroy();
+            this.decoration_layer.destroy();
+            this.ground_decorations_layer.destroy();
             this.player.destroy();
         } catch{ }
 
         this.collision_layer = this.map.createStaticLayer("collision", tileset, 0, 0).setDepth(2);
-        this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
-        this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
+        this.decoration_layer = this.map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
+        this.ground_decorations_layer = this.map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
 
         this.collision_layer.setCollisionBetween(0, 5);
 
@@ -115,6 +117,9 @@ class LevelScene extends Phaser.Scene {
 
 
         this.physics.add.collider(this.player, this.collision_layer);
+
+        //needs a valid player object
+
 
         this.reDrawLayer = false;
 
@@ -190,10 +195,11 @@ class LevelScene extends Phaser.Scene {
 
         this.setUpMap();
 
-        //needs a valid player object
+        // this.riftManager.destroy();
         this.riftManager = new RiftManager(this, this.player, this.collision_layer);
         //probably want to have this take in input data for each level
         this.setupRifts();
+
     }
 
     update() {
