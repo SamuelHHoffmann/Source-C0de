@@ -30,22 +30,14 @@ class LevelScene extends Phaser.Scene {
 
     setLevelNumber(number) {
         this.levelNumber = number;
-        // this.load.tilemapTiledJSON("map", "resources/tilemaps/level_" + this.levelNumber + ".json");
-        // try {
-        //     this.map.removeAllLayers();
-        //     this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
 
-        //     this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
+    }
 
-        //     this.collision_layer = this.map.createStaticLayer("Tile Layer 1", this.map.getTileset("tiles"), 0, 0).setDepth(2);
-        //     // this.decoration_layer = map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
-        //     // this.ground_decorations_layer = map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
 
-        //     this.collision_layer.setCollisionBetween(0, 5);
-        //     this.physics.add.collider(this.player, this.collision_layer);
-        // } catch{
-
-        // }
+    endLevel(sprite, tile) {
+        var currentScenes = this.scene.manager.getScenes(true, false);
+        this.scene.manager.switch(currentScenes[0], 'LevelSelect');
+        return false;
     }
 
     preload() {
@@ -63,7 +55,7 @@ class LevelScene extends Phaser.Scene {
         }
 
         // load json file with level properties
-        this.load.text('levelProperties', 'resources/data/levelProperties.json');
+        this.load.text('levelProperties', 'resources/data/levelData.json');
 
         // this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64, endFrame: 4 });
 
@@ -101,7 +93,7 @@ class LevelScene extends Phaser.Scene {
 
         this.collision_layer.setCollisionBetween(0, 5);
 
-        this.collision_layer.setTileIndexCallback(29, endLevel, this);
+        this.collision_layer.setTileIndexCallback(34, this.endLevel, this);
 
         // this.matter.world.convertTilemapLayer(this.collision_layer);
 
@@ -119,11 +111,6 @@ class LevelScene extends Phaser.Scene {
 
     }
 
-    endLevel(sprite, tile) {
-        var currentScenes = this.scene.manager.getScenes(true, false);
-        this.scene.manager.switch(currentScenes[0], 'LevelSelect');
-        return false;
-    }
 
 
 
