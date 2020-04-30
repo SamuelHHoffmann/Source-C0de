@@ -49,6 +49,9 @@ class SettingsMenu extends Phaser.Scene {
             this.sound.volume = (this.frame+1) * (1/3);
         else
             this.sound.volume = 0;
+        
+        // play sound
+        this.sound.play('clickSound');
     }
 
     preload() {
