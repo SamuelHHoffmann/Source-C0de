@@ -10,7 +10,7 @@
             "numRifts": 1,
             "rifts": [
                 {
-                    "bodyText": "Hello, world = ",
+                    "text": "Hello, world = ",
                     "xPos": 200,
                     "yPos": 200,
                     "inputType": "int"
@@ -35,7 +35,7 @@
             "numRifts": 1,
             "rifts": [
                 {
-                    "bodyText": "Hello, world = ",
+                    "text": "Hello, world = ",
                     "xPos": 200,
                     "yPos": 200,
                     "inputType": "int"

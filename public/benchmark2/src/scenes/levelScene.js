@@ -147,12 +147,13 @@ class LevelScene extends Phaser.Scene {
             var riftType = this.levelData.levels[this.levelNumber - 1].rifts[i].inputType;
             this.riftManager.createNewRift(this, riftX, riftY, riftBody, riftType);
         }
+
         var numRiftElements = this.levelData.levels[this.levelNumber - 1].numRiftElements;
         for (var i = 0; i < numRiftElements; i++) {
-            var riftX = this.levelData.levels[this.levelNumber - 1].rifts[i].xPos;
-            var riftY = this.levelData.levels[this.levelNumber - 1].rifts[i].yPos;
-            var riftDrop = this.levelData.levels[this.levelNumber - 1].rifts[i].text;
-            var riftType = this.levelData.levels[this.levelNumber - 1].rifts[i].inputType;
+            var riftX = this.levelData.levels[this.levelNumber - 1].riftElements[i].xPos;
+            var riftY = this.levelData.levels[this.levelNumber - 1].riftElements[i].yPos;
+            var riftDrop = this.levelData.levels[this.levelNumber - 1].riftElements[i].text;
+            var riftType = this.levelData.levels[this.levelNumber - 1].riftElements[i].inputType;
             this.riftManager.createNewRiftInput(this, riftX, riftY, riftDrop, riftType);
         }
     }
