@@ -101,6 +101,10 @@ class LevelScene extends Phaser.Scene {
 
         this.collision_layer.setCollisionBetween(0, 5);
 
+        this.collision_layer.setTileIndexCallback(29, endLevel, this);
+
+        // this.matter.world.convertTilemapLayer(this.collision_layer);
+
         this.player = this.physics.add.sprite(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50, 'nort');
 
         this.player.anims.play('IDLE')
@@ -113,6 +117,12 @@ class LevelScene extends Phaser.Scene {
 
         this.reDrawLayer = false;
 
+    }
+
+    endLevel(sprite, tile) {
+        var currentScenes = this.scene.manager.getScenes(true, false);
+        this.scene.manager.switch(currentScenes[0], 'LevelSelect');
+        return false;
     }
 
 
@@ -130,7 +140,7 @@ class LevelScene extends Phaser.Scene {
 
         // add sound effects
         this.jumpSound = this.sound.add('jumpSound');
-        this.walkSound = this.sound.add('walkSound', {rate: 1.4});
+        this.walkSound = this.sound.add('walkSound', { rate: 1.4 });
 
         var config = {
             key: 'WALK_RIGHT',
@@ -188,7 +198,7 @@ class LevelScene extends Phaser.Scene {
         if (cursors.right.isDown) {
             this.player.setVelocityX(100);
             this.player.anims.play('WALK_RIGHT', true);
-            
+
             // play walk sound
             if (!this.walkSound.isPlaying && !this.playerInAir)
                 this.walkSound.play();
@@ -196,19 +206,19 @@ class LevelScene extends Phaser.Scene {
             // check if jumping
             if (cursors.up.isDown)
                 this.jump();
-        } 
+        }
         else if (cursors.left.isDown) {
             this.player.setVelocityX(-100);
             this.player.anims.play('WALK_LEFT', true);
 
             // play walk sound
             if (!this.walkSound.isPlaying && !this.playerInAir)
-            this.walkSound.play();
+                this.walkSound.play();
 
             // check if jumping
             if (cursors.up.isDown)
                 this.jump();
-        } 
+        }
         else if (cursors.up.isDown)
             this.jump();
         else {
@@ -227,6 +237,6 @@ class LevelScene extends Phaser.Scene {
 
             // play jump sound
             this.jumpSound.play();
-        } 
+        }
     }
 }
