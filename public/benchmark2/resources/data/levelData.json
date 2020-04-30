@@ -19,8 +19,8 @@
             "numRiftElements": 1,
             "riftElements": [
                 {
-                    "xPos": 200,
-                    "yPos": 200,
+                    "xPos": 300,
+                    "yPos": 300,
                     "text": "Test",
                     "inputType": "int"
                 }
@@ -44,8 +44,8 @@
             "numRiftElements": 1,
             "riftElements": [
                 {
-                    "xPos": 200,
-                    "yPos": 200,
+                    "xPos": 300,
+                    "yPos": 300,
                     "text": "Test",
                     "inputType": "int"
                 }
@@ -60,7 +60,7 @@
             "numRifts": 1,
             "rifts": [
                 {
-                    "bodyText": "Hello, world = ",
+                    "text": "Hello, world = ",
                     "xPos": 200,
                     "yPos": 200,
                     "inputType": "int"
@@ -69,8 +69,8 @@
             "numRiftElements": 1,
             "riftElements": [
                 {
-                    "xPos": 200,
-                    "yPos": 200,
+                    "xPos": 300,
+                    "yPos": 300,
                     "text": "Test",
                     "inputType": "int"
                 }
