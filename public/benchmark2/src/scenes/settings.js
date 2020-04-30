@@ -25,15 +25,14 @@ class SettingsMenu extends Phaser.Scene {
         // handles any button being hovered
         button.setColor('#37A8DF');
         button.setScale(1.2);
-        // Maybe play a sound here
-
+        // play sound
+        this.sound.play('hoverSound');
     }
 
     buttonHoverExit(button) {
         // handles any button no longer being hovered
         button.setColor('#ffffff');
         button.setScale(1);
-
     }
 
     volumeClickHandler() {

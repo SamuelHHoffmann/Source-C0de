@@ -27,9 +27,13 @@ var game = new Phaser.Game(config);
 function preload() {
     // load all audio here
     this.load.audio('backgroundMusic', 'resources/audio/music/NortsTheme.wav');
+    this.load.audio('hoverSound', 'resources/audio/soundEffects/hover.wav');
 }
 
 function create() {
+    // add necessary sounds
+    this.sound.add('hoverSound');
+
     // add all scenes to game
     this.game.scene.add('MainMenu', MainMenu);
     this.game.scene.add('LevelScene', LevelScene);
