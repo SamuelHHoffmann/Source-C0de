@@ -79,7 +79,7 @@ class LevelScene extends Phaser.Scene {
 
     setUpMap() {
 
-        if(this.riftManager != null) {
+        if (this.riftManager != null) {
             this.riftManager.riftManagerTeardown();
         }
         this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
@@ -125,11 +125,11 @@ class LevelScene extends Phaser.Scene {
 
         this.reDrawLayer = false;
 
-        if(this.riftManager == null) {
+        if (this.riftManager == null) {
             this.riftManager = new RiftManager(this);
         }
 
-        if(this.riftManager != null) {
+        if (this.riftManager != null) {
             this.riftManager.riftManagerLevelLoad(this);
             this.setupRifts();
         }
@@ -207,7 +207,7 @@ class LevelScene extends Phaser.Scene {
         this.setUpMap();
 
         // this.riftManager.destroy();
-        
+
         //probably want to have this take in input data for each level
         //this.setupRifts();
 
@@ -218,7 +218,8 @@ class LevelScene extends Phaser.Scene {
         if (this.player.body.onFloor()) { this.playerInAir = false; }
 
         if (this.input.keyboard.addKey('P').isDown) {
-            this.levelData.input.jumpHeight = -300;
+            // this.levelData.input.jumpHeight = -300;
+            console.log(this.player.x, this.player.y);
         }
 
         if (this.input.keyboard.addKey(this.levelData.input.rightKey).isDown) {
