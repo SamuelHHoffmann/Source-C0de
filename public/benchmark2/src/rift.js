@@ -12,6 +12,9 @@ class RiftManager {
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
 
+        /* current effects */
+        this.riftEffects;
+
         /* allows for block-rift interaction */
         scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function(zone, input) {
             zone.overlapCallback(input);
@@ -53,6 +56,7 @@ class RiftManager {
         this.riftInputBlocks.add(riftInput);
     }
 
+
     riftManagerUpdate(player) {
         if (player != null) {
             if(player.pickedUp != null) {
@@ -71,6 +75,8 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         /* The type of this block, e.g. 'int', 'float', 'string', ... */
         this.blockType = type;
 
+        this.caughtInRift = false;
+
         /* Factory functions */
         scene.sys.displayList.add(this);
         scene.sys.updateList.add(this);
@@ -85,10 +91,13 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
 
         this.x = rift.x - (rift.width/2);
         this.y = rift.y - (rift.height/2);
+
+        rift.currentBlock = this;
+        this.caughtInRift = true;
     }
 
     playerTouchCallback(player) {
-        if(player.pickedUp == null) {
+        if(player.pickedUp == null && this.caughtInRift == false) {
             player.pickedUp = this;
             this.body.setAllowGravity(false);
             this.body.setVelocity(0, 0);
