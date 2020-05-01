@@ -58,16 +58,16 @@ class RiftManager {
         scene.player.pickedUp = null;
     }
 
-    createNewRift(scene, x, y, codeText, acceptedType) {
-        var rift = new Rift(scene, x, y, codeText, acceptedType);
+    createNewRift(scene, x, y, codeText, acceptedType, id) {
+        var rift = new Rift(scene, x, y, codeText, acceptedType, id);
 
         this.rifts.push(rift);
         console.log(this.rifts);
         this.riftZones.add(rift.riftZone);
     }
 
-    createNewRiftInput(scene, x, y, inputText, inputType, fn) {
-        var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType, fn);
+    createNewRiftInput(scene, x, y, inputText, inputType, id) {
+        var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType, id);
 
         this.riftInputBlocks.add(riftInput);
     }
@@ -108,12 +108,13 @@ class RiftManager {
 }
 
 class RiftInputBlock extends Phaser.GameObjects.Text {
-    constructor(scene, x, y, text, type, fn) {
+    constructor(scene, x, y, text, type, id) {
         super(scene, x, y, text);
 
         /* The type of this block, e.g. 'int', 'float', 'string', ... */
         this.blockType = type;
-        this.connectedCallback = fn
+        this.id = id;
+        this.scene = scene;
 
         this.caughtInRift = false;
 
@@ -136,8 +137,9 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
                 this.y = rift.y - (rift.height / 2);
 
                 //rift.currentBlock = this;
-                //callback (i think)
-                this.connectedCallback();
+
+                var callabckFn = RiftActionManager.getFunctionForID(rift.id, this.id);
+                callabckFn();
 
                 this.caughtInRift = true;
 
@@ -187,7 +189,7 @@ class Rift {
         to be solved, riftZone, which is there to help detect overlaps from
         riftinputblocks 
     */
-    constructor(scene, x, y, codeText, acceptedType) {
+    constructor(scene, x, y, codeText, acceptedType, id) {
         var zoneWidth = 100, zoneHeight = 20;
 
         /* The type of block this rift accepts, e.g. 'int', 'float', 'string', ... */
@@ -201,7 +203,8 @@ class Rift {
             y + this.codeText.height / 2,
             zoneWidth,
             zoneHeight,
-            acceptedType
+            acceptedType,
+            id
         );
 
         /* currently unused
@@ -215,13 +218,16 @@ class Rift {
 
 class RiftZone extends Phaser.GameObjects.Zone {
     /* Zone for capturing overlap events and dealing with them */
-    constructor(scene, x, y, width, height, acceptedType) {
+    constructor(scene, x, y, width, height, acceptedType, id) {
         super(scene, x, y, width, height);
 
         /* The type of block this rift accepts, e.g. 'int', 'float', 'string', ... */
         this.acceptedType = acceptedType;
 
         this.currentBlock;
+
+        // ID indetifies the rift to know what action to choose from when connected with a input block
+        this.id = id;
 
         scene.sys.displayList.add(this);
         scene.sys.updateList.add(this);
@@ -251,3 +257,4 @@ class RiftText extends Phaser.GameObjects.Text {
 
     preUpdate() { }
 }
+

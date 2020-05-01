@@ -43,6 +43,8 @@ class LevelScene extends Phaser.Scene {
 
     preload() {
 
+        RiftActionManager.scene = this;
+
         // console.log(this.levelNumber);
 
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");
@@ -147,7 +149,8 @@ class LevelScene extends Phaser.Scene {
             var riftY = this.levelData.levels[this.levelNumber - 1].rifts[i].yPos;
             var riftBody = this.levelData.levels[this.levelNumber - 1].rifts[i].text;
             var riftType = this.levelData.levels[this.levelNumber - 1].rifts[i].inputType;
-            this.riftManager.createNewRift(this, riftX, riftY, riftBody, riftType);
+            var riftID = "" + (this.levelNumber) + "" + (i + 1);
+            this.riftManager.createNewRift(this, riftX, riftY, riftBody, riftType, riftID);
         }
 
         var numRiftElements = this.levelData.levels[this.levelNumber - 1].numRiftElements;
@@ -156,7 +159,8 @@ class LevelScene extends Phaser.Scene {
             var riftY = this.levelData.levels[this.levelNumber - 1].riftElements[i].yPos;
             var riftDrop = this.levelData.levels[this.levelNumber - 1].riftElements[i].text;
             var riftType = this.levelData.levels[this.levelNumber - 1].riftElements[i].inputType;
-            this.riftManager.createNewRiftInput(this, riftX, riftY, riftDrop, riftType, () => { this.levelData.input.jumpKey = "SPACE" });
+            var riftInputID = "" + (this.levelNumber) + "" + (i + 1);
+            this.riftManager.createNewRiftInput(this, riftX, riftY, riftDrop, riftType, riftInputID);
         }
     }
 
