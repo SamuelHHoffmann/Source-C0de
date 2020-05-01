@@ -29,7 +29,13 @@ class RiftManager {
     }
 
     riftManagerTeardown(scene) {
+
+
+        this.rifts.forEach(zone => {
+            zone.codeText.destroy();
+        });
         this.rifts = [];
+
         this.riftZones.clear(true, true);
         this.riftInputBlocks.clear(true, true);
 
