@@ -6,14 +6,25 @@ class Console extends Phaser.Scene {
 
     // current text in console
     userInput = '';
+
+    // console stack
     CMDStack = [];
     tempStack = [];
+    maxHist = 5;
 
     // console text object
     console;
 
     // level data
     levelData;
+
+    // restore stack hist
+    restoreHist() {
+        // restore history
+        console.log(this.tempStack);
+        this.tempStack.reverse().forEach((e) => this.CMDStack.push(e));
+        this.tempStack = [];
+    }
 
     // process keyboar input
     processInput(event) {
@@ -25,13 +36,22 @@ class Console extends Phaser.Scene {
             // process cmd and update console text and last CMD
             this.checkCommand(this.userInput);
 
-            // restore history
-            this.tempStack.reverse().forEach((e) => this.CMDStack.push(e));
-            this.tempStack = [];
+            // set visibility to false
+            this.console.setVisible(false);
+
+            // restore cmd history
+            this.restoreHist();
+
+            // make sure we don't push too much
+            var startIndex = Math.max(0,this.CMDStack.length - this.maxHist + 1);
+            console.log(startIndex);
+            this.CMDStack = this.CMDStack.slice(startIndex);
 
             this.CMDStack.push(this.userInput);
             this.userInput = '';
             this.console.setText(this.prompt + this.userInput);
+
+            console.log(this.CMDStack);
         }
         else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.BACKSPACE) {
             // delete last key typed and update console
