@@ -10,6 +10,7 @@ class LevelScene extends Phaser.Scene {
     player;
     playerInAir;
 
+
     map;
 
     collision_layer;
@@ -120,6 +121,7 @@ class LevelScene extends Phaser.Scene {
             .setDepth(1)
             .setCollideWorldBounds(true);
 
+        this.player.carrying = false;
 
 
         this.physics.add.collider(this.player, this.collision_layer);
@@ -204,7 +206,7 @@ class LevelScene extends Phaser.Scene {
         this.anims.create(config);
 
         var config = {
-            key: 'WALK_RIGHT_CARRY',
+            key: 'WALK_LEFT_CARRY',
             frames: this.anims.generateFrameNumbers('nort', { start: 15, end: 19, first: 15 }),
             frameRate: 10,
             repeat: -1
@@ -213,7 +215,7 @@ class LevelScene extends Phaser.Scene {
         this.anims.create(config);
 
         config = {
-            key: 'WALK_LEFT_CARRY',
+            key: 'WALK_RIGHT_CARRY',
             frames: this.anims.generateFrameNumbers('nort', { start: 20, end: 24, first: 20 }),
             frameRate: 10,
             repeat: -1
@@ -307,49 +309,85 @@ class LevelScene extends Phaser.Scene {
 
 
         if (this.input.keyboard.addKey(this.levelData.input.rightKey).isDown) {
-            this.player.setVelocityX(this.levelData.input.speed);
-            this.player.anims.play('WALK_RIGHT', true);
-
-            // play walk sound
-            if (!this.walkSound.isPlaying && !this.playerInAir)
-                this.walkSound.play();
-
-            // check if jumping
-            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
-                this.jump();
+            this.walkRight();
         }
         else if (this.input.keyboard.addKey(this.levelData.input.leftKey).isDown) {
-            this.player.setVelocityX(-1 * this.levelData.input.speed);
-            this.player.anims.play('WALK_LEFT', true);
-
-            // play walk sound
-            if (!this.walkSound.isPlaying && !this.playerInAir)
-                this.walkSound.play();
-
-            // check if jumping
-            if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
-                this.jump();
+            this.walkLeft();
         }
         else if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
             this.jump();
         else {
-            if (!this.playerInAir) {
-                this.player.anims.play('IDLE', true);
-                this.player.setVelocity(0, 0);
-            }
+            this.idle();
         }
 
         this.riftManager.riftManagerUpdate(this.player);
     }
 
+    idle() {
+        this.player.state = "idle"
+        if (!this.playerInAir) {
+            if (this.player.carrying) {
+                this.player.anims.play('IDLE_CARRY', true);
+            } else {
+                this.player.anims.play('IDLE', true);
+            }
+            this.player.setVelocity(0, 0);
+        }
+    }
+
     jump() {
+        this.player.state = "jump"
         if (this.player.body.touching.down || this.player.body.onFloor()) {
             this.player.setVelocityY(this.levelData.input.jumpHeight);
             this.playerInAir = true;
-            this.player.anims.play('JUMP', true);
+            if (this.player.carrying) {
+                this.player.anims.play('JUMP_CARRY', true);
+
+            } else {
+                this.player.anims.play('JUMP', true);
+            }
 
             // play jump sound
             this.jumpSound.play();
         }
+    }
+
+    walkLeft() {
+        this.player.state = "left"
+        this.player.setVelocityX(-1 * this.levelData.input.speed);
+        if (this.player.carrying) {
+            this.player.anims.play('WALK_LEFT_CARRY', true);
+
+        } else {
+            this.player.anims.play('WALK_LEFT', true);
+        }
+
+        // play walk sound
+        if (!this.walkSound.isPlaying && !this.playerInAir)
+            this.walkSound.play();
+
+        // check if jumping
+        if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
+            this.jump();
+    }
+
+    walkRight() {
+        this.player.state = "right"
+        this.player.setVelocityX(this.levelData.input.speed);
+        if (this.player.carrying) {
+            this.player.anims.play('WALK_RIGHT_CARRY', true);
+
+        } else {
+            this.player.anims.play('WALK_RIGHT', true);
+        }
+
+
+        // play walk sound
+        if (!this.walkSound.isPlaying && !this.playerInAir)
+            this.walkSound.play();
+
+        // check if jumping
+        if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
+            this.jump();
     }
 }

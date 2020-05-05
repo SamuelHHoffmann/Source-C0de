@@ -23,6 +23,7 @@ class RiftManager {
                 scene.physics.velocityFromRotation(angle, 300, scene.player.pickedUp.body.velocity);
                 scene.player.pickedUp.yeetCallback();
 
+                scene.player.carrying = false;
                 scene.player.pickedUp = null;
             }
         }, scene);
@@ -33,7 +34,7 @@ class RiftManager {
 
         this.rifts.forEach(zone => {
             zone.codeText.destroy();
-        }); 
+        });
         this.rifts = [];
 
         this.riftZones.clear(true, true);
@@ -81,8 +82,21 @@ class RiftManager {
     riftManagerUpdate(player) {
         if (player != null) {
             if (player.pickedUp != null) {
-                player.pickedUp.x = player.x - player.width;
-                player.pickedUp.y = player.y - 50;
+
+                if (player.state == "idle" || player.state == "jump") {
+                    // above head
+                    player.pickedUp.x = player.x - player.width;
+                    player.pickedUp.y = player.y - (player.height / 2) - (player.pickedUp.height / 4);
+                } else if (player.state == "left") {
+                    // left
+                    player.pickedUp.x = player.x - player.width * 2;
+                    player.pickedUp.y = player.y - 10;
+                } else if (player.state == "right") {
+                    // right
+                    player.pickedUp.x = player.x + player.width - 15;
+                    player.pickedUp.y = player.y - 10;
+
+                }
             }
         }
 
@@ -121,6 +135,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         this.blockType = type;
         this.id = id;
         this.scene = scene;
+        this.pickupDelay = 0;
 
         this.caughtInRift = false;
 
@@ -130,7 +145,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         scene.sys.arcadePhysics.world.enableBody(this, 0);
 
         this.body.setCollideWorldBounds(true);
-        this.body.setFrictionX(1);
+        this.body.setFrictionX(-100);
     }
 
     overlapCallback(rift) {
@@ -154,8 +169,10 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
     }
 
     playerTouchCallback(player) {
-        if (player.pickedUp == null && this.caughtInRift == false) {
+        this.pickupDelay -= 1;
+        if ((player.pickedUp == null && this.caughtInRift == false) && this.pickupDelay <= 0) {
             player.pickedUp = this;
+            player.carrying = true;
             this.body.setAllowGravity(false);
             this.body.setVelocity(0, 0);
 
@@ -164,6 +181,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
     }
 
     yeetCallback() {
+        this.pickupDelay = 20;
         this.body.setAllowGravity(true);
         this.caughtInRift = false;
     }
