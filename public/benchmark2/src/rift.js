@@ -33,7 +33,7 @@ class RiftManager {
 
         this.rifts.forEach(zone => {
             zone.codeText.destroy();
-        });
+        }); 
         this.rifts = [];
 
         this.riftZones.clear(true, true);

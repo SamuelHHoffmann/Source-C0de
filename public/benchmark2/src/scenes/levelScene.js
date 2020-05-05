@@ -164,16 +164,7 @@ class LevelScene extends Phaser.Scene {
         }
     }
 
-    create() {
-        // get json levelData
-
-        // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
-
-        this.cameras.main.setBackgroundColor('#595959');
-
-        // add sound effects
-        this.jumpSound = this.sound.add('jumpSound');
-        this.walkSound = this.sound.add('walkSound', { rate: 1.4 });
+    setUpAnimations() {
 
         var config = {
             key: 'WALK_RIGHT',
@@ -208,7 +199,92 @@ class LevelScene extends Phaser.Scene {
             frameRate: 5
         };
 
+
+
         this.anims.create(config);
+
+        var config = {
+            key: 'WALK_RIGHT_CARRY',
+            frames: this.anims.generateFrameNumbers('nort', { start: 15, end: 19, first: 15 }),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'WALK_LEFT_CARRY',
+            frames: this.anims.generateFrameNumbers('nort', { start: 20, end: 24, first: 20 }),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'IDLE_CARRY',
+            frames: this.anims.generateFrameNumbers('nort', { start: 25, end: 26, first: 25 }),
+            frameRate: 2,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'JUMP_CARRY',
+            frames: this.anims.generateFrameNumbers('nort', { start: 27, end: 28, first: 27 }),
+            frameRate: 5
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'WAVE',
+            frames: this.anims.generateFrameNumbers('nort', { start: 30, end: 34, first: 30 }),
+            frameRate: 10
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'HIDE',
+            frames: this.anims.generateFrameNumbers('nort', { start: 35, end: 39, first: 35 }),
+            frameRate: 10
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'UNHIDE',
+            frames: this.anims.generateFrameNumbers('nort', { start: 40, end: 44, first: 40 }),
+            frameRate: 10
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'HIDDEN',
+            frames: this.anims.generateFrameNumbers('nort', { start: 40, end: 40, first: 40 }),
+            frameRate: 1,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+    }
+
+    create() {
+        // get json levelData
+
+        // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
+
+        this.cameras.main.setBackgroundColor('#595959');
+
+        // add sound effects
+        this.jumpSound = this.sound.add('jumpSound');
+        this.walkSound = this.sound.add('walkSound', { rate: 1.4 });
+
+        this.setUpAnimations();
 
 
         this.setUpMap();
