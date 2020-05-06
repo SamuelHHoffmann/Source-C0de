@@ -21,7 +21,6 @@ class Console extends Phaser.Scene {
     // restore stack hist
     restoreHist() {
         // restore history
-        console.log(this.tempStack);
         this.tempStack.reverse().forEach((e) => this.CMDStack.push(e));
         this.tempStack = [];
     }
@@ -44,14 +43,11 @@ class Console extends Phaser.Scene {
 
             // make sure we don't push too much
             var startIndex = Math.max(0,this.CMDStack.length - this.maxHist + 1);
-            console.log(startIndex);
             this.CMDStack = this.CMDStack.slice(startIndex);
 
             this.CMDStack.push(this.userInput);
             this.userInput = '';
             this.console.setText(this.prompt + this.userInput);
-
-            console.log(this.CMDStack);
         }
         else if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.BACKSPACE) {
             // delete last key typed and update console
@@ -94,9 +90,23 @@ class Console extends Phaser.Scene {
             case 'restart':
                 this.restartScene();
                 break;
+            case 'debug':
+                this.setDebugMode();
+                break;
             default:
                 return;
         }
+    }
+
+    setDebugMode() {
+        var debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.debugGraphic;
+
+        // draw debug
+        if (debugGraphic == undefined)
+        debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.createDebugGraphic();
+        // toggle visibility
+        else
+            debugGraphic.setVisible(!debugGraphic.visible);
     }
 
     restartScene() {
