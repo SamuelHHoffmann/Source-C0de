@@ -114,7 +114,7 @@ class LevelScene extends Phaser.Scene {
         var xPos = this.levelData.levels[this.levelNumber - 1].startPositionX;
         var yPos = this.levelData.levels[this.levelNumber - 1].startPositionY;
 
-        this.player = this.physics.add.sprite(xPos, yPos, 'nort');
+        this.player = this.physics.add.sprite(xPos, yPos, 'nort').setDragX(0.85).setDamping(true);
         // console.log(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50);
 
         this.player.anims.play('IDLE')
@@ -331,7 +331,7 @@ class LevelScene extends Phaser.Scene {
             } else {
                 this.player.anims.play('IDLE', true);
             }
-            this.player.setVelocity(0, 0);
+            //this.player.setVelocity(0, 0);
         }
     }
 
