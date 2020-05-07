@@ -1,18 +1,19 @@
 /** @type {import("../../typings/phaser")} */
 
 class LevelScene extends Phaser.Scene {
+    // manager for rift component of levels
     riftManager;
 
     levelNumber = 0;
 
     reDrawLayer = false;
 
+    // player info
     player;
     playerInAir;
 
-
+    // map and tileset info
     map;
-
     collision_layer;
     decoration_layer;
     ground_decorations_layer;
@@ -32,7 +33,6 @@ class LevelScene extends Phaser.Scene {
 
     setLevelNumber(number) {
         this.levelNumber = number;
-
     }
 
 
@@ -43,10 +43,7 @@ class LevelScene extends Phaser.Scene {
     }
 
     preload() {
-
         RiftActionManager.scene = this;
-
-        // console.log(this.levelNumber);
 
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");
         this.load.text('levelData', "resources/data/levelData.json");
@@ -54,6 +51,7 @@ class LevelScene extends Phaser.Scene {
         // parse json text
         this.levelData = JSON.parse(this.cache.text.get('levelData'));
 
+        // load tilemaps for all current levels
         for (var x = 0; x < this.levelData.levelCount; x++) {
             try {
                 this.load.tilemapTiledJSON("level_" + (x + 1), this.levelData.levels[x].tileMapPath);
@@ -63,35 +61,23 @@ class LevelScene extends Phaser.Scene {
         // load json file with level properties
         this.load.text('levelProperties', 'resources/data/levelData.json');
 
-        // this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 64, frameHeight: 64, endFrame: 4 });
-
-        // graphics = this.make.graphics({ x: 0, y: 0, add: true });
-
-
-        // this.load.image('logo', 'resources/images/source-c0de-logo.png');
-        // this.load.image("tiles", "tilemapTest/tiles/Rectangle_64x64.png");
-
-        // this.load.image('item', 'resources/images/temp-item.png');
-
         this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 32, frameHeight: 64 });
 
         this.load.audio('jumpSound', 'resources/audio/soundEffects/jump.wav');
         this.load.audio('walkSound', 'resources/audio/soundEffects/walk.wav');
-
     }
 
     setUpMap() {
-
-
         if (this.riftManager != undefined) {
             this.riftManager.riftManagerTeardown(this);
         }
 
+        // setup tilemap for level
         this.map = this.make.tilemap({ key: "level_" + this.levelNumber });
 
         const tileset = this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
 
-
+        // check if we need to destoy old values
         try {
             this.collision_layer.destroy();
             this.decoration_layer.destroy();
@@ -99,6 +85,7 @@ class LevelScene extends Phaser.Scene {
             this.player.destroy();
         } catch{ }
 
+        // setup collision for tilemap
         this.collision_layer = this.map.createStaticLayer("collision", tileset, 0, 0).setDepth(2);
         this.decoration_layer = this.map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
         this.ground_decorations_layer = this.map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
@@ -107,22 +94,18 @@ class LevelScene extends Phaser.Scene {
 
         this.collision_layer.setTileIndexCallback(34, this.endLevel, this);
 
-
-        // console.log(this.levelData.levels[this.levelNumber - 1].startPositionX);
-        // console.log(this.levelData.levels[this.levelNumber - 1].startPositionY);
-
         var xPos = this.levelData.levels[this.levelNumber - 1].startPositionX;
         var yPos = this.levelData.levels[this.levelNumber - 1].startPositionY;
 
+        // initialize player position and add drag to player's physics body
         this.player = this.physics.add.sprite(xPos, yPos, 'nort').setDragX(0.85).setDamping(true);
-        // console.log(this.cameras.main.centerX - 200, this.cameras.main.centerY - 50);
 
+        // set player animation to IDLE upon loading into level
         this.player.anims.play('IDLE')
             .setDepth(1)
             .setCollideWorldBounds(true);
 
         this.player.carrying = false;
-
 
         this.physics.add.collider(this.player, this.collision_layer);
 
@@ -130,16 +113,14 @@ class LevelScene extends Phaser.Scene {
 
         this.reDrawLayer = false;
 
-
+        // setup riftmanager info
         if (this.riftManager == undefined) {
             this.riftManager = new RiftManager(this);
         }
-
         if (this.riftManager != undefined) {
             this.riftManager.riftManagerLevelLoad(this);
             this.setupRifts();
         }
-
     }
 
 
@@ -167,7 +148,6 @@ class LevelScene extends Phaser.Scene {
     }
 
     setUpAnimations() {
-
         var config = {
             key: 'WALK_RIGHT',
             frames: this.anims.generateFrameNumbers('nort', { start: 0, end: 4, first: 0 }),
@@ -200,8 +180,6 @@ class LevelScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('nort', { start: 12, end: 13, first: 12 }),
             frameRate: 5
         };
-
-
 
         this.anims.create(config);
 
@@ -272,30 +250,18 @@ class LevelScene extends Phaser.Scene {
         };
 
         this.anims.create(config);
-
     }
 
     create() {
-        // get json levelData
-
-        // this.game.plugins.add(Phaser.Plugin.ArcadeSlopes);
-
         this.cameras.main.setBackgroundColor('#595959');
 
         // add sound effects
         this.jumpSound = this.sound.add('jumpSound');
         this.walkSound = this.sound.add('walkSound', { rate: 1.4 });
 
+        // setup necessary info for level
         this.setUpAnimations();
-
-
         this.setUpMap();
-
-        //this.riftManager.destroy();
-
-        //probably want to have this take in input data for each level
-        //this.setupRifts();
-
     }
 
     update() {
@@ -306,7 +272,6 @@ class LevelScene extends Phaser.Scene {
             // this.levelData.input.jumpHeight = -300;
             console.log(this.player.x, this.player.y);
         }
-
 
         if (this.input.keyboard.addKey(this.levelData.input.rightKey).isDown) {
             this.walkRight();
@@ -331,7 +296,6 @@ class LevelScene extends Phaser.Scene {
             } else {
                 this.player.anims.play('IDLE', true);
             }
-            //this.player.setVelocity(0, 0);
         }
     }
 
@@ -380,7 +344,6 @@ class LevelScene extends Phaser.Scene {
         } else {
             this.player.anims.play('WALK_RIGHT', true);
         }
-
 
         // play walk sound
         if (!this.walkSound.isPlaying && !this.playerInAir)
