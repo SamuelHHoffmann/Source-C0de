@@ -27,17 +27,27 @@ class LevelSelect extends Phaser.Scene {
     // static text
     title;
 
+    setShowBackground(showing) {
+        // set value for background showing
+        this.backgroundShowing = showing;
+
+        // get correct alpha for value of showing
+        var alpha = showing ? 1.0 : 0.0
+
+        // apply alpha
+        this.levelName.setAlpha(alpha);
+        this.levelDesc.setAlpha(alpha);
+        this.descBackground.setAlpha(alpha);
+        this.title.setAlpha(alpha);
+    }
+
     startClickHandler() {
         // reset level before switching scenes
         this.game.scene.getScene('LevelScene').reDrawLayer = true;
         this.game.scene.getScene('LevelScene').setLevelNumber(this.clickedLevel);
 
-        // reset info in level select
-        this.backgroundShowing = false;
-        this.levelName.setAlpha(0);
-        this.levelDesc.setAlpha(0);
-        this.descBackground.setAlpha(0);
-        this.title.setAlpha(0);
+        // stop showing background
+        setShowBackground(false);
 
         // switch to level
         this.scene.switch('LevelScene');
@@ -52,11 +62,7 @@ class LevelSelect extends Phaser.Scene {
         if (this.backgroundShowing == false) {
             this.scene.switch('MainMenu');
         } else {
-            this.backgroundShowing = false;
-            this.levelName.setAlpha(0);
-            this.levelDesc.setAlpha(0);
-            this.descBackground.setAlpha(0);
-            this.title.setAlpha(0);
+            setShowBackground(false);
         }
 
         // play sound
@@ -80,12 +86,7 @@ class LevelSelect extends Phaser.Scene {
             return;
         }
 
-        this.backgroundShowing = true;
-
-        this.descBackground.setAlpha(1);
-        this.levelName.setAlpha(1);
-        this.levelDesc.setAlpha(1);
-        this.title.setAlpha(1);
+        setShowBackground(true);
         
         // play sound
         this.sound.play('clickSound');
