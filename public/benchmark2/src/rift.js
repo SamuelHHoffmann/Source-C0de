@@ -97,8 +97,6 @@ class RiftManager {
                     player.pickedUp.y = player.y - 10;
 
                 }
-
-                console.log(player.pickedUp.caughtInRift);
             }
         }
 
