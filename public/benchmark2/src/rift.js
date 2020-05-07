@@ -1,3 +1,5 @@
+/** @type {import("../../typings/phaser")} */
+
 /*
     Home of the Rift class and its members, the RiftInputBlock class,
     and rift effect pipelines/shaders.
@@ -142,10 +144,15 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         /* Factory functions */
         scene.sys.displayList.add(this);
         scene.sys.updateList.add(this);
-        scene.sys.arcadePhysics.world.enableBody(this, 0);
+        scene.sys.arcadePhysics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
 
         this.body.setCollideWorldBounds(true);
+<<<<<<< HEAD
         this.body.setFrictionX(1);
+=======
+        this.body.setDragX(0.95);
+        this.body.useDamping = true;
+>>>>>>> 29e320eec08f6d9e41f8aa59a47fbd2711f21f3f
     }
 
     overlapCallback(rift) {
