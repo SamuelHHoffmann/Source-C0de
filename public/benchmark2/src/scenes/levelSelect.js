@@ -33,6 +33,7 @@ class LevelSelect extends Phaser.Scene {
 
         // get correct alpha for value of showing
         var alpha = showing ? 1.0 : 0.0
+        console.log(alpha);
 
         // apply alpha
         this.levelName.setAlpha(alpha);
@@ -47,7 +48,7 @@ class LevelSelect extends Phaser.Scene {
         this.game.scene.getScene('LevelScene').setLevelNumber(this.clickedLevel);
 
         // stop showing background
-        setShowBackground(false);
+        this.setShowBackground(false);
 
         // switch to level
         this.scene.switch('LevelScene');
@@ -62,7 +63,7 @@ class LevelSelect extends Phaser.Scene {
         if (this.backgroundShowing == false) {
             this.scene.switch('MainMenu');
         } else {
-            setShowBackground(false);
+            this.setShowBackground(false);
         }
 
         // play sound
@@ -86,7 +87,7 @@ class LevelSelect extends Phaser.Scene {
             return;
         }
 
-        setShowBackground(true);
+        this.setShowBackground(true);
         
         // play sound
         this.sound.play('clickSound');
