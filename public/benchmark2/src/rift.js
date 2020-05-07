@@ -97,6 +97,8 @@ class RiftManager {
                     player.pickedUp.y = player.y - 10;
 
                 }
+
+                console.log(player.pickedUp.caughtInRift);
             }
         }
 
@@ -262,8 +264,10 @@ class RiftZone extends Phaser.GameObjects.Zone {
 
     overlapCallback(inputBlock) {
         if (this.acceptedType == inputBlock.blockType) {
-            this.body.checkCollision.none = true;
-            this.currentBlock = inputBlock;
+            if(inputBlock.caughtInRift == false) {
+                this.body.checkCollision.none = true;
+                this.currentBlock = inputBlock;
+            }
         }
     }
 
