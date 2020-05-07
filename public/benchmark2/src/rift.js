@@ -147,12 +147,8 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         scene.sys.arcadePhysics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY);
 
         this.body.setCollideWorldBounds(true);
-<<<<<<< HEAD
-        this.body.setFrictionX(1);
-=======
         this.body.setDragX(0.95);
         this.body.useDamping = true;
->>>>>>> 29e320eec08f6d9e41f8aa59a47fbd2711f21f3f
     }
 
     overlapCallback(rift) {
@@ -180,7 +176,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         if ((player.pickedUp == null && this.caughtInRift == false) && this.pickupDelay <= 0) {
             player.pickedUp = this;
             player.carrying = true;
-            this.scene.sys.arcadePhysics.world.disableBody(this, false);
+
             this.body.setAllowGravity(false);
             this.body.setVelocity(0, 0);
 
@@ -190,7 +186,6 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
 
     yeetCallback() {
         this.pickupDelay = 20;
-        this.scene.sys.arcadePhysics.world.enableBody(this, 0);
         this.body.setAllowGravity(true);
         this.caughtInRift = false;
     }
