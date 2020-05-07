@@ -7,7 +7,7 @@ class Console extends Phaser.Scene {
     // current text in console
     userInput = '';
 
-    // console stack
+    // console stack info
     CMDStack = [];
     tempStack = [];
     maxHist = 5;
@@ -88,7 +88,7 @@ class Console extends Phaser.Scene {
                 this.processLevelSwitch(cmdParts[1]);
                 break;
             case 'restart':
-                this.restartScene();
+                this.restartLevel();
                 break;
             case 'debug':
                 this.setDebugMode();
@@ -109,28 +109,20 @@ class Console extends Phaser.Scene {
             debugGraphic.setVisible(!debugGraphic.visible);
     }
 
-    restartScene() {
-        // restart scene we are in
-        // var currentScenes = this.scene.manager.getScenes(true, false);
-        // console.log(currentScenes);
-        // this.scene.manager.stop(currentScenes[0]);
-        // this.scene.manager.start(currentScenes[0]);
+    restartLevel() {
+        // redraw level scene
         this.scene.manager.getScene('LevelScene').reDrawLayer = true;
     }
 
     processSceneSwitch(level) {
         // find the scene we are currently in
         var currentScenes = this.scene.manager.getScenes(true, false);
-        console.log(currentScenes);
         this.scene.manager.switch(currentScenes[1], level);
     }
 
     processLevelSwitch(number) {
         // find the scene we are currently in
         var currentScenes = this.scene.manager.getScenes(true, false);
-        console.log(currentScenes);
-        // this.scene.manager.remove('LevelScene');
-        // this.scene.manager.add('LevelScene', LevelScene);
 
         // check if level exists
         if (this.levelData.levelCount >= number & number > 0) {
@@ -163,8 +155,5 @@ class Console extends Phaser.Scene {
     }
 
     update() {
-        // // check if we need to render and if we do bring scene to top
-        // if (this.visible)
-        //     this.scene.bringToTop();
     }
 }

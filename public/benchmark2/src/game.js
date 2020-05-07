@@ -25,7 +25,7 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload() {
-    // load all audio here
+    // load all audio used in multiple scenes here
     this.load.audio('backgroundMusic', 'resources/audio/music/NortsTheme.wav');
     this.load.audio('hoverSound', 'resources/audio/soundEffects/hover.wav');
     this.load.audio('clickSound', 'resources/audio/soundEffects/click.wav');
@@ -44,7 +44,7 @@ function create() {
     this.game.scene.add('Console', Console);
     //this.game.scene.add('EffectsTest', EffectsTest);
 
+    // make sure console is on top and start both main menu and console scene
     this.game.scene.start('Console').bringToTop();
     this.game.scene.start('MainMenu');
-    // this.game.scene.start('LevelScene');
 }
