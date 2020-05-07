@@ -301,11 +301,11 @@ class LevelScene extends Phaser.Scene {
 
     jump() {
         this.player.state = "jump"
-        if (this.player.body.touching.down || this.player.body.onFloor()) {
+        if (this.player.body.onFloor()) {
             this.player.setVelocityY(this.levelData.input.jumpHeight);
             this.playerInAir = true;
             if (this.player.carrying) {
-                this.player.anims.play('JUMP_CARRY', true);
+                this.player.anims.play('JfUMP_CARRY', true);
 
             } else {
                 this.player.anims.play('JUMP', true);
