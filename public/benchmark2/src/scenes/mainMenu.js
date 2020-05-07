@@ -26,7 +26,6 @@ class MainMenu extends Phaser.Scene {
 
     playClickHandler() {
         // transition to level select
-        // TODO change to level select scene
         this.scene.switch('LevelSelect');
 
         // play sound
@@ -53,6 +52,7 @@ class MainMenu extends Phaser.Scene {
         // handles any button being hovered
         button.setColor('#37A8DF');
         button.setScale(1.2);
+
         // play sound
         this.sound.play('hoverSound');
     }
@@ -61,7 +61,6 @@ class MainMenu extends Phaser.Scene {
         // handles any button no longer being hovered
         button.setColor('#ffffff');
         button.setScale(1);
-
     }
 
     preload() {
@@ -77,15 +76,10 @@ class MainMenu extends Phaser.Scene {
         var cameraCenterX = this.cameras.main.centerX;
         var cameraCenterY = this.cameras.main.centerY;
 
+        // add title image
         this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
             .setScale(0.2)
             .setDepth(0);
-
-        // setup MainMenu title
-        // this.title = this.add.text(cameraCenterX, this.topOff, "Main Menu", { fill: '#ffffff', boundsAlignV: 'middle' })
-        //     .setFontSize(36)
-        //     .setOrigin(this.centerOriginOff)
-        //     .setDepth(1);
 
         // set up play button
         this.playButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff, "PLAY", { fill: '#ffffff' })

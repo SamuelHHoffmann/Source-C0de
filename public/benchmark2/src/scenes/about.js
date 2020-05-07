@@ -25,6 +25,7 @@ class AboutMenu extends Phaser.Scene {
         // handles any button being hovered
         button.setColor('#37A8DF');
         button.setScale(1.2);
+
         // play sound
         this.sound.play('hoverSound');
     }
@@ -33,7 +34,6 @@ class AboutMenu extends Phaser.Scene {
         // handles any button no longer being hovered
         button.setColor('#ffffff');
         button.setScale(1);
-
     }
 
     preload() {

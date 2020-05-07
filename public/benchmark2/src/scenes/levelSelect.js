@@ -5,6 +5,7 @@ class LevelSelect extends Phaser.Scene {
     backButton;
     backgroundShowing = false;
 
+    // level selection information
     levels;
     numLevels;
     levelName;
@@ -27,17 +28,18 @@ class LevelSelect extends Phaser.Scene {
     title;
 
     startClickHandler() {
-        console.log("Start clicked");
-
+        // reset level before switching scenes
         this.game.scene.getScene('LevelScene').reDrawLayer = true;
         this.game.scene.getScene('LevelScene').setLevelNumber(this.clickedLevel);
 
+        // reset info in level select
         this.backgroundShowing = false;
         this.levelName.setAlpha(0);
         this.levelDesc.setAlpha(0);
         this.descBackground.setAlpha(0);
         this.title.setAlpha(0);
 
+        // switch to level
         this.scene.switch('LevelScene');
 
         // play sound
@@ -69,23 +71,9 @@ class LevelSelect extends Phaser.Scene {
 
         this.clickedLevel = levelNumber;
 
-        console.log(this.levelData);
-
-        // transition back to MainMenu
-        // this.levelName.setText("");
-        // var searchName = "level_" + levelNumber + "_name: \"";
-        // console.log(searchName);
-        // this.levelName.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
-        //     this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
+        // update level name and desc after clicking on level
         this.levelName.setText(this.levelData.levels[levelNumber - 1].name);
-
-        // searchName = "level_" + levelNumber + "_desc: \"";
-        // this.levelDesc.setText(this.levelDataText.substring(this.levelDataText.search(searchName) + searchName.length,
-        //     this.levelDataText.indexOf("\",", this.levelDataText.search(searchName))));
         this.levelDesc.setText(this.levelData.levels[levelNumber - 1].desc);
-
-        // console.log(this.levelName.text);
-        // console.log(this.levelDesc.text);
 
         if (this.levelName.text == "") {
             //if empty don't show anything
@@ -98,7 +86,6 @@ class LevelSelect extends Phaser.Scene {
         this.levelName.setAlpha(1);
         this.levelDesc.setAlpha(1);
         this.title.setAlpha(1);
-        // console.log(levelNumber);
         
         // play sound
         this.sound.play('clickSound');
@@ -108,6 +95,7 @@ class LevelSelect extends Phaser.Scene {
         // handles any button being hovered
         button.setColor('#37A8DF');
         button.setScale(1.2);
+
         // play sound
         this.sound.play('hoverSound');
     }
@@ -126,8 +114,6 @@ class LevelSelect extends Phaser.Scene {
     }
 
     preload() {
-        //this.load.text('levelData', 'resources/data/levelData.txt');
-
         // load level data
         this.load.text('levelData', 'resources/data/levelData.json');
         this.load.image('levelDescBackground', 'resources/images/levelSelectBackground.png');
@@ -175,17 +161,17 @@ class LevelSelect extends Phaser.Scene {
             .setAlpha(0);
 
         this.levels = [];
-        // this.levelDataText = this.cache.text.get('levelData');
-        // this.numLevels = parseInt(this.levelDataText.substring(this.levelDataText.search('level_count:') + 12, this.levelDataText.indexOf(',', this.levelDataText.search('level_count:') + 12)));
         this.numLevels = this.levelData.levelCount;
 
         var x = cameraCenterX - this.cameras.main.width / 5.5;
         var y = cameraCenterY;
         var amountPerRow = 4;
-
+        
+        // get the min row amount
         for (var i = 0; i < this.numLevels; i++) {
             var minRowAmount = Math.min(Math.max(0, this.numLevels - (i * amountPerRow)), amountPerRow);
 
+            // draw level button in correct spot and add to levels list
             for (var j = 0; j < minRowAmount; j++) {
                 var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' });
                 levelButton.setOrigin(this.centerOriginOff)
