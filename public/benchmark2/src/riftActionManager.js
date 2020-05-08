@@ -6,10 +6,21 @@ class RiftActionManager {
 
     static scene; //LevelScene 
 
+    static idStack = [];
+
+    static restoreIDStack = [];
+
+    static reverseToLevel(levelNumber) {
+
+    }
+
+    static restoreStack(levelNumber) {
+
+    }
+
     static getFunctionForID(riftID, inputID) {
 
         var connectionID = riftID + inputID;
-
         var tempfn;
         switch (connectionID) {
             case "1111":
@@ -19,8 +30,20 @@ class RiftActionManager {
                 tempfn = () => RiftActionManager.fnundefined();
                 return tempfn;
         }
+    }
 
+    static getInverseFunctionForID(riftID, inputID) {
 
+        var connectionID = riftID + inputID;
+        var tempfn;
+        switch (connectionID) {
+            case "1111":
+                tempfn = () => RiftActionManager.invfn1112();
+                return tempfn;
+            default:
+                tempfn = () => RiftActionManager.fnundefined();
+                return tempfn;
+        }
     }
 
     static fnundefined() { }
@@ -29,6 +52,9 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.jumpKey = "SPACE";
     }
 
+    static invfn1112() {
+        RiftActionManager.scene.levelData.input.jumpKey = "";
+    }
 
 
 }

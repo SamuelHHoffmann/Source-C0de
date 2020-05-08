@@ -163,6 +163,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
                 //rift.currentBlock = this;
 
                 var callabckFn = RiftActionManager.getFunctionForID(rift.id, this.id);
+                RiftActionManager.idStack.push((rift.id + this.id));
                 callabckFn();
 
                 this.caughtInRift = true;

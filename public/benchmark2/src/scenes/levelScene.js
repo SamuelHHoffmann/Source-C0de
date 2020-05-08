@@ -144,6 +144,13 @@ class LevelScene extends Phaser.Scene {
             var riftType = this.levelData.levels[this.levelNumber - 1].riftElements[i].inputType;
             var riftInputID = "" + (this.levelNumber) + "" + (i + 1);
             this.riftManager.createNewRiftInput(this, riftX, riftY, riftDrop, riftType, riftInputID);
+
+        }
+        for (var i = 0; i < numRifts; i++) {
+            for (var j = 0; j < numRiftElements; j++) {
+                var undofn = RiftActionManager.getInverseFunctionForID("" + (this.levelNumber) + "" + (i + 1), "" + (this.levelNumber) + "" + (i + 1));
+                undofn();
+            }
         }
     }
 
