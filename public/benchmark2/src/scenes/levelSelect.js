@@ -88,7 +88,7 @@ class LevelSelect extends Phaser.Scene {
         }
 
         this.setShowBackground(true);
-        
+
         // play sound
         this.sound.play('clickSound');
     }
@@ -168,7 +168,7 @@ class LevelSelect extends Phaser.Scene {
         var x = cameraCenterX - this.cameras.main.width / 5.5;
         var y = cameraCenterY;
         var amountPerRow = 4;
-        
+
         // get the min row amount
         for (var i = 0; i < this.numLevels; i++) {
             var minRowAmount = Math.min(Math.max(0, this.numLevels - (i * amountPerRow)), amountPerRow);

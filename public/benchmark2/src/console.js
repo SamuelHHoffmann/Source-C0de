@@ -42,7 +42,7 @@ class Console extends Phaser.Scene {
             this.restoreHist();
 
             // make sure we don't push too much
-            var startIndex = Math.max(0,this.CMDStack.length - this.maxHist + 1);
+            var startIndex = Math.max(0, this.CMDStack.length - this.maxHist + 1);
             this.CMDStack = this.CMDStack.slice(startIndex);
 
             this.CMDStack.push(this.userInput);
@@ -103,7 +103,7 @@ class Console extends Phaser.Scene {
 
         // draw debug
         if (debugGraphic == undefined)
-        debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.createDebugGraphic();
+            debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.createDebugGraphic();
         // toggle visibility
         else
             debugGraphic.setVisible(!debugGraphic.visible);

@@ -38,6 +38,8 @@ class LevelScene extends Phaser.Scene {
 
     endLevel(sprite, tile) {
         if (this.reDrawLayer) { return; }
+        this.input.keyboard.enabled = false;
+        RiftActionManager.restoreStack(false);
         this.scene.switch('LevelSelect');
         return true;
     }
@@ -68,6 +70,10 @@ class LevelScene extends Phaser.Scene {
     }
 
     setUpMap() {
+        this.input.keyboard.clearCaptures();
+        this.input.keyboard.enabled = true;
+
+
         if (this.riftManager != undefined) {
             this.riftManager.riftManagerTeardown(this);
         }
@@ -146,12 +152,7 @@ class LevelScene extends Phaser.Scene {
             this.riftManager.createNewRiftInput(this, riftX, riftY, riftDrop, riftType, riftInputID);
 
         }
-        for (var i = 0; i < numRifts; i++) {
-            for (var j = 0; j < numRiftElements; j++) {
-                var undofn = RiftActionManager.getInverseFunctionForID("" + (this.levelNumber) + "" + (i + 1), "" + (this.levelNumber) + "" + (i + 1));
-                undofn();
-            }
-        }
+        RiftActionManager.reverseToLevel(this.levelNumber);
     }
 
     setUpAnimations() {

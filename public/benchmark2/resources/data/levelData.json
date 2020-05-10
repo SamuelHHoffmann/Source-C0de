@@ -100,7 +100,7 @@
         "downKey": "S",
         "leftKey": "A",
         "rightKey": "D",
-        "jumpKey": "SPACE",
+        "jumpKey": "",
         "gravity": 200,
         "jumpHeight": -250,
         "speed": 100
