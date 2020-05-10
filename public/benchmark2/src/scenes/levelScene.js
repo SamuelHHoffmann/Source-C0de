@@ -38,7 +38,11 @@ class LevelScene extends Phaser.Scene {
 
     endLevel(sprite, tile) {
         if (this.reDrawLayer) { return; }
-        this.input.keyboard.enabled = false;
+
+        this.input.keyboard.removeKey(this.levelData.input.rightKey);
+        this.input.keyboard.removeKey(this.levelData.input.leftKey);
+        this.input.keyboard.removeKey(this.levelData.input.jumpKey);
+
         RiftActionManager.restoreStack(false);
         this.scene.switch('LevelSelect');
         return true;
@@ -281,13 +285,17 @@ class LevelScene extends Phaser.Scene {
             console.log(this.player.x, this.player.y);
         }
 
-        if (this.input.keyboard.addKey(this.levelData.input.rightKey).isDown) {
+        var rightKey = this.input.keyboard.addKey(this.levelData.input.rightKey);
+        var leftKey = this.input.keyboard.addKey(this.levelData.input.leftKey);
+        var jumpKey = this.input.keyboard.addKey(this.levelData.input.jumpKey);
+
+        if (rightKey.isDown) {
             this.walkRight();
         }
-        else if (this.input.keyboard.addKey(this.levelData.input.leftKey).isDown) {
+        else if (leftKey.isDown) {
             this.walkLeft();
         }
-        else if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
+        else if (jumpKey.isDown)
             this.jump();
         else {
             this.idle();
