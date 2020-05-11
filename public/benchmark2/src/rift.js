@@ -10,13 +10,22 @@ class RiftManager {
         constructor for this should be called in create() 
     */
     constructor(scene) {
-        /* group objects contain all rifts and all riftinputs */
+        /* group objects contain all rifts and all riftinputs, also manages effects */
         this.rifts = [];
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
 
-        /* current effects */
-        this.riftEffects;
+        /* rift effects objects */
+        this.riftParticles = scene.add.particles('PARTICLE NAME IN PRELOAD!!');
+        this.riftGraphics = scene.add.graphics();
+
+        this.riftGraphics.fillStyle(0xfefefe);
+        this.setDepth(1000);
+
+        //this.riftsUpperVerts = [];
+        //this.riftsLowerVerts = [];
+
+        
 
         /* allows for the throwing of objects */
         scene.input.on('pointerdown', function () {
@@ -70,6 +79,41 @@ class RiftManager {
     createNewRift(scene, x, y, codeText, acceptedType, id) {
         var rift = new Rift(scene, x, y, codeText, acceptedType, id);
 
+        // done here so we don't have to pass graphics/particles
+        rift.riftPoly.getRandomPoint = function(vec) {
+            var pt = rift.riftPoly.points[Phaser.Math.Between(0, rift.riftPoly.points.length-1)];
+            vec.x = pt.x;
+            vec.y = pt.y;
+            return vec;
+        }
+
+        rift.riftEmitter = this.riftParticles.createEmitter({
+            lifespan: 2000,
+            speedY: { min: -20, max: 20 },
+            speedX: { min: -5, max: 5 },
+            scaleX: {start: 0.1, end: 0 },
+            scaleY: {start: 0.7, end: 0 },
+            emitZone: { 
+                type: 'random', 
+                source: rift.riftPoly,
+                quantity: 48
+            },
+            rotate: { 
+                onEmit: function() {
+                    var rots = [0, 45, 135];
+                    return rots[Phaser.Math.Between(0, rots.length-1)];
+                }
+            }
+        });
+        
+        /*
+        this.riftsUpperVerts = [...this.riftsUpperVerts, 
+                                ...rift.riftPoly.points.slice(1, rift.factor+2)];
+        this.riftsUpperVerts = [...this.riftsUpperVerts, 
+                                ...rift.riftPoly.points.slice(rift.factor+3, rift.riftPoly.length)];
+
+        console.log(this.riftsUpperVerts);
+        */
         this.rifts.push(rift);
         console.log(this.rifts);
         this.riftZones.add(rift.riftZone);
@@ -82,6 +126,11 @@ class RiftManager {
     }
 
     riftManagerUpdate(player) {
+        this.riftGraphics.clear();
+        for(var rift of this.rifts) {
+            this.riftGraphics.fillPoints(rift.riftPoly.points, true);
+        }
+    
         if (player != null) {
             if (player.pickedUp != null) {
 
@@ -236,12 +285,76 @@ class Rift {
             id
         );
 
+        var totalHeight = zoneHeight;
+        var totalWidth = this.riftZone.width + this.codeText.width;
+
+        this.factor = Math.ceil(totalWidth / 50);
+        this.riftPoly = this.buildRiftPoly(scene, x, y, totalWidth, totalHeight, this.factor);
+
+        //this.buildRiftEffects();
+
         /* currently unused
         this.zoneText = new RiftText(scene, 
             this.riftZone.x - this.riftZone.width,
             this.riftZone.y - this.height / 2,
             ""
         );*/
+    }
+
+    buildRiftPoly(scene, x, y, totalWidth, totalHeight, factor) {
+        var moveBy = (totalWidth/factor);
+        var startCoord = new Phaser.Geom.Point(x-moveBy, y+(totalHeight/2));
+        var endCoord = new Phaser.Geom.Point(x+totalWidth+moveBy, y+(totalHeight/2));
+
+        var coords = [startCoord];
+
+        /* build coordinates around the rift */
+        for(var i = x, j = 0; j <= (factor*2); j++) {
+            var upper = new Phaser.Geom.Point(i, y-10);
+            var lower = new Phaser.Geom.Point(i, y+totalHeight+10);
+
+            if(j < factor) {
+                coords.push(upper);
+                i += moveBy;
+            } else if (j == factor) {
+                i += moveBy;
+                coords.push(upper, endCoord, lower);
+                i -= moveBy * 2;
+            } else {
+                i -= moveBy;
+                coords.push(lower);
+            }
+        }
+
+        var riftPoly = new Phaser.Geom.Polygon(coords);
+
+        scene.tweens.add({
+            targets: riftPoly.points.slice(factor+3, riftPoly.points.length),
+            duration: function() {
+                return Phaser.Math.Between(500, 1000)
+            },
+            repeat: -1,
+            yoyo: true,
+            ease: 'Sine.easeInOut',
+            y: function() {
+                return y + Phaser.Math.Between(totalHeight, totalHeight+40);
+            },
+        });
+
+        scene.tweens.add({
+            targets: riftPoly.points.slice(1, factor+2),
+            duration: function() {
+                return Phaser.Math.Between(500, 1000)
+            },
+            repeat: -1,
+            yoyo: true,
+            ease: 'Sine.easeInOut',
+            y: function() {
+                return y + Phaser.Math.Between(0, -40);
+            }
+        });
+
+        return riftPoly;
     }
 }
 
