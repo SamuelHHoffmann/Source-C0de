@@ -21,7 +21,7 @@ class RiftManager {
 
         this.riftGraphics.lineStyle(5, 0xff0000);
         this.riftGraphics.fillStyle(0xfefefe);
-        this.riftGraphics.setDepth(100000);
+        //this.riftGraphics.setDepth(100000);
 
 
         /* allows for the throwing of objects */
@@ -79,12 +79,7 @@ class RiftManager {
         console.log(rift.riftPoly.geom.points)
 
         // done here so we don't have to pass graphics/particles
-        rift.riftPoly.geom.getRandomPoint = function(vec) {
-            var pt = rift.riftPoly.geom.points[Phaser.Math.Between(0, rift.riftPoly.geom.points.length-1)];
-            vec.x = pt.x;
-            vec.y = pt.y;
-            return vec;
-        }
+        
         
         /* // debugging circles
         for(var i = 0; i<rift.riftPoly.geom.points.length; i++) {
@@ -92,7 +87,6 @@ class RiftManager {
             circ.setDepth(100000000);
         }*/
 
-        
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(rift.factor+3, rift.riftPoly.geom.points.length),
             duration: function() {
@@ -119,6 +113,7 @@ class RiftManager {
             }
         });
         
+        
         rift.riftEmitter = this.riftParticles.createEmitter({
             lifespan: 2000,
             speedY: { min: -20, max: 20 },
@@ -138,14 +133,7 @@ class RiftManager {
             }
         });
         
-        /*
-        this.riftsUpperVerts = [...this.riftsUpperVerts, 
-                                ...rift.riftPoly.geom.points.slice(1, rift.factor+2)];
-        this.riftsUpperVerts = [...this.riftsUpperVerts, 
-                                ...rift.riftPoly.geom.points.slice(rift.factor+3, rift.riftPoly.geom.points.length)];
-
-        console.log(this.riftsUpperVerts);
-        */
+    
         this.rifts.push(rift);
         console.log(this.rifts);
         this.riftZones.add(rift.riftZone);
@@ -360,7 +348,16 @@ class Rift {
             }
         }
 
-        return new Phaser.GameObjects.Polygon(scene, (totalWidth/2)+20, totalHeight/2, coords, 0xff0000);
+        var riftPoly = new Phaser.GameObjects.Polygon(scene, (totalWidth/2)+20, totalHeight/2, coords, 0xff0000);
+        
+        riftPoly.geom.getRandomPoint = function(vec) {
+            var pt = riftPoly.geom.points[Phaser.Math.Between(0, riftPoly.geom.points.length-1)];
+            vec.x = pt.x;
+            vec.y = pt.y;
+            return vec;
+        }
+
+        return riftPoly;
     }
 }
 
