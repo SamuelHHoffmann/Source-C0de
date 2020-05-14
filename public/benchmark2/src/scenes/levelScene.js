@@ -288,6 +288,12 @@ class LevelScene extends Phaser.Scene {
         var rightKey = this.input.keyboard.addKey(this.levelData.input.rightKey);
         var leftKey = this.input.keyboard.addKey(this.levelData.input.leftKey);
         var jumpKey = this.input.keyboard.addKey(this.levelData.input.jumpKey);
+        
+        // check if gravity was reversed
+        if (this.physics.world.gravity.y < 0)
+            this.player.body.rotation = -180
+        else
+            this.player.body.rotation = 0
 
         if (rightKey.isDown) {
             this.walkRight();
@@ -317,8 +323,12 @@ class LevelScene extends Phaser.Scene {
 
     jump() {
         this.player.state = "jump"
-        if (this.player.body.onFloor()) {
-            this.player.setVelocityY(this.levelData.input.jumpHeight);
+        if ((this.player.body.onFloor() && this.physics.world.gravity.y > 0) || (this.player.body.onCeiling() && this.physics.world.gravity.y < 0)) {
+            // check which direction gravity is going
+            if (this.physics.world.gravity.y > 0)
+                this.player.setVelocityY(this.levelData.input.jumpHeight);
+            else
+                this.player.setVelocityY(-this.levelData.input.jumpHeight);
             this.playerInAir = true;
             if (this.player.carrying) {
                 this.player.anims.play('JfUMP_CARRY', true);

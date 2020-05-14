@@ -93,9 +93,16 @@ class Console extends Phaser.Scene {
             case 'debug':
                 this.setDebugMode();
                 break;
+            case 'gravity':
+                this.changeGravity(cmdParts[1]);
+                break;
             default:
                 return;
         }
+    }
+
+    changeGravity(val) {
+        this.scene.manager.getScene('LevelScene').physics.world.gravity =  new Phaser.Math.Vector2(0, val);
     }
 
     setDebugMode() {
