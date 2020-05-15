@@ -77,7 +77,6 @@ class LevelScene extends Phaser.Scene {
         this.input.keyboard.clearCaptures();
         this.input.keyboard.enabled = true;
 
-
         if (this.riftManager != undefined) {
             this.riftManager.riftManagerTeardown(this);
         }
@@ -288,6 +287,10 @@ class LevelScene extends Phaser.Scene {
         var rightKey = this.input.keyboard.addKey(this.levelData.input.rightKey);
         var leftKey = this.input.keyboard.addKey(this.levelData.input.leftKey);
         var jumpKey = this.input.keyboard.addKey(this.levelData.input.jumpKey);
+
+        // check to see if gravity changed
+        if (this.physics.world.gravity.y != this.levelData.input.gravity)
+            this.physics.world.gravity.y = this.levelData.input.gravity
         
         // check if gravity was reversed
         if (this.physics.world.gravity.y < 0)

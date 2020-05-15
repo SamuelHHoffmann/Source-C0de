@@ -55,6 +55,9 @@ class RiftActionManager {
             case "1111":
                 tempfn = () => RiftActionManager.fn1112();
                 return tempfn;
+            case "2121":
+                tempfn = () => RiftActionManager.fn2121();
+                return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
                 return tempfn;
@@ -67,6 +70,9 @@ class RiftActionManager {
         switch (connectionID) {
             case "1111":
                 tempfn = () => RiftActionManager.invfn1112();
+                return tempfn;
+            case "2121":
+                tempfn = () => RiftActionManager.invfn2121();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -84,5 +90,11 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.jumpKey = "";
     }
 
+    static fn2121() {
+        RiftActionManager.scene.levelData.input.gravity = -300;
+    }
 
+    static invfn2121() {
+        RiftActionManager.scene.levelData.input.gravity = 300;
+    }
 }
