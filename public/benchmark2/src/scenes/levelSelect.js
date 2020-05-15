@@ -11,6 +11,7 @@ class LevelSelect extends Phaser.Scene {
     levelName;
     levelDesc;
     clickedLevel;
+    LockedLevelData; //array of 0's and 1 and each index is if it locked or not
 
     // background logo
     logoIMG;
@@ -115,6 +116,19 @@ class LevelSelect extends Phaser.Scene {
         }
     }
 
+    unlockLevel(levelNumber) {
+        if (levelNumber <= this.numLevels) {
+            if (this.LockedLevelData[levelNumber - 1] == 1) { //can only unlock level if previous is unlocked
+                var button = this.levels[levelNumber - 1];
+                button.setInteractive({ 'useHandCursor': true });
+                button.setColor('#ffffff');
+                this.LockedLevelData[levelNumber] = 1;
+            }
+        }
+
+    }
+
+
     preload() {
         // load level data
         this.load.text('levelData', 'resources/data/levelData.json');
@@ -125,6 +139,10 @@ class LevelSelect extends Phaser.Scene {
         // parse level data
         this.levelData = JSON.parse(this.cache.text.get('levelData'));
         console.log(this.levelData);
+
+
+        this.LockedLevelData = [];
+
 
         // get camera center x and y
         var cameraCenterX = this.cameras.main.centerX;
@@ -165,6 +183,8 @@ class LevelSelect extends Phaser.Scene {
         this.levels = [];
         this.numLevels = this.levelData.levelCount;
 
+
+
         var x = cameraCenterX - this.cameras.main.width / 5.5;
         var y = cameraCenterY;
         var amountPerRow = 4;
@@ -175,9 +195,8 @@ class LevelSelect extends Phaser.Scene {
 
             // draw level button in correct spot and add to levels list
             for (var j = 0; j < minRowAmount; j++) {
-                var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#ffffff' });
+                var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#808080' });
                 levelButton.setOrigin(this.centerOriginOff)
-                    .setInteractive({ 'useHandCursor': true })
                     .on('pointerdown', this.makeHandler(i + 1, (x) => this.levelClickedHandler(x)))
                     .on('pointerover', this.makeHandler(levelButton, (x) => this.buttonHovered(x)))
                     .on('pointerout', this.makeHandler(levelButton, (x) => this.buttonHoverExit(x)));
@@ -189,6 +208,13 @@ class LevelSelect extends Phaser.Scene {
             x -= (amountPerRow) * (this.cameras.main.width / 8);
             y += (this.cameras.main.height / 8);
         }
+
+        for (var x = 0; x <= this.numLevels; x++) {
+            this.LockedLevelData.push(0);
+        }
+        this.LockedLevelData[0] = 1;
+        this.unlockLevel(1);
+
 
         // setup back button
         this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' });
