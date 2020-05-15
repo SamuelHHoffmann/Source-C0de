@@ -102,6 +102,7 @@ class LevelScene extends Phaser.Scene {
         this.collision_layer.setCollisionBetween(0, 5);
 
         this.collision_layer.setTileIndexCallback(34, this.endLevel, this);
+        this.collision_layer.setTileIndexCallback(35, this.endLevel, this);
 
         var xPos = this.levelData.levels[this.levelNumber - 1].startPositionX;
         var yPos = this.levelData.levels[this.levelNumber - 1].startPositionY;
@@ -291,7 +292,7 @@ class LevelScene extends Phaser.Scene {
         // check to see if gravity changed
         if (this.physics.world.gravity.y != this.levelData.input.gravity)
             this.physics.world.gravity.y = this.levelData.input.gravity
-        
+
         // check if gravity was reversed
         if (this.physics.world.gravity.y < 0)
             this.player.body.rotation = -180

@@ -13,7 +13,8 @@ class RiftActionManager {
     static quitIDStack = []
 
     static reverseToLevel(levelNumber) {
-        for (var x = 0; x < this.idStack.length; x++) {
+        var len = this.idStack.length;
+        for (var x = 0; x < len; x++) {
             var id = "" + this.idStack.pop();
             if (parseInt(id.charAt(0)) > levelNumber) {
                 var reverseFunction = this.getInverseFunctionForID(id, "");
