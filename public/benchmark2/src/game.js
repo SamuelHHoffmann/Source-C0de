@@ -37,6 +37,7 @@ function create() {
 
     // add all scenes to game
     this.game.scene.add('MainMenu', MainMenu);
+    this.game.scene.add('PauseScene', PauseScene);
     this.game.scene.add('LevelScene', LevelScene);
     this.game.scene.add('AboutMenu', AboutMenu);
     this.game.scene.add('SettingsMenu', SettingsMenu);

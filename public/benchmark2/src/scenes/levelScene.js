@@ -49,8 +49,18 @@ class LevelScene extends Phaser.Scene {
         return true;
     }
 
+    quitLevel() {
+        this.input.keyboard.removeKey(this.levelData.input.rightKey);
+        this.input.keyboard.removeKey(this.levelData.input.leftKey);
+        this.input.keyboard.removeKey(this.levelData.input.jumpKey);
+
+        RiftActionManager.restoreStack(true);
+    }
+
     preload() {
         RiftActionManager.scene = this;
+
+        this.load.image('pauseImg', 'resources/images/menuButton.png');
 
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");
         this.load.text('levelData', "resources/data/levelData.json");
@@ -271,6 +281,11 @@ class LevelScene extends Phaser.Scene {
         // add sound effects
         this.jumpSound = this.sound.add('jumpSound');
         this.walkSound = this.sound.add('walkSound', { rate: 1.4 });
+
+        this.puaseButton = this.add.image(25, 25, 'pauseImg')
+            .setDepth(3)
+            .setInteractive({ 'useHandCursor': true })
+            .on('pointerdown', () => { this.scene.switch('PauseScene'); });
 
         // setup necessary info for level
         this.setUpAnimations();
