@@ -119,9 +119,7 @@ class LevelSelect extends Phaser.Scene {
     unlockLevel(levelNumber) {
         if (levelNumber <= this.numLevels) {
             if (this.LockedLevelData[levelNumber - 1] == 1) { //can only unlock level if previous is unlocked
-                var button = this.levels[levelNumber - 1];
-                button.setInteractive({ 'useHandCursor': true });
-                button.setColor('#ffffff');
+                this.levels[levelNumber - 1].setInteractive({ 'useHandCursor': true }).setColor('#ffffff');
                 this.LockedLevelData[levelNumber] = 1;
             }
         }
@@ -226,5 +224,6 @@ class LevelSelect extends Phaser.Scene {
     }
 
     update() {
+        var x = 0;
     }
 } 
