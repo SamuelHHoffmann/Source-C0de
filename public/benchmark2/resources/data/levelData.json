@@ -73,8 +73,8 @@
             "name": "Treasure Chest",
             "desc": "Maybe...",
             "tileMapPath": "resources/tilemaps/level_3.json",
-            "startPositionX": 16,
-            "startPositionY": 96,
+            "startPositionX": 45,
+            "startPositionY": 50,
             "numRifts": 1,
             "rifts": [
                 {
