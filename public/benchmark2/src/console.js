@@ -12,6 +12,11 @@ class Console extends Phaser.Scene {
     tempStack = [];
     maxHist = 5;
 
+    xyText;
+    xposition;
+    yposition;
+    freezePositionUpdate = false;
+
     // console text object
     console;
 
@@ -109,11 +114,14 @@ class Console extends Phaser.Scene {
         var debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.debugGraphic;
 
         // draw debug
-        if (debugGraphic == undefined)
+        if (debugGraphic == undefined) {
             debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.createDebugGraphic();
-        // toggle visibility
-        else
+            this.xyText.setVisible(true);
+            // toggle visibility
+        } else {
             debugGraphic.setVisible(!debugGraphic.visible);
+            this.xyText.setVisible(false);
+        }
     }
 
     restartLevel() {
@@ -159,13 +167,36 @@ class Console extends Phaser.Scene {
             .setVisible(false);
         // setup keyboard input
         this.input.keyboard.on('keydown', (event) => this.processInput(event));
+
+        this.xyText = this.add.text(0, 50, "X, Y: 0, 0", { fill: '#ffffff' })
+            .setFontSize(18)
+            .setVisible(false);
+
     }
 
     update() {
 
-        if (this.input.mousePointer.isDown) {
-            console.log(this.input.mousePointer.downX, this.input.mousePointer.downY);
+        if (this.freezePositionUpdate != undefined) {
+
+            if ((this.input.mousePointer.worldX != this.xposition || this.input.mousePointer.worldY != this.yposition) && !this.freezePositionUpdate) {
+                this.xyText.text = "X, Y: " + this.input.mousePointer.worldX.toFixed(2) + ", " + this.input.mousePointer.worldY.toFixed(2);
+                this.xposition = this.input.mousePointer.worldX.to;
+                this.yposition = this.input.mousePointer.worldY;
+            }
+
+            if (this.input.mousePointer.isDown) {
+                if (this.freezePositionUpdate) {
+                    this.freezePositionUpdate = false;
+                } else {
+                    this.freezePositionUpdate = true;
+                    this.xyText.text = "X, Y: " + this.input.mousePointer.downX.toFixed(2) + ", " + this.input.mousePointer.downY.toFixed(2);
+                    this.xposition = this.input.mousePointer.downX;
+                    this.yposition = this.input.mousePointer.downY;
+                }
+                console.log(this.input.mousePointer.downX.toFixed(2), this.input.mousePointer.downY.toFixed(2));
+            }
         }
+
 
     }
 }
