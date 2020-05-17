@@ -75,22 +75,12 @@
             "tileMapPath": "resources/tilemaps/level_3.json",
             "startPositionX": 45,
             "startPositionY": 50,
-            "numRifts": 1,
+            "numRifts": 0,
             "rifts": [
-                {
-                    "text": "Hello, world = ",
-                    "xPos": 200,
-                    "yPos": 200,
-                    "inputType": "int"
-                }
             ],
-            "numRiftElements": 1,
+            "numRiftElements": 0,
             "riftElements": [
                 {
-                    "xPos": 300,
-                    "yPos": 300,
-                    "text": "Test",
-                    "inputType": "int"
                 }
             ]
         }
