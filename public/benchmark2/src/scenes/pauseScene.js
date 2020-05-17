@@ -5,6 +5,7 @@ class PauseScene extends Phaser.Scene {
     resumeButton;
     mainMenuButton;
     volumeButton;
+    restartButton;
 
     // background logo
     logoIMG;
@@ -44,6 +45,15 @@ class PauseScene extends Phaser.Scene {
         this.sound.play('clickSound');
     }
 
+    restartClickedHandler(){
+        this.game.scene.getScene('LevelScene').reDrawLayer = true;
+        // transition to level select
+        this.scene.switch('LevelScene');
+
+        // play sound
+        this.sound.play('clickSound');
+    }
+
     buttonHovered(button) {
         // handles any button being hovered
         button.setColor('#37A8DF');
@@ -59,6 +69,8 @@ class PauseScene extends Phaser.Scene {
         button.setScale(1);
     }
 
+
+    
     volumeClickHandler() {
         // update frame
         this.frame++;
@@ -92,31 +104,41 @@ class PauseScene extends Phaser.Scene {
             .setScale(0.2)
             .setDepth(0);
 
-        // set up play button
+        // set up resume button
         this.resumeButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff, "RESUME", { fill: '#ffffff' })
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.resumeClickHandler())
-            .on('pointerover', () => this.buttonHovered(this.playButton))
-            .on('pointerout', () => this.buttonHoverExit(this.playButton))
+            .on('pointerover', () => this.buttonHovered(this.resumeButton))
+            .on('pointerout', () => this.buttonHoverExit(this.resumeButton))
             .setDepth(1);
 
-        // set up settings button
+        // set up main menu button
         this.mainMenuButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + this.spaceOff, "MAIN MENU", { fill: '#ffffff' })
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.mainMenuClickHandler())
-            .on('pointerover', () => this.buttonHovered(this.settingsButton))
-            .on('pointerout', () => this.buttonHoverExit(this.settingsButton))
+            .on('pointerover', () => this.buttonHovered(this.mainMenuButton))
+            .on('pointerout', () => this.buttonHoverExit(this.mainMenuButton))
             .setDepth(1);
 
-        // set up about button
-        this.aboutButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + (this.spaceOff * 2), "VOLUME", { fill: '#ffffff' })
+        // set up main menu button
+        this.restartButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + (this.spaceOff * 2), "RESTART", { fill: '#ffffff' })
+            .setOrigin(this.centerOriginOff)
+            .setInteractive({ 'useHandCursor': true })
+            .on('pointerdown', () => this.restartClickedHandler())
+            .on('pointerover', () => this.buttonHovered(this.restartButton))
+            .on('pointerout', () => this.buttonHoverExit(this.restartButton))
+            .setDepth(1);
+
+
+        // set up volume label
+        this.volumeButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + (this.spaceOff * 3.5), "VOLUME:", { fill: '#ffffff' })
             .setOrigin(this.centerOriginOff)
             .setDepth(1);
 
         // volume option
-        this.volumeButton = this.add.sprite(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + (this.spaceOff * 3), 'volumeSprite', this.frame);
+        this.volumeButton = this.add.sprite(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + (this.spaceOff * 4.5), 'volumeSprite', this.frame);
         this.volumeButton.setInteractive({ 'useHandCursor': true })
             .setOrigin(this.centerOriginOff)
             .on('pointerup', () => this.volumeClickHandler());

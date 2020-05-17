@@ -4,6 +4,7 @@ class SettingsMenu extends Phaser.Scene {
     // variables for buttons
     backButton;
     volumeButton;
+    volumeLabel;
 
     // offsets
     spaceOff = 50;
@@ -66,6 +67,11 @@ class SettingsMenu extends Phaser.Scene {
         // setup About title
         this.title = this.add.text(cameraCenterX, this.topOff, "Settings", { fill: '#ffffff', boundsAlignV: 'middle' })
             .setFontSize(36).setOrigin(this.centerOriginOff);
+
+        // set up volume label
+        this.volumeLabel = this.add.text(cameraCenterX, cameraCenterY - (this.spaceOff ), "VOLUME:", { fill: '#ffffff' })
+        .setOrigin(this.centerOriginOff)
+        .setDepth(1);
 
         // volume option
         this.volumeButton = this.add.sprite(cameraCenterX, cameraCenterY, 'volumeSprite', this.frame);

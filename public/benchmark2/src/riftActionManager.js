@@ -93,6 +93,7 @@ class RiftActionManager {
 
     static fn2121() {
         RiftActionManager.scene.levelData.input.gravity = -300;
+        
         var wr = RiftActionManager.scene.anims.get("WALK_RIGHT");
         var wl = RiftActionManager.scene.anims.get("WALK_LEFT");
         wr.key = "WALK_LEFT";
@@ -105,6 +106,7 @@ class RiftActionManager {
 
     static invfn2121() {
         RiftActionManager.scene.levelData.input.gravity = 300;
+
         var wr = RiftActionManager.scene.anims.get("WALK_RIGHT");
         var wl = RiftActionManager.scene.anims.get("WALK_LEFT");
         wr.key = "WALK_RIGHT";
