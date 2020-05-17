@@ -1,5 +1,5 @@
 {
-    "levelCount": 3,
+    "levelCount": 12,
     "levels": [
         {
             "name": "Welcome to the Source C0de",
@@ -62,26 +62,189 @@
             "numRiftElements": 1,
             "riftElements": [
                 {
-                    "xPos": 300,
-                    "yPos": 200,
+                    "xPos": 86,
+                    "yPos": 58,
                     "text": "Up",
                     "inputType": "direction"
                 }
             ]
         },
         {
-            "name": "Treasure Chest",
-            "desc": "Maybe...",
+            "name": "LEVEL 3 NAME",
+            "desc": "LEVEL 3 DESC",
             "tileMapPath": "resources/tilemaps/level_3.json",
             "startPositionX": 45,
             "startPositionY": 50,
             "numRifts": 0,
-            "rifts": [
-            ],
+            "rifts": [],
             "numRiftElements": 0,
             "riftElements": [
+                {}
+            ]
+        },
+        {
+            "name": "LEVEL 4 NAME",
+            "desc": "LEVEL 4 DESC",
+            "tileMapPath": "resources/tilemaps/level_4.json",
+            "startPositionX": 44,
+            "startPositionY": 505,
+            "numRifts": 1,
+            "rifts": [
                 {
+                    "text": "Platform hidden: ",
+                    "xPos": 396,
+                    "yPos": 54,
+                    "inputType": "bool"
                 }
+            ],
+            "numRiftElements": 1,
+            "riftElements": [
+                {
+                    "xPos": 355,
+                    "yPos": 477,
+                    "text": "False",
+                    "inputType": "bool"
+                }
+            ]
+        },
+        {
+            "name": "LEVEL 5 NAME",
+            "desc": "LEVEL 5 DESC",
+            "tileMapPath": "resources/tilemaps/level_5.json",
+            "startPositionX": 13,
+            "startPositionY": 83,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": [
+                {}
+            ]
+        },
+        {
+            "name": "LEVEL 6 NAME",
+            "desc": "LEVEL 6 DESC",
+            "tileMapPath": "resources/tilemaps/level_6.json",
+            "startPositionX": 13,
+            "startPositionY": 455,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": [
+                {}
+            ]
+        },
+        {
+            "name": "LEVEL 7 NAME",
+            "desc": "LEVEL 7 DESC",
+            "tileMapPath": "resources/tilemaps/level_7.json",
+            "startPositionX": 45,
+            "startPositionY": 320,
+            "numRifts": 3,
+            "rifts": [
+                {
+                    "text": "Gravity is: ",
+                    "xPos": 71,
+                    "yPos": 520,
+                    "inputType": "direction"
+                },
+                {
+                    "text": "Platform hidden: ",
+                    "xPos": 519,
+                    "yPos": 520,
+                    "inputType": "bool"
+                },
+                {
+                    "text": "Restart Level: ",
+                    "xPos": 418,
+                    "yPos": 57,
+                    "inputType": "yn"
+                }
+            ],
+            "numRiftElements": 3,
+            "riftElements": [
+                {
+                    "xPos": 423,
+                    "yPos": 517,
+                    "text": "False",
+                    "inputType": "bool"
+                },
+                {
+                    "xPos": 311,
+                    "yPos": 520,
+                    "text": "Up",
+                    "inputType": "direction"
+                },
+                {
+                    "xPos": 725,
+                    "yPos": 63,
+                    "text": "Yes",
+                    "inputType": "yn"
+                }
+            ]
+        },
+        {
+            "name": "LEVEL 8 NAME",
+            "desc": "LEVEL 8 DESC",
+            "tileMapPath": "resources/tilemaps/level_8.json",
+            "startPositionX": 45,
+            "startPositionY": 50,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": [
+                {}
+            ]
+        },
+        {
+            "name": "LEVEL 8 NAME",
+            "desc": "LEVEL 8 DESC",
+            "tileMapPath": "resources/tilemaps/level_9.json",
+            "startPositionX": 45,
+            "startPositionY": 50,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": [
+                {}
+            ]
+        },
+        {
+            "name": "LEVEL 10 NAME",
+            "desc": "LEVEL 10 DESC",
+            "tileMapPath": "resources/tilemaps/level_10.json",
+            "startPositionX": 45,
+            "startPositionY": 50,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": [
+                {}
+            ]
+        },
+        {
+            "name": "LEVEL 11 NAME",
+            "desc": "LEVEL 11 DESC",
+            "tileMapPath": "resources/tilemaps/level_11.json",
+            "startPositionX": 45,
+            "startPositionY": 50,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": [
+                {}
+            ]
+        },
+        {
+            "name": "LEVEL 12 NAME",
+            "desc": "LEVEL 12 DESC",
+            "tileMapPath": "resources/tilemaps/level_12.json",
+            "startPositionX": 45,
+            "startPositionY": 50,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": [
+                {}
             ]
         }
     ],

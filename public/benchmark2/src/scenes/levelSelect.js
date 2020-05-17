@@ -192,10 +192,10 @@ class LevelSelect extends Phaser.Scene {
 
         // get the min row amount
         for (var i = 0; i < this.numLevels; i++) {
-            var minRowAmount = Math.min(Math.max(0, this.numLevels - (i * amountPerRow)), amountPerRow);
+            // var minRowAmount = Math.min(Math.max(0, this.numLevels - (i * amountPerRow)), amountPerRow);
 
             // draw level button in correct spot and add to levels list
-            for (var j = 0; j < minRowAmount; j++) {
+            for (var j = 0; j < amountPerRow; j++) {
                 var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#808080' });
                 levelButton.setOrigin(this.centerOriginOff)
                     .on('pointerdown', this.makeHandler(i + 1, (x) => this.levelClickedHandler(x)))
@@ -227,8 +227,8 @@ class LevelSelect extends Phaser.Scene {
     }
 
     update() {
-        if (this.unlockNext){
-            this.unlockLevel(this.clickedLevel+1);
+        if (this.unlockNext) {
+            this.unlockLevel(this.clickedLevel + 1);
             this.unlockNext = false;
         }
     }

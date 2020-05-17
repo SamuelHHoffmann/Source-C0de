@@ -109,9 +109,9 @@ class LevelScene extends Phaser.Scene {
         } catch{ }
 
         // setup collision for tilemap
-        this.collision_layer = this.map.createStaticLayer("collision", tileset, 0, 0).setDepth(2);
-        this.decoration_layer = this.map.createStaticLayer("decorations", tileset, 0, 0).setDepth(2);
-        this.ground_decorations_layer = this.map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(2);
+        this.collision_layer = this.map.createStaticLayer("collision", tileset, 0, 0).setDepth(20);
+        this.decoration_layer = this.map.createStaticLayer("decorations", tileset, 0, 0).setDepth(20);
+        this.ground_decorations_layer = this.map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(20);
 
         this.collision_layer.setCollisionBetween(0, 5);
 
@@ -125,9 +125,10 @@ class LevelScene extends Phaser.Scene {
         this.player = this.physics.add.sprite(xPos, yPos, 'nort').setDragX(0.85).setDamping(true);
 
         // set player animation to IDLE upon loading into level
-        this.player.anims.play('IDLE')
-            .setDepth(1)
-            .setCollideWorldBounds(true);
+        this.player.anims.play('IDLE');
+
+        this.player.setDepth(1);
+        this.player.setCollideWorldBounds(true);
 
         this.player.carrying = false;
 

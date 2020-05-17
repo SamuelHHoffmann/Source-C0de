@@ -108,14 +108,6 @@ class Console extends Phaser.Scene {
     setDebugMode() {
         var debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.debugGraphic;
 
-        document.onclick = function (evt) {
-            evt = evt || window.event;
-            var x = evt.pageX,
-                y = evt.pageY;
-
-            console.log(x, y);
-        }
-
         // draw debug
         if (debugGraphic == undefined)
             debugGraphic = this.scene.manager.getScene('LevelScene').physics.world.createDebugGraphic();
@@ -170,5 +162,10 @@ class Console extends Phaser.Scene {
     }
 
     update() {
+
+        if (this.input.mousePointer.isDown) {
+            console.log(this.input.mousePointer.downX, this.input.mousePointer.downY);
+        }
+
     }
 }
