@@ -16,7 +16,7 @@ class RiftManager {
         this.riftInputBlocks = scene.physics.add.group([]);
 
         /* rift effects objects */
-        this.riftParticles = scene.add.particles('PARTICLE NAME IN PRELOAD!!');
+        this.riftParticles = scene.add.particles('riftParticles');
         this.riftGraphics = scene.add.graphics();
         this.riftGraphics.setDepth(this.riftParticles.depth + 1);
 
@@ -62,7 +62,7 @@ class RiftManager {
     riftManagerLevelLoad(scene) {
 
         /* allows for block-rift interaction */
-        this.riftParticles = scene.add.particles('PARTICLE NAME IN PRELOAD!!');
+        this.riftParticles = scene.add.particles('riftParticles');
         scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function (zone, input) {
             zone.overlapCallback(input);
             input.overlapCallback(zone);
@@ -90,7 +90,7 @@ class RiftManager {
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(rift.factor+3, rift.riftPoly.geom.points.length),
             duration: function() {
-                return Phaser.Math.Between(500, 1000)
+                return Phaser.Math.Between(500, 5000);
             },
             repeat: -1,
             yoyo: true,
@@ -103,7 +103,7 @@ class RiftManager {
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(1, rift.factor+2),
             duration: function() {
-                return Phaser.Math.Between(500, 1000)
+                return Phaser.Math.Between(500, 5000);
             },
             repeat: -1,
             yoyo: true,
@@ -314,7 +314,7 @@ class Rift {
         this.totalHeight = zoneHeight;
         this.totalWidth = this.riftZone.width + this.codeText.width;
 
-        this.factor = Math.ceil(this.totalWidth / 50);
+        this.factor = Math.ceil(this.totalWidth / 30);
         this.riftPoly = this.buildRiftPoly(scene, x, y, this.totalWidth, this.totalHeight, this.factor);
 
         //this.buildRiftEffects();
