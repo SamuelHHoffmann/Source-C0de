@@ -18,9 +18,10 @@ class RiftManager {
         /* rift effects objects */
         this.riftParticles = scene.add.particles('PARTICLE NAME IN PRELOAD!!');
         this.riftGraphics = scene.add.graphics();
+        this.riftGraphics.setDepth(this.riftParticles.depth + 1);
 
-        this.riftGraphics.lineStyle(5, 0xff0000);
-        this.riftGraphics.fillStyle(0xfefefe);
+        //this.riftGraphics.lineStyle(5, 0xff0000);
+        //this.riftGraphics.fillStyle(0xfafafa);
         //this.riftGraphics.setDepth(100000);
 
 
@@ -80,16 +81,9 @@ class RiftManager {
     createNewRift(scene, x, y, codeText, acceptedType, id) {
         var rift = new Rift(scene, x, y, codeText, acceptedType, id);
 
-        console.log(rift.riftPoly.geom.points)
+        //console.log(rift.riftPoly.geom.points)
 
         // done here so we don't have to pass graphics/particles
-        
-        
-        /* // debugging circles
-        for(var i = 0; i<rift.riftPoly.geom.points.length; i++) {
-            var circ = scene.add.circle(rift.riftPoly.geom.points[i].x, rift.riftPoly.geom.points[i].y, 5, 0xff0000);
-            circ.setDepth(100000000);
-        }*/
 
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(rift.factor+3, rift.riftPoly.geom.points.length),
@@ -117,7 +111,6 @@ class RiftManager {
             }
         });
         
-        
         rift.riftEmitter = this.riftParticles.createEmitter({
             lifespan: 2000,
             speedY: { min: -20, max: 20 },
@@ -137,6 +130,8 @@ class RiftManager {
             }
         });
         
+        rift.codeText.setDepth(this.riftGraphics.depth+1);
+        rift.codeText.setColor('black');
     
         this.rifts.push(rift);
         console.log(this.rifts);
@@ -145,12 +140,16 @@ class RiftManager {
 
     createNewRiftInput(scene, x, y, inputText, inputType, id) {
         var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType, id);
+        riftInput.setDepth(this.riftGraphics.depth+1);
+        riftInput.setColor('black');
 
         this.riftInputBlocks.add(riftInput);
     }
 
     riftManagerUpdate(player) {
         this.riftGraphics.clear();
+        this.riftGraphics.fillStyle(0xfafafa);
+
         for(var rift of this.rifts) {
             //this.riftGraphics.strokePath(rift.riftPoly.geom.points);
             this.riftGraphics.fillPoints(rift.riftPoly.geom.points, true);
@@ -198,7 +197,7 @@ class RiftManager {
                 }
             }
         }*/
-
+        
     }
 
 }
@@ -404,6 +403,7 @@ class RiftText extends Phaser.GameObjects.Text {
 
         scene.sys.displayList.add(this);
         scene.sys.updateList.add(this);
+
     }
 
     preUpdate() { }
