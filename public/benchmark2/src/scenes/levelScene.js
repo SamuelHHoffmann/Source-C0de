@@ -66,6 +66,7 @@ class LevelScene extends Phaser.Scene {
         this.load.text('levelData', "resources/data/levelData.json");
 
         this.load.image("riftParticles", "resources/images/riftParticle.png");
+        this.load.image("maskedImg", "resources/images/maskedEffect.png");
 
         // parse json text
         this.levelData = JSON.parse(this.cache.text.get('levelData'));

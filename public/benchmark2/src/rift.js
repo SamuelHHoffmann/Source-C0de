@@ -15,11 +15,13 @@ class RiftManager {
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
 
+        
         /* rift effects objects */
         this.riftParticles = scene.add.particles('riftParticles');
         this.riftGraphics = scene.add.graphics();
         this.riftGraphics.setDepth(this.riftParticles.depth + 1);
 
+        this.riftBackground = scene.add.image(400, 300, "maskedImg");
         //this.riftGraphics.lineStyle(5, 0xff0000);
         //this.riftGraphics.fillStyle(0xfafafa);
         //this.riftGraphics.setDepth(100000);
@@ -63,6 +65,11 @@ class RiftManager {
 
         /* allows for block-rift interaction */
         this.riftParticles = scene.add.particles('riftParticles');
+
+        this.riftParticles.visible = false;
+
+        this.riftBackground.setMask(new Phaser.Display.Masks.BitmapMask(scene, this.riftParticles));
+
         scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function (zone, input) {
             zone.overlapCallback(input);
             input.overlapCallback(zone);
@@ -117,19 +124,20 @@ class RiftManager {
             lifespan: 2000,
             speedY: { min: -20, max: 20 },
             speedX: { min: -5, max: 5 },
-            scaleX: {start: 0.1, end: 0 },
-            scaleY: {start: 0.7, end: 0 },
+            scaleX: {start: 0.2, end: 0 },
+            scaleY: {start: 1, end: 0 },
             emitZone: { 
                 type: 'random', 
                 source: rift.riftPoly.geom,
-                quantity: 48
+                //quantity: 48
             },
             rotate: { 
                 onEmit: function() {
                     var rots = [0, 45, 135];
                     return rots[Phaser.Math.Between(0, rots.length-1)];
                 }
-            }
+            },
+            quantity: 1
         });
         
         rift.codeText.setDepth(this.riftGraphics.depth+1);
