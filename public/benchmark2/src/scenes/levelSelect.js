@@ -5,6 +5,8 @@ class LevelSelect extends Phaser.Scene {
     backButton;
     backgroundShowing = false;
 
+    unlockNext = false;
+
     // level selection information
     levels;
     numLevels;
@@ -44,6 +46,7 @@ class LevelSelect extends Phaser.Scene {
     }
 
     startClickHandler() {
+
         // reset level before switching scenes
         this.game.scene.getScene('LevelScene').reDrawLayer = true;
         this.game.scene.getScene('LevelScene').setLevelNumber(this.clickedLevel);
@@ -224,6 +227,9 @@ class LevelSelect extends Phaser.Scene {
     }
 
     update() {
-        var x = 0;
+        if (this.unlockNext){
+            this.unlockLevel(this.clickedLevel+1);
+            this.unlockNext = false;
+        }
     }
 } 

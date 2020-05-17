@@ -44,7 +44,7 @@ class LevelScene extends Phaser.Scene {
         this.input.keyboard.removeKey(this.levelData.input.jumpKey);
 
         RiftActionManager.restoreStack(false);
-        this.scene.manager.getScene('LevelSelect').unlockLevel(this.levelNumber + 1);
+        this.game.scene.getScene('LevelSelect').unlockNext = true;
         this.scene.switch('LevelSelect');
         return true;
     }
