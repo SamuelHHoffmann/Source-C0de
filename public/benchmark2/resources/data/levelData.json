@@ -53,19 +53,19 @@
             "numRifts": 1,
             "rifts": [
                 {
-                    "text": "Gravity = ",
-                    "xPos": 200,
-                    "yPos": 200,
-                    "inputType": "int"
+                    "text": "Gravity is: ",
+                    "xPos": 83,
+                    "yPos": 544,
+                    "inputType": "direction"
                 }
             ],
             "numRiftElements": 1,
             "riftElements": [
                 {
                     "xPos": 300,
-                    "yPos": 300,
-                    "text": "-300",
-                    "inputType": "int"
+                    "yPos": 200,
+                    "text": "Up",
+                    "inputType": "direction"
                 }
             ]
         },
