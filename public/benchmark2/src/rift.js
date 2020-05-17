@@ -16,12 +16,15 @@ class RiftManager {
         this.riftInputBlocks = scene.physics.add.group([]);
 
         /* rift effects objects */
-        this.riftParticles = scene.add.particles('PARTICLE NAME IN PRELOAD!!');
+        this.riftParticles = scene.add.particles('riftParticles');
         this.riftGraphics = scene.add.graphics();
+        this.riftGraphics.setDepth(this.riftParticles.depth + 1);
 
-        this.riftGraphics.lineStyle(5, 0xff0000);
-        this.riftGraphics.fillStyle(0xfefefe);
+        //this.riftGraphics.lineStyle(5, 0xff0000);
+        //this.riftGraphics.fillStyle(0xfafafa);
         //this.riftGraphics.setDepth(100000);
+
+        scene.player.setDepth(this.riftGraphics.depth + 5);
 
 
         /* allows for the throwing of objects */
@@ -59,7 +62,7 @@ class RiftManager {
     riftManagerLevelLoad(scene) {
 
         /* allows for block-rift interaction */
-        this.riftParticles = scene.add.particles('PARTICLE NAME IN PRELOAD!!');
+        this.riftParticles = scene.add.particles('riftParticles');
         scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function (zone, input) {
             zone.overlapCallback(input);
             input.overlapCallback(zone);
@@ -80,21 +83,14 @@ class RiftManager {
     createNewRift(scene, x, y, codeText, acceptedType, id) {
         var rift = new Rift(scene, x, y, codeText, acceptedType, id);
 
-        console.log(rift.riftPoly.geom.points)
+        //console.log(rift.riftPoly.geom.points)
 
         // done here so we don't have to pass graphics/particles
-        
-        
-        /* // debugging circles
-        for(var i = 0; i<rift.riftPoly.geom.points.length; i++) {
-            var circ = scene.add.circle(rift.riftPoly.geom.points[i].x, rift.riftPoly.geom.points[i].y, 5, 0xff0000);
-            circ.setDepth(100000000);
-        }*/
 
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(rift.factor+3, rift.riftPoly.geom.points.length),
             duration: function() {
-                return Phaser.Math.Between(500, 1000)
+                return Phaser.Math.Between(500, 5000);
             },
             repeat: -1,
             yoyo: true,
@@ -107,7 +103,7 @@ class RiftManager {
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(1, rift.factor+2),
             duration: function() {
-                return Phaser.Math.Between(500, 1000)
+                return Phaser.Math.Between(500, 5000);
             },
             repeat: -1,
             yoyo: true,
@@ -116,7 +112,6 @@ class RiftManager {
                 return y + Phaser.Math.Between(0, -40);
             }
         });
-        
         
         rift.riftEmitter = this.riftParticles.createEmitter({
             lifespan: 2000,
@@ -137,6 +132,8 @@ class RiftManager {
             }
         });
         
+        rift.codeText.setDepth(this.riftGraphics.depth+1);
+        rift.codeText.setColor('black');
     
         this.rifts.push(rift);
         console.log(this.rifts);
@@ -145,12 +142,16 @@ class RiftManager {
 
     createNewRiftInput(scene, x, y, inputText, inputType, id) {
         var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType, id);
+        riftInput.setDepth(this.riftGraphics.depth+1);
+        riftInput.setColor('black');
 
         this.riftInputBlocks.add(riftInput);
     }
 
     riftManagerUpdate(player) {
         this.riftGraphics.clear();
+        this.riftGraphics.fillStyle(0xfafafa);
+
         for(var rift of this.rifts) {
             //this.riftGraphics.strokePath(rift.riftPoly.geom.points);
             this.riftGraphics.fillPoints(rift.riftPoly.geom.points, true);
@@ -198,7 +199,7 @@ class RiftManager {
                 }
             }
         }*/
-
+        
     }
 
 }
@@ -313,7 +314,7 @@ class Rift {
         this.totalHeight = zoneHeight;
         this.totalWidth = this.riftZone.width + this.codeText.width;
 
-        this.factor = Math.ceil(this.totalWidth / 50);
+        this.factor = Math.ceil(this.totalWidth / 30);
         this.riftPoly = this.buildRiftPoly(scene, x, y, this.totalWidth, this.totalHeight, this.factor);
 
         //this.buildRiftEffects();
@@ -404,6 +405,7 @@ class RiftText extends Phaser.GameObjects.Text {
 
         scene.sys.displayList.add(this);
         scene.sys.updateList.add(this);
+
     }
 
     preUpdate() { }
