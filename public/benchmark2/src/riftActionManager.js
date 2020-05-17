@@ -93,9 +93,25 @@ class RiftActionManager {
 
     static fn2121() {
         RiftActionManager.scene.levelData.input.gravity = -300;
+        var wr = RiftActionManager.scene.anims.get("WALK_RIGHT");
+        var wl = RiftActionManager.scene.anims.get("WALK_LEFT");
+        wr.key = "WALK_LEFT";
+        wl.key = "WALK_RIGHT";
+        RiftActionManager.scene.anims.remove("WALK_RIGHT");
+        RiftActionManager.scene.anims.remove("WALK_LEFT");
+        RiftActionManager.scene.anims.add("WALK_RIGHT", wl);
+        RiftActionManager.scene.anims.add("WALK_LEFT", wr);
     }
 
     static invfn2121() {
         RiftActionManager.scene.levelData.input.gravity = 300;
+        var wr = RiftActionManager.scene.anims.get("WALK_RIGHT");
+        var wl = RiftActionManager.scene.anims.get("WALK_LEFT");
+        wr.key = "WALK_RIGHT";
+        wl.key = "WALK_LEFT";
+        RiftActionManager.scene.anims.remove("WALK_RIGHT");
+        RiftActionManager.scene.anims.remove("WALK_LEFT");
+        RiftActionManager.scene.anims.add("WALK_LEFT", wl);
+        RiftActionManager.scene.anims.add("WALK_RIGHT", wr);
     }
 }
