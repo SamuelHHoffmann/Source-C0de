@@ -65,6 +65,8 @@ class LevelScene extends Phaser.Scene {
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");
         this.load.text('levelData', "resources/data/levelData.json");
 
+        this.load.image("riftParticles", "resources/images/riftParticle.png");
+
         // parse json text
         this.levelData = JSON.parse(this.cache.text.get('levelData'));
 
