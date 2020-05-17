@@ -24,6 +24,8 @@ class RiftManager {
         //this.riftGraphics.fillStyle(0xfafafa);
         //this.riftGraphics.setDepth(100000);
 
+        scene.player.setDepth(this.riftGraphics.depth + 5);
+
 
         /* allows for the throwing of objects */
         scene.input.on('pointerdown', function () {
