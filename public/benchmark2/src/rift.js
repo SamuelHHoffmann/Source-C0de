@@ -43,6 +43,9 @@ class RiftManager {
         this.rifts.forEach(zone => {
             zone.codeText.destroy();
         });
+
+        this.riftParticles.destroy();
+
         this.rifts = [];
 
         this.riftZones.clear(true, true);
@@ -56,6 +59,7 @@ class RiftManager {
     riftManagerLevelLoad(scene) {
 
         /* allows for block-rift interaction */
+        this.riftParticles = scene.add.particles('PARTICLE NAME IN PRELOAD!!');
         scene.physics.add.overlap(this.riftZones, this.riftInputBlocks, function (zone, input) {
             zone.overlapCallback(input);
             input.overlapCallback(zone);
