@@ -121,9 +121,9 @@ class LevelSelect extends Phaser.Scene {
 
     unlockLevel(levelNumber) {
         if (levelNumber <= this.numLevels) {
-            if (this.LockedLevelData[levelNumber - 1] == 1) { //can only unlock level if previous is unlocked
+            if (levelNumber == 1 || this.LockedLevelData[levelNumber - 2] == 1) { //can only unlock level if previous is unlocked or level 1 selected
                 this.levels[levelNumber - 1].setInteractive({ 'useHandCursor': true }).setColor('#ffffff');
-                this.LockedLevelData[levelNumber] = 1;
+                this.LockedLevelData[levelNumber - 1] = 1;
             }
         }
 
@@ -140,10 +140,6 @@ class LevelSelect extends Phaser.Scene {
         // parse level data
         this.levelData = JSON.parse(this.cache.text.get('levelData'));
         console.log(this.levelData);
-
-
-        this.LockedLevelData = [];
-
 
         // get camera center x and y
         var cameraCenterX = this.cameras.main.centerX;
@@ -209,13 +205,22 @@ class LevelSelect extends Phaser.Scene {
             x -= (amountPerRow) * (this.cameras.main.width / 8);
             y += (this.cameras.main.height / 8);
         }
+        
+        if (this.LockedLevelData == undefined) {
+            this.LockedLevelData = [];
 
-        for (var x = 0; x <= this.numLevels; x++) {
-            this.LockedLevelData.push(0);
+            for (var x = 0; x < this.numLevels; x++) {
+                this.LockedLevelData.push(0);
+            }
+
+            this.LockedLevelData[0] = 1;
+            this.unlockLevel(1);
         }
-        this.LockedLevelData[0] = 1;
-        this.unlockLevel(1);
 
+        else {
+            for (var i=0; i<=this.clickedLevel; i++)
+                this.unlockLevel(i);
+        }
 
         // setup back button
         this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' });
@@ -228,6 +233,8 @@ class LevelSelect extends Phaser.Scene {
 
     update() {
         if (this.unlockNext) {
+            console.log(this.LockedLevelData);
+            console.log(this.clickedLevel + 1);
             this.unlockLevel(this.clickedLevel + 1);
             this.unlockNext = false;
         }
