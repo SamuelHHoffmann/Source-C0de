@@ -29,7 +29,7 @@ class RiftManager {
         scene.input.on('pointerdown', function () {
             if (scene.player.pickedUp != null) {
                 var angle = Phaser.Math.Angle.BetweenPoints(scene.player, scene.input);
-                scene.physics.velocityFromRotation(angle, 300, scene.player.pickedUp.body.velocity);
+                scene.physics.velocityFromRotation(angle, scene.player.throwStrength, scene.player.pickedUp.body.velocity);
                 scene.player.pickedUp.yeetCallback();
 
                 scene.player.carrying = false;

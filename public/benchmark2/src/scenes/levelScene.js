@@ -131,6 +131,7 @@ class LevelScene extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         this.player.carrying = false;
+        this.player.throwStrength = this.levelData.input.throwStrength;
 
         this.physics.add.collider(this.player, this.collision_layer);
 

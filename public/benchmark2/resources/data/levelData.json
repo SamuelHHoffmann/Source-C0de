@@ -73,8 +73,8 @@
             "name": "LEVEL 3 NAME",
             "desc": "LEVEL 3 DESC",
             "tileMapPath": "resources/tilemaps/level_3.json",
-            "startPositionX": 45,
-            "startPositionY": 50,
+            "startPositionX": 46,
+            "startPositionY": 75,
             "numRifts": 0,
             "rifts": [],
             "numRiftElements": 0,
@@ -113,11 +113,35 @@
             "tileMapPath": "resources/tilemaps/level_5.json",
             "startPositionX": 13,
             "startPositionY": 83,
-            "numRifts": 0,
-            "rifts": [],
-            "numRiftElements": 0,
+            "numRifts": 2,
+            "rifts": [
+                {
+                    "text": "Throw is ",
+                    "xPos": 600,
+                    "yPos": 60,
+                    "inputType": "str"
+                },
+                {
+                    "text": "Gravity is ",
+                    "xPos": 275,
+                    "yPos": 260,
+                    "inputType": "direction"
+                }
+            ],
+            "numRiftElements": 2,
             "riftElements": [
-                {}
+                {
+                    "xPos": 370,
+                    "yPos": 50,
+                    "text": "strong",
+                    "inputType": "str"
+                },
+                {
+                    "xPos": 450,
+                    "yPos": 50,
+                    "text": "down",
+                    "inputType": "direction"
+                }
             ]
         },
         {
@@ -256,6 +280,7 @@
         "jumpKey": "",
         "gravity": 300,
         "jumpHeight": -250,
-        "speed": 150
+        "speed": 150,
+        "throwStrength" : 300
     }
 }

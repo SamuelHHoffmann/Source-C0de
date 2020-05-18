@@ -59,6 +59,12 @@ class RiftActionManager {
             case "2121":
                 tempfn = () => RiftActionManager.fn2121();
                 return tempfn;
+            case "5151":
+                tempfn = () => RiftActionManager.fn5151();
+                return tempfn;
+            case "5252":
+                tempfn = () => RiftActionManager.fn5252();
+                return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
                 return tempfn;
@@ -74,6 +80,12 @@ class RiftActionManager {
                 return tempfn;
             case "2121":
                 tempfn = () => RiftActionManager.invfn2121();
+                return tempfn;
+            case "5151":
+                tempfn = () => RiftActionManager.invfn5151();
+                return tempfn;
+            case "5252":
+                tempfn = () => RiftActionManager.invfn5252();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -97,5 +109,21 @@ class RiftActionManager {
 
     static invfn2121() {
         RiftActionManager.scene.levelData.input.gravity = 300;
+    }
+
+    static fn5151() {
+        RiftActionManager.scene.levelData.input.throwStrength = 1000;
+    }
+
+    static invfn5151() {
+        RiftActionManager.scene.levelData.input.throwStrength = 300;
+    }
+
+    static fn5252() {
+        RiftActionManager.scene.levelData.input.gravity = 300;
+    }
+
+    static invfn5252() {
+        RiftActionManager.scene.levelData.input.gravity = -300;
     }
 }
