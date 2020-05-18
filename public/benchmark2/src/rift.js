@@ -22,12 +22,8 @@ class RiftManager {
         this.riftGraphics.setDepth(this.riftParticles.depth + 1);
 
         this.riftBackground = scene.add.image(400, 300, "maskedImg");
-        //this.riftGraphics.lineStyle(5, 0xff0000);
-        //this.riftGraphics.fillStyle(0xfafafa);
-        //this.riftGraphics.setDepth(100000);
 
-        scene.player.setDepth(this.riftGraphics.depth + 5);
-
+        scene.player.setDepth(this.riftGraphics.depth + 5); // may not be necessary
 
         /* allows for the throwing of objects */
         scene.input.on('pointerdown', function () {
@@ -90,10 +86,7 @@ class RiftManager {
     createNewRift(scene, x, y, codeText, acceptedType, id) {
         var rift = new Rift(scene, x, y, codeText, acceptedType, id);
 
-        //console.log(rift.riftPoly.geom.points)
-
-        // done here so we don't have to pass graphics/particles
-
+        // rift animations
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(rift.factor + 3, rift.riftPoly.geom.points.length),
             duration: function () {
@@ -120,6 +113,7 @@ class RiftManager {
             }
         });
 
+        // rift particles
         rift.riftEmitter = this.riftParticles.createEmitter({
             lifespan: 2000,
             speedY: { min: -20, max: 20 },
@@ -129,7 +123,6 @@ class RiftManager {
             emitZone: {
                 type: 'random',
                 source: rift.riftPoly.geom,
-                //quantity: 48
             },
             rotate: {
                 onEmit: function () {
@@ -161,7 +154,6 @@ class RiftManager {
         this.riftGraphics.fillStyle(0xfafafa);
 
         for (var rift of this.rifts) {
-            //this.riftGraphics.strokePath(rift.riftPoly.geom.points);
             this.riftGraphics.fillPoints(rift.riftPoly.geom.points, true);
         }
 
@@ -185,29 +177,6 @@ class RiftManager {
             }
         }
 
-        /* rifts reject blocks that aren't of the same type */
-
-        /*
-        var rzChildren = this.riftZones.getChildren();
-        if(rzChildren != null) {
-            for(let child of rzChildren) {
-                child.wiggledRZ = false;
-                if(child.currentBlock != null) {
-                    if(child.acceptedType != child.currentBlock.blockType) {
-                        if(child.wiggledRZ == false) {
-                            child.prevWiggle = child.currentBlock.wiggle(2);
-                            child.wiggledRZ = true;
-                        }
-                        else {
-                            child.currentBlock.x -= child.prevWiggle[0];
-                            child.currentBlock.y -= child.prevWiggle[1];
-                            wiggledRZ = false;
-                        }
-                    }
-                }
-            }
-        }*/
-
     }
 
 }
@@ -221,6 +190,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         this.id = id;
         this.scene = scene;
         this.pickupDelay = 0;
+        this.rejectDelay = 0;
 
         this.caughtInRift = false;
 
@@ -235,25 +205,27 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
     }
 
     overlapCallback(rift) {
-        if (this.caughtInRift == false) {
-            if (this.blockType == rift.acceptedType) {
-                this.body.setAllowGravity(false);
-                this.body.setVelocity(0, 0);
+        if (this.caughtInRift == false && this.rejectDelay < 0) {
+            this.body.setAllowGravity(false);
+            this.body.setVelocity(0, 0);
 
-                this.x = rift.x - (rift.width / 2);
-                this.y = rift.y - (rift.height / 2);
+            this.x = rift.x - (rift.width / 2);
+            this.y = rift.y - (rift.height / 2);
 
+            this.caughtInRift = true;
 
-
-                //rift.currentBlock = this;
-
+            if (this.blockType == rift.acceptedType) { // rift accepts
                 var callabckFn = RiftActionManager.getFunctionForID(rift.id, this.id);
                 RiftActionManager.idStack.push((rift.id + this.id));
                 callabckFn();
-
-                this.caughtInRift = true;
-
+            } else { // rift rejects
+                this.rejectDelay = 25;
+                this.body.setVelocity(Phaser.Math.Between(-200, 200), Phaser.Math.Between(-200, 200));
+                this.body.setAllowGravity(true);
+                this.caughtInRift = false;
             }
+        } else {
+            this.rejectDelay -= 1; 
         }
     }
 
@@ -276,24 +248,6 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
         this.pickupDelay = 20;
         this.body.setAllowGravity(true);
         this.caughtInRift = false;
-    }
-
-    wiggle(factor) {
-        var negative = Math.random() < 0.5 ? -1 : 1;
-        var randX = Math.floor(Math.random() * factor) * negative;
-        var randY = Math.floor(Math.random() * factor) * negative;
-
-        this.x = this.x + randX;
-        this.y = this.y + randY;
-
-        /*
-        if(randX == factor-1) {
-            this.body.setVelocity(Math.floor(Math.random()*50) + 20, 
-                                Math.floor(Math.random()*50) + 20);
-            this.yeetCallback();
-        }*/
-
-        return [randX, randY];
     }
 
     preUpdate() { }
@@ -379,14 +333,14 @@ class Rift {
 }
 
 class RiftZone extends Phaser.GameObjects.Zone {
-    /* Zone for capturing overlap events and dealing with them */
+    // Zone for capturing overlap events and dealing with them
     constructor(scene, x, y, width, height, acceptedType, id) {
         super(scene, x, y, width, height);
 
-        /* The type of block this rift accepts, e.g. 'int', 'float', 'string', ... */
+        // The type of block this rift accepts, e.g. 'int', 'float', 'string', ...
         this.acceptedType = acceptedType;
 
-        this.currentBlock;
+        //this.currentBlock;
 
         // ID indetifies the rift to know what action to choose from when connected with a input block
         this.id = id;
@@ -400,9 +354,13 @@ class RiftZone extends Phaser.GameObjects.Zone {
 
     overlapCallback(inputBlock) {
         if (this.acceptedType == inputBlock.blockType) {
-            if (inputBlock.caughtInRift == false) {
-                this.body.checkCollision.none = true;
-                this.currentBlock = inputBlock;
+            // accept the block!
+            if (inputBlock.caughtInRift == false && inputBlock.rejectDelay < 0) {
+                this.body.checkCollision.none = true; // disables from accepting multiples
+                //this.currentBlock = inputBlock;
+            }
+            else {
+                // reject the block!
             }
         }
     }
@@ -411,7 +369,7 @@ class RiftZone extends Phaser.GameObjects.Zone {
 }
 
 class RiftText extends Phaser.GameObjects.Text {
-    /* Basic text for the Rift */
+    // Basic text for the Rift 
     constructor(scene, x, y, text) {
         super(scene, x, y, text);
 
