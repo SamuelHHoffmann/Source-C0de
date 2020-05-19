@@ -43,7 +43,7 @@ class RiftActionManager {
         }
         for (var x = 0; x < this.restoreIDStack.length; x++) {
             var restoreID = this.restoreIDStack.pop();
-            restoreFunction = this.getFunctionForID(restoreID, "");
+            var restoreFunction = this.getFunctionForID(restoreID, "");
             restoreFunction();
             this.idStack.push(restoreID);
         }
@@ -58,6 +58,9 @@ class RiftActionManager {
                 return tempfn;
             case "2121":
                 tempfn = () => RiftActionManager.fn2121();
+                return tempfn;
+            case "4141":
+                tempfn = () => RiftActionManager.fn4141();
                 return tempfn;
             case "5151":
                 tempfn = () => RiftActionManager.fn5151();
@@ -146,6 +149,17 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.gravity = 300;
     }
 
+    // Level 3
+    // No rifts :(
+
+    // Level 4
+    static fn4141() {
+        //no inverse
+        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+    }
+
+
     // Level 5
 
     static fn5151() {
@@ -169,32 +183,30 @@ class RiftActionManager {
 
     // Level 7
 
-    static fn7172() {//
+    static fn7172() {
         RiftActionManager.scene.levelData.input.gravity = -300;
     }
 
-    static fn7174() {//
+    static fn7174() {
         RiftActionManager.scene.levelData.input.gravity = 300;
     }
 
-    static fn7271() {//
-        //appear platform
+    static fn7271() {
         //no inverse
         RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
         RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
     }
 
-    static fn7373() {//
-        //restart Level
+    static fn7373() {
         //no inverse
         RiftActionManager.scene.reDrawLayer = true;
     }
 
-    static fn7472() {//
+    static fn7472() {
         RiftActionManager.scene.levelData.input.gravity = -300;
     }
 
-    static fn7474() {//
+    static fn7474() {
         RiftActionManager.scene.levelData.input.gravity = 300;
     }
 

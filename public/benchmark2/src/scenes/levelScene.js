@@ -118,6 +118,8 @@ class LevelScene extends Phaser.Scene {
         this.ground_decorations_layer = this.map.createStaticLayer("ground_decorations", tileset, 0, 0).setDepth(20);
 
         this.collision_layer.setCollisionBetween(0, 5);
+        this.decoration_layer.setCollisionBetween(0, 5);
+        this.ground_decorations_layer.setCollisionBetween(0, 5);
 
         this.collision_layer.setTileIndexCallback(34, this.endLevel, this);
         this.collision_layer.setTileIndexCallback(35, this.endLevel, this);
@@ -292,7 +294,7 @@ class LevelScene extends Phaser.Scene {
         this.walkSound = this.sound.add('walkSound', { rate: 1.4 });
 
         this.puaseButton = this.add.image(25, 25, 'pauseImg')
-            .setDepth(3)
+            .setDepth(30)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => { this.scene.switch('PauseScene'); });
 
