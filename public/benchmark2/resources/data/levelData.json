@@ -163,7 +163,7 @@
             "tileMapPath": "resources/tilemaps/level_7.json",
             "startPositionX": 45,
             "startPositionY": 320,
-            "numRifts": 3,
+            "numRifts": 4,
             "rifts": [
                 {
                     "text": "Gravity is: ",
@@ -182,19 +182,25 @@
                     "xPos": 418,
                     "yPos": 57,
                     "inputType": "yn"
+                },
+                {
+                    "text": "Gravity is: ",
+                    "xPos": 605,
+                    "yPos": 246,
+                    "inputType": "direction"
                 }
             ],
-            "numRiftElements": 3,
+            "numRiftElements": 4,
             "riftElements": [
                 {
-                    "xPos": 423,
-                    "yPos": 517,
+                    "xPos": 359,
+                    "yPos": 471,
                     "text": "False",
                     "inputType": "bool"
                 },
                 {
-                    "xPos": 311,
-                    "yPos": 520,
+                    "xPos": 212,
+                    "yPos": 281,
                     "text": "Up",
                     "inputType": "direction"
                 },
@@ -203,6 +209,12 @@
                     "yPos": 63,
                     "text": "Yes",
                     "inputType": "yn"
+                },
+                {
+                    "xPos": 517,
+                    "yPos": 242,
+                    "text": "down",
+                    "inputType": "direction"
                 }
             ]
         },
@@ -281,6 +293,6 @@
         "gravity": 300,
         "jumpHeight": -250,
         "speed": 150,
-        "throwStrength" : 300
+        "throwStrength": 300
     }
 }

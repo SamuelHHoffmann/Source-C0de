@@ -215,6 +215,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
             this.caughtInRift = true;
 
             if (this.blockType == rift.acceptedType) { // rift accepts
+                this.setColor('black');
                 var callabckFn = RiftActionManager.getFunctionForID(rift.id, this.id);
                 RiftActionManager.idStack.push((rift.id + this.id));
                 callabckFn();
@@ -225,7 +226,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
                 this.caughtInRift = false;
             }
         } else {
-            this.rejectDelay -= 1; 
+            this.rejectDelay -= 1;
         }
     }
 
@@ -245,6 +246,7 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
     }
 
     yeetCallback() {
+        this.setColor('white');
         this.pickupDelay = 20;
         this.body.setAllowGravity(true);
         this.caughtInRift = false;

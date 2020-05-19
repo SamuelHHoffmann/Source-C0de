@@ -100,13 +100,17 @@ class LevelScene extends Phaser.Scene {
 
         const tileset = this.map.addTilesetImage("nort_platform_tiles-Sheet", "tiles");
 
+        this.tileset = tileset;
+
         // check if we need to destoy old values
         try {
             this.collision_layer.destroy();
             this.decoration_layer.destroy();
             this.ground_decorations_layer.destroy();
             this.player.destroy();
+            this.riftLayer.destroy();
         } catch{ }
+
 
         // setup collision for tilemap
         this.collision_layer = this.map.createStaticLayer("collision", tileset, 0, 0).setDepth(20);
