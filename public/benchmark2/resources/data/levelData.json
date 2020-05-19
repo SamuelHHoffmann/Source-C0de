@@ -150,11 +150,35 @@
             "tileMapPath": "resources/tilemaps/level_6.json",
             "startPositionX": 13,
             "startPositionY": 455,
-            "numRifts": 0,
-            "rifts": [],
-            "numRiftElements": 0,
+            "numRifts": 2,
+            "rifts": [
+                {
+                    "text": "Throw is ",
+                    "xPos": 325,
+                    "yPos": 250,
+                    "inputType": "str"
+                },
+                {
+                    "text": "Path is ",
+                    "xPos": 360,
+                    "yPos": 540,
+                    "inputType": "state"
+                }
+            ],
+            "numRiftElements": 2,
             "riftElements": [
-                {}
+                {
+                    "xPos": 415,
+                    "yPos": 350,
+                    "text": "weak",
+                    "inputType": "str"
+                },
+                {
+                    "xPos": 740,
+                    "yPos": 520,
+                    "text": "shown",
+                    "inputType": "state"
+                }
             ]
         },
         {

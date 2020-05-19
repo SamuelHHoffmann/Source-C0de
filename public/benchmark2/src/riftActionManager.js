@@ -68,6 +68,12 @@ class RiftActionManager {
             case "5252":
                 tempfn = () => RiftActionManager.fn5252();
                 return tempfn;
+            case "6161":
+                tempfn = () => RiftActionManager.fn6161();
+                return tempfn;
+            case "6262":
+                tempfn = () => RiftActionManager.fn6262();
+                return tempfn;
             case "7172":
                 tempfn = () => RiftActionManager.fn7172();
                 return tempfn;
@@ -107,6 +113,9 @@ class RiftActionManager {
                 return tempfn;
             case "5252":
                 tempfn = () => RiftActionManager.invfn5252();
+                return tempfn;
+            case "6161":
+                tempfn = () => RiftActionManager.invfn6161();
                 return tempfn;
             case "7172":
                 tempfn = () => RiftActionManager.invfn7172();
@@ -179,7 +188,19 @@ class RiftActionManager {
     }
 
     // Level 6
+    static fn6161() {
+        RiftActionManager.scene.levelData.input.throwStrength = 300;
+    }
 
+    static invfn6161() {
+        RiftActionManager.scene.levelData.input.throwStrength = 1000;
+    }
+
+    // no inverse
+    static fn6262() {
+        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+    }
 
     // Level 7
 

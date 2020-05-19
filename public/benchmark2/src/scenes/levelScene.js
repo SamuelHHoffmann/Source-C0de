@@ -318,6 +318,10 @@ class LevelScene extends Phaser.Scene {
         var leftKey = this.input.keyboard.addKey(this.levelData.input.leftKey);
         var jumpKey = this.input.keyboard.addKey(this.levelData.input.jumpKey);
 
+        // check to see if throw strength has changed
+        if (this.player.throwStrength != this.levelData.input.throwStrength)
+            this.player.throwStrength = this.levelData.input.throwStrength;
+
         // check to see if gravity changed
         if (this.physics.world.gravity.y != this.levelData.input.gravity)
             this.physics.world.gravity.y = this.levelData.input.gravity
