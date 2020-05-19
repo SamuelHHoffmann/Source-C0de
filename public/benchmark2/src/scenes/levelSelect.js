@@ -220,7 +220,7 @@ class LevelSelect extends Phaser.Scene {
         else {
             for (var i=0; i<this.LockedLevelData.length; i++)
                 if (this.LockedLevelData[i] == 1)
-                    this.unlockLevel(i);
+                    this.unlockLevel(i+1);
         }
 
         // setup back button
