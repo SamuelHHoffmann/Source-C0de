@@ -268,16 +268,40 @@
             ]
         },
         {
-            "name": "LEVEL 8 NAME",
-            "desc": "LEVEL 8 DESC",
+            "name": "LEVEL 9 NAME",
+            "desc": "LEVEL 9 DESC",
             "tileMapPath": "resources/tilemaps/level_9.json",
-            "startPositionX": 45,
-            "startPositionY": 50,
-            "numRifts": 0,
-            "rifts": [],
-            "numRiftElements": 0,
+            "startPositionX": 20,
+            "startPositionY": 530,
+            "numRifts": 2,
+            "rifts": [
+                {
+                    "text": "Crouch is ",
+                    "xPos": 230,
+                    "yPos": 400,
+                    "inputType": "str"
+                },
+                {
+                    "text": "Path shown and not slippery is ",
+                    "xPos": 480,
+                    "yPos": 500,
+                    "inputType": "bool"
+                }
+            ],
+            "numRiftElements": 2,
             "riftElements": [
-                {}
+                {
+                    "xPos": 400,
+                    "yPos": 450,
+                    "text": "S Key",
+                    "inputType": "str"
+                },
+                {
+                    "xPos": 320,
+                    "yPos": 550,
+                    "text": "true",
+                    "inputType": "bool"
+                }
             ]
         },
         {
@@ -322,7 +346,7 @@
     ],
     "input": {
         "upKey": "W",
-        "downKey": "S",
+        "downKey": "",
         "leftKey": "A",
         "rightKey": "D",
         "jumpKey": "",
