@@ -140,6 +140,8 @@ class LevelScene extends Phaser.Scene {
         this.player.throwStrength = this.levelData.input.throwStrength;
 
         this.physics.add.collider(this.player, this.collision_layer);
+        this.physics.add.collider(this.player, this.ground_decorations_layer);
+        this.physics.add.collider(this.player, this.decoration_layer);
 
         this.input.keyboard.clearCaptures();
 
