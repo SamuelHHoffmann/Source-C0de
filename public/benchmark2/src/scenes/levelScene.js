@@ -17,6 +17,9 @@ class LevelScene extends Phaser.Scene {
     collision_layer;
     decoration_layer;
     ground_decorations_layer;
+    invRift1Layer;
+    invRift2Layer;
+    riftLayer;
 
     // level properties from json
     levelData;
@@ -108,7 +111,16 @@ class LevelScene extends Phaser.Scene {
             this.decoration_layer.destroy();
             this.ground_decorations_layer.destroy();
             this.player.destroy();
+        } catch{ }
+
+        try {
             this.riftLayer.destroy();
+        } catch{ }
+        try {
+            this.invRift1Layer.destroy();
+        } catch{ }
+        try {
+            this.invRift2Layer.destroy();
         } catch{ }
 
 
