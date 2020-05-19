@@ -140,7 +140,7 @@ class LevelScene extends Phaser.Scene {
         var yPos = this.levelData.levels[this.levelNumber - 1].startPositionY;
 
         // initialize player position and add drag to player's physics body
-        this.player = this.physics.add.sprite(xPos, yPos, 'nort').setDragX(0.85).setDamping(true);
+        this.player = this.physics.add.sprite(xPos, yPos, 'nort').setDragX(this.levelData.input.drag).setDamping(true);
 
         // set player animation to IDLE upon loading into level
         this.player.anims.play('IDLE');
@@ -329,6 +329,9 @@ class LevelScene extends Phaser.Scene {
         var rightKey = this.input.keyboard.addKey(this.levelData.input.rightKey);
         var leftKey = this.input.keyboard.addKey(this.levelData.input.leftKey);
         var jumpKey = this.input.keyboard.addKey(this.levelData.input.jumpKey);
+
+        // make sure drag is updated
+        this.player.setDragX(this.levelData.input.drag);
 
         // check to see if throw strength has changed
         if (this.player.throwStrength != this.levelData.input.throwStrength)

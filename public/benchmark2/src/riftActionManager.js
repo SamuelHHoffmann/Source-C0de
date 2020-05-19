@@ -92,6 +92,9 @@ class RiftActionManager {
             case "7474":
                 tempfn = () => RiftActionManager.fn7474();
                 return tempfn;
+            case "8181":
+                tempfn = () => RiftActionManager.fn8181();
+                return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
                 return tempfn;
@@ -128,6 +131,9 @@ class RiftActionManager {
                 return tempfn;
             case "7474":
                 tempfn = () => RiftActionManager.invfn7474();
+                return tempfn;
+            case "8181":
+                tempfn = () => RiftActionManager.invfn8181();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -248,6 +254,16 @@ class RiftActionManager {
     }
 
     // Level 8
+    static fn8181() {
+        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
 
+        // change drag on player
+        RiftActionManager.scene.levelData.input.drag = 0.0;
+    }
+
+    static invfn8181() {
+        RiftActionManager.scene.levelData.input.drag = 0.85;
+    }
 
 }
