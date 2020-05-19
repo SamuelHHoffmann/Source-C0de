@@ -329,6 +329,7 @@ class LevelScene extends Phaser.Scene {
         var rightKey = this.input.keyboard.addKey(this.levelData.input.rightKey);
         var leftKey = this.input.keyboard.addKey(this.levelData.input.leftKey);
         var jumpKey = this.input.keyboard.addKey(this.levelData.input.jumpKey);
+        var crouchKey = this.input.keyboard.addKey(this.levelData.input.downKey);
 
         // make sure drag is updated
         this.player.setDragX(this.levelData.input.drag);
@@ -355,9 +356,15 @@ class LevelScene extends Phaser.Scene {
         }
         else if (jumpKey.isDown)
             this.jump();
+        else if (crouchKey.isDown)
+            this.crouch();
         else {
             this.idle();
         }
+
+        // check if we need to reset hit box
+        if (this.player.state != 'crouch')
+            this.player.body.setSize(this.player.frameWidth, this.player.frameHeight).setOffset(0, 0);
 
         this.riftManager.riftManagerUpdate(this.player);
     }
@@ -371,6 +378,12 @@ class LevelScene extends Phaser.Scene {
                 this.player.anims.play('IDLE', true);
             }
         }
+    }
+
+    crouch() {
+        this.player.state = "crouch";
+        this.player.anims.play('HIDDEN', false);
+        this.player.body.setSize(this.player.frameWidth, 25).setOffset(0, 40);
     }
 
     jump() {
