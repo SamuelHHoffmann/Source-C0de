@@ -95,6 +95,15 @@ class RiftActionManager {
             case "8181":
                 tempfn = () => RiftActionManager.fn8181();
                 return tempfn;
+            case "101101":
+                tempfn = () => RiftActionManager.fn101101();
+                return tempfn;
+            case "102102":
+                tempfn = () => RiftActionManager.fn102102();
+                return tempfn;
+            case "103104":
+                tempfn = () => RiftActionManager.fn103104();
+                return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
                 return tempfn;
@@ -264,6 +273,32 @@ class RiftActionManager {
 
     static invfn8181() {
         RiftActionManager.scene.levelData.input.drag = 0.85;
+    }
+
+
+
+
+    // Level 10
+
+    static fn101101() {
+        try {
+            RiftActionManager.scene.invRift1Layer.setAlpha(0);
+            RiftActionManager.scene.invRift1Layer.setCollisionBetween(0, 5, false, true);
+        } catch{ }
+    }
+
+    static fn102102() {
+        try {
+            RiftActionManager.scene.invRift2Layer.setAlpha(0);
+            RiftActionManager.scene.invRift2Layer.setCollisionBetween(0, 5, false, true);
+        } catch{ }
+    }
+
+    static fn103104() {
+        RiftActionManager.scene.invRift1Layer = RiftActionManager.scene.map.createDynamicLayer("invRift1", RiftActionManager.scene.tileset, 0, 0).setDepth(19).setCollisionBetween(0, 5);
+        RiftActionManager.scene.invRift1Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift1Layer);
+        RiftActionManager.scene.invRift2Layer = RiftActionManager.scene.map.createDynamicLayer("invRift2", RiftActionManager.scene.tileset, 0, 0).setDepth(19).setCollisionBetween(0, 5);
+        RiftActionManager.scene.invRift2Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift1Layer);
     }
 
 }

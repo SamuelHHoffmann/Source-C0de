@@ -251,10 +251,10 @@
             "numRifts": 1,
             "rifts": [
                 {
-                "text": "Ground slippery and way clear is ",
-                "xPos": 50,
-                "yPos": 450,
-                "inputType": "bool"
+                    "text": "Ground slippery and way clear is ",
+                    "xPos": 50,
+                    "yPos": 450,
+                    "inputType": "bool"
                 }
             ],
             "numRiftElements": 1,
@@ -286,11 +286,53 @@
             "tileMapPath": "resources/tilemaps/level_10.json",
             "startPositionX": 16,
             "startPositionY": 544,
-            "numRifts": 0,
-            "rifts": [],
-            "numRiftElements": 0,
+            "numRifts": 3,
+            "rifts": [
+                {
+                    "text": "Destory wall: ",
+                    "xPos": 289,
+                    "yPos": 294,
+                    "inputType": "bool"
+                },
+                {
+                    "text": "Magic wall off: ",
+                    "xPos": 488,
+                    "yPos": 530,
+                    "inputType": "bool"
+                },
+                {
+                    "text": "Turn On Wall: ",
+                    "xPos": 64,
+                    "yPos": 174,
+                    "inputType": "technic"
+                }
+            ],
+            "numRiftElements": 4,
             "riftElements": [
-                {}
+                {
+                    "xPos": 268,
+                    "yPos": 545,
+                    "text": "True",
+                    "inputType": "bool"
+                },
+                {
+                    "xPos": 411,
+                    "yPos": 195,
+                    "text": "True",
+                    "inputType": "bool"
+                },
+                {
+                    "xPos": 44,
+                    "yPos": 228,
+                    "text": "🏆",
+                    "inputType": "none"
+                },
+                {
+                    "xPos": 209,
+                    "yPos": 171,
+                    "text": "Yes",
+                    "inputType": "technic"
+                }
             ]
         },
         {

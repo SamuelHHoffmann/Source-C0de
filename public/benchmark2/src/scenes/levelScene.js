@@ -18,7 +18,9 @@ class LevelScene extends Phaser.Scene {
     decoration_layer;
     ground_decorations_layer;
     invRift1Layer;
+    invRift1Colider;
     invRift2Layer;
+    invRift2Colider;
     riftLayer;
 
     // level properties from json
