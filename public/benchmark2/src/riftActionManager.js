@@ -103,6 +103,7 @@ class RiftActionManager {
                 return tempfn;
             case "103104":
                 tempfn = () => RiftActionManager.fn103104();
+                return tempfn;
             case "9191":
                 tempfn = () => RiftActionManager.fn9191();
                 return tempfn;
