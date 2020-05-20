@@ -95,6 +95,7 @@ class RiftActionManager {
             case "8181":
                 tempfn = () => RiftActionManager.fn8181();
                 return tempfn;
+<<<<<<< HEAD
             case "101101":
                 tempfn = () => RiftActionManager.fn101101();
                 return tempfn;
@@ -103,6 +104,13 @@ class RiftActionManager {
                 return tempfn;
             case "103104":
                 tempfn = () => RiftActionManager.fn103104();
+=======
+            case "9191":
+                tempfn = () => RiftActionManager.fn9191();
+                return tempfn;
+            case "9292":
+                tempfn = () => RiftActionManager.fn9292();
+>>>>>>> f96c2130a74698b2445e8adf55f283d9517476b2
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -143,6 +151,12 @@ class RiftActionManager {
                 return tempfn;
             case "8181":
                 tempfn = () => RiftActionManager.invfn8181();
+                return tempfn;
+            case "9191":
+                tempfn = () => RiftActionManager.invfn9191();
+                return tempfn;
+            case "9292":
+                tempfn = () => RiftActionManager.invfn9292();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -275,7 +289,27 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.drag = 0.85;
     }
 
+    // Level 9
 
+    static fn9191() {
+        RiftActionManager.scene.levelData.input.downKey = "S";
+    }
+
+    static inv9191() {
+        RiftActionManager.scene.levelData.input.downKey = "";
+    }
+
+    static fn9292() {
+        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+
+        // change drag on player
+        RiftActionManager.scene.levelData.input.drag = 0.85;
+    }
+
+    static invfn9292() {
+        RiftActionManager.scene.levelData.input.drag = 0.0;
+    }
 
 
     // Level 10
@@ -300,5 +334,6 @@ class RiftActionManager {
         RiftActionManager.scene.invRift2Layer = RiftActionManager.scene.map.createDynamicLayer("invRift2", RiftActionManager.scene.tileset, 0, 0).setDepth(19).setCollisionBetween(0, 5);
         RiftActionManager.scene.invRift2Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift1Layer);
     }
+
 
 }
