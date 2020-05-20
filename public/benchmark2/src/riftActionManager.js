@@ -16,11 +16,17 @@ class RiftActionManager {
         var len = this.idStack.length;
         for (var x = 0; x < len; x++) {
             var id = "" + this.idStack.pop();
-            if (parseInt(id.charAt(0)) > levelNumber) {
+            var levelnum = 0;
+            if (id.length == 4) {
+                levelnum = parseInt(id.charAt(0));
+            } else {
+                levelnum = parseInt((id.charAt(0) + id.charAt(1)));
+            }
+            if (levelnum > levelNumber) {
                 var reverseFunction = this.getInverseFunctionForID(id, "");
                 reverseFunction();
                 this.restoreIDStack.push(id);
-            } else if (parseInt(id.charAt(0)) == levelNumber) {
+            } else if (levelnum == levelNumber) {
                 this.quitIDStack.push(id);
                 var reverseFunction = this.getInverseFunctionForID(id, "");
                 reverseFunction();
@@ -95,6 +101,12 @@ class RiftActionManager {
             case "8181":
                 tempfn = () => RiftActionManager.fn8181();
                 return tempfn;
+            case "9191":
+                tempfn = () => RiftActionManager.fn9191();
+                return tempfn;
+            case "9292":
+                tempfn = () => RiftActionManager.fn9292();
+                return tempfn;
             case "101101":
                 tempfn = () => RiftActionManager.fn101101();
                 return tempfn;
@@ -104,11 +116,8 @@ class RiftActionManager {
             case "103104":
                 tempfn = () => RiftActionManager.fn103104();
                 return tempfn;
-            case "9191":
-                tempfn = () => RiftActionManager.fn9191();
-                return tempfn;
-            case "9292":
-                tempfn = () => RiftActionManager.fn9292();
+            case "111111":
+                tempfn = () => RiftActionManager.fn111111();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -331,6 +340,15 @@ class RiftActionManager {
         RiftActionManager.scene.invRift1Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift1Layer);
         RiftActionManager.scene.invRift2Layer = RiftActionManager.scene.map.createDynamicLayer("invRift2", RiftActionManager.scene.tileset, 0, 0).setDepth(19).setCollisionBetween(0, 5);
         RiftActionManager.scene.invRift2Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift1Layer);
+    }
+
+    // Level 11
+
+    static fn111111() {
+        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+        RiftActionManager.scene.riftLayer.setTileIndexCallback(35, RiftActionManager.scene.endLevel, RiftActionManager.scene);
+        RiftActionManager.scene.riftLayer.setTileIndexCallback(36, RiftActionManager.scene.endLevel, RiftActionManager.scene);
+        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
     }
 
 

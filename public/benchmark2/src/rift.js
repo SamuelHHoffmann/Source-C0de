@@ -160,17 +160,21 @@ class RiftManager {
         if (player != null) {
             if (player.pickedUp != null) {
 
-                if (player.state == "idle" || player.state == "jump") {
+                if (player.state == "idle" || player.state == "jump" || player.pickedUp.id == "113") {
                     // above head
-                    player.pickedUp.x = player.x - player.width;
+                    // console.log(player.x);
+                    // console.log(player.y);
+                    // console.log(player.width, player.height);
+                    // console.log(player.pickedUp.width, player.pickedUp.height);
+                    player.pickedUp.x = player.x - (player.pickedUp.width / 2);
                     player.pickedUp.y = player.y - (player.height / 2) - (player.pickedUp.height / 4);
                 } else if (player.state == "left") {
                     // left
-                    player.pickedUp.x = player.x - player.width * 2;
+                    player.pickedUp.x = player.x - (player.width / 2) - (player.pickedUp.width);
                     player.pickedUp.y = player.y - 10;
                 } else if (player.state == "right") {
                     // right
-                    player.pickedUp.x = player.x + player.width - 15;
+                    player.pickedUp.x = player.x + (player.width / 2);
                     player.pickedUp.y = player.y - 10;
 
                 }

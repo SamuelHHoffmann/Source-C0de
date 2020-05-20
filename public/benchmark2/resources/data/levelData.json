@@ -365,11 +365,35 @@
             "tileMapPath": "resources/tilemaps/level_11.json",
             "startPositionX": 16,
             "startPositionY": 96,
-            "numRifts": 0,
-            "rifts": [],
-            "numRiftElements": 0,
+            "numRifts": 1,
+            "rifts": [
+                {
+                    "text": "Door is hidden: ",
+                    "xPos": 121,
+                    "yPos": 75,
+                    "inputType": "bool"
+                }
+            ],
+            "numRiftElements": 3,
             "riftElements": [
-                {}
+                {
+                    "xPos": 532,
+                    "yPos": 63,
+                    "text": "False",
+                    "inputType": "bool"
+                },
+                {
+                    "xPos": 361,
+                    "yPos": 554,
+                    "text": "True",
+                    "inputType": "none"
+                },
+                {
+                    "xPos": 667,
+                    "yPos": 542,
+                    "text": "👑",
+                    "inputType": "none"
+                }
             ]
         },
         {
