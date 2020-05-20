@@ -384,6 +384,7 @@ class LevelScene extends Phaser.Scene {
 
     crouch() {
         this.player.state = "crouch";
+
         this.player.anims.play('HIDDEN', false);
         this.player.body.setSize(this.player.frameWidth, 25).setOffset(0, 40);
     }
@@ -446,4 +447,5 @@ class LevelScene extends Phaser.Scene {
         if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
             this.jump();
     }
+
 }

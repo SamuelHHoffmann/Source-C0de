@@ -302,7 +302,7 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.downKey = "S";
     }
 
-    static inv9191() {
+    static invfn9191() {
         RiftActionManager.scene.levelData.input.downKey = "";
     }
 
