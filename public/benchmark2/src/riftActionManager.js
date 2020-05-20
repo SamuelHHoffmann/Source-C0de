@@ -95,7 +95,6 @@ class RiftActionManager {
             case "8181":
                 tempfn = () => RiftActionManager.fn8181();
                 return tempfn;
-<<<<<<< HEAD
             case "101101":
                 tempfn = () => RiftActionManager.fn101101();
                 return tempfn;
@@ -104,13 +103,11 @@ class RiftActionManager {
                 return tempfn;
             case "103104":
                 tempfn = () => RiftActionManager.fn103104();
-=======
             case "9191":
                 tempfn = () => RiftActionManager.fn9191();
                 return tempfn;
             case "9292":
                 tempfn = () => RiftActionManager.fn9292();
->>>>>>> f96c2130a74698b2445e8adf55f283d9517476b2
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
