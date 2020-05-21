@@ -285,34 +285,46 @@
             "tileMapPath": "resources/tilemaps/level_9.json",
             "startPositionX": 20,
             "startPositionY": 530,
-            "numRifts": 2,
+            "numRifts": 3,
             "rifts": [
                 {
-                    "text": "Crouch is ",
-                    "xPos": 230,
-                    "yPos": 400,
+                    "text": "Crouch is: ",
+                    "xPos": 175,
+                    "yPos": 406,
                     "inputType": "str"
                 },
                 {
-                    "text": "Path shown and not slippery is ",
+                    "text": "Path shown: ",
                     "xPos": 480,
                     "yPos": 500,
                     "inputType": "bool"
+                },
+                {
+                    "text": "Floor slippery: ",
+                    "xPos": 366,
+                    "yPos": 245,
+                    "inputType": "bool1"
                 }
             ],
-            "numRiftElements": 2,
+            "numRiftElements": 3,
             "riftElements": [
                 {
-                    "xPos": 400,
-                    "yPos": 450,
+                    "xPos": 111,
+                    "yPos": 514,
                     "text": "S Key",
                     "inputType": "str"
                 },
                 {
                     "xPos": 320,
                     "yPos": 550,
-                    "text": "true",
+                    "text": "True",
                     "inputType": "bool"
+                },
+                {
+                    "xPos": 519,
+                    "yPos": 547,
+                    "text": "False",
+                    "inputType": "bool1"
                 }
             ]
         },
