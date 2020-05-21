@@ -1,5 +1,5 @@
 {
-    "levelCount": 12,
+    "levelCount": 13,
     "levels": [
         {
             "name": "Welcome to the Source C0de",
@@ -7,6 +7,7 @@
             "tileMapPath": "resources/tilemaps/level_1.json",
             "startPositionX": 16,
             "startPositionY": 352,
+            "boss": false,
             "numRifts": 5,
             "rifts": [
                 {
@@ -56,6 +57,7 @@
             "tileMapPath": "resources/tilemaps/level_2.json",
             "startPositionX": 16,
             "startPositionY": 352,
+            "boss": false,
             "numRifts": 1,
             "rifts": [
                 {
@@ -81,6 +83,7 @@
             "tileMapPath": "resources/tilemaps/level_3.json",
             "startPositionX": 46,
             "startPositionY": 75,
+            "boss": false,
             "numRifts": 0,
             "rifts": [],
             "numRiftElements": 0,
@@ -94,6 +97,7 @@
             "tileMapPath": "resources/tilemaps/level_4.json",
             "startPositionX": 44,
             "startPositionY": 505,
+            "boss": false,
             "numRifts": 1,
             "rifts": [
                 {
@@ -119,6 +123,7 @@
             "tileMapPath": "resources/tilemaps/level_5.json",
             "startPositionX": 45,
             "startPositionY": 83,
+            "boss": false,
             "numRifts": 2,
             "rifts": [
                 {
@@ -156,6 +161,7 @@
             "tileMapPath": "resources/tilemaps/level_6.json",
             "startPositionX": 13,
             "startPositionY": 455,
+            "boss": false,
             "numRifts": 2,
             "rifts": [
                 {
@@ -193,6 +199,7 @@
             "tileMapPath": "resources/tilemaps/level_7.json",
             "startPositionX": 45,
             "startPositionY": 320,
+            "boss": false,
             "numRifts": 4,
             "rifts": [
                 {
@@ -254,6 +261,7 @@
             "tileMapPath": "resources/tilemaps/level_8.json",
             "startPositionX": 745,
             "startPositionY": 416,
+            "boss": false,
             "numRifts": 2,
             "rifts": [
                 {
@@ -334,6 +342,7 @@
             "tileMapPath": "resources/tilemaps/level_10.json",
             "startPositionX": 16,
             "startPositionY": 544,
+            "boss": false,
             "numRifts": 3,
             "rifts": [
                 {
@@ -389,6 +398,7 @@
             "tileMapPath": "resources/tilemaps/level_11.json",
             "startPositionX": 16,
             "startPositionY": 96,
+            "boss": false,
             "numRifts": 1,
             "rifts": [
                 {
@@ -426,6 +436,19 @@
             "tileMapPath": "resources/tilemaps/level_12.json",
             "startPositionX": 401,
             "startPositionY": 64,
+            "boss": false,
+            "numRifts": 0,
+            "rifts": [],
+            "numRiftElements": 0,
+            "riftElements": []
+        },
+        {
+            "name": "Boss testing",
+            "desc": "Oh lawd he comin",
+            "tileMapPath": "resources/tilemaps/boss_testing.json",
+            "startPositionX": 401,
+            "startPositionY": 64,
+            "boss": true,
             "numRifts": 0,
             "rifts": [],
             "numRiftElements": 0,

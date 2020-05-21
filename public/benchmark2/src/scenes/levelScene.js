@@ -12,6 +12,9 @@ class LevelScene extends Phaser.Scene {
     player;
     playerInAir;
 
+    // boss info
+    boss;
+
     // map and tileset info
     map;
     collision_layer;
@@ -171,6 +174,15 @@ class LevelScene extends Phaser.Scene {
         if (this.riftManager != undefined) {
             this.riftManager.riftManagerLevelLoad(this);
             this.setupRifts();
+        }
+
+
+        // setup boss
+
+        if(this.levelData.levels[this.levelNumber - 1].boss) {
+            this.boss = new Boss();
+            this.boss.bossSpawnBody(this, 100, 100, 20);
+            this.boss.behavior = BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS;
         }
     }
 
@@ -432,6 +444,11 @@ class LevelScene extends Phaser.Scene {
             this.player.body.setSize(this.player.frameWidth, this.player.frameHeight).setOffset(0, 0);
 
         this.riftManager.riftManagerUpdate(this.player);
+
+
+        if(this.boss != undefined && this.boss != null) {
+            this.boss.bossUpdate(this);
+        }
     }
 
     idle() {
