@@ -150,7 +150,10 @@ class LevelSelect extends Phaser.Scene {
             .setFontSize(36)
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
-            .on('pointerdown', () => this.startClickHandler())
+            .on('pointerdown', () => this.startClickHandler());
+
+        this.title.on('pointerover', this.makeHandler(this.title, (x) => this.buttonHovered(x)))
+            .on('pointerout', this.makeHandler(this.title, (x) => this.buttonHoverExit(x)))
             .setAlpha(0);
 
         this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
