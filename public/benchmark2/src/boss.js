@@ -9,6 +9,13 @@ class BossPoint extends Phaser.Geom.Point {
     }
 }
 
+class Watchtower {
+    constructor() {
+        this.tower = null;
+        this.spotlights = null;
+    }
+}
+
 class BossBoss {
     // not another manager...
     // bosses the boss around
@@ -39,10 +46,16 @@ class Boss {
         this.behavior = null;
         this.navigating = false;
         this.navPoints = null;
+
+        // effects stuff?
+        this.particles = null;
+        this.well = null;
     }
 
     bossSpawnBody(scene, x, y, segments) {
+        this.behaviorEnterScene(scene, x, y);
         // we might not want the boss to spawn immediately
+        console.log("Spawning?");
         this.boss = [scene.physics.add.sprite(x, y, "boss")];
         this.head = this.boss[0];
         //scene.sys.arcadePhysics.world.enableBody(this.head, scene.physics.DYNAMIC_BODY);
@@ -66,6 +79,17 @@ class Boss {
         for(var i = 0; i < this.boss.length * this.moveDistance; i++) {
             this.movePoints.push(new BossPoint(x, y, 0));
         }
+
+        this.well = this.particles.createGravityWell({
+            x: x,
+            y: y,
+            power: 10,
+            epsilon: 100,
+            gravity: 10,
+        });
+        this.well.active = false;
+
+        this.bossChainEffect(1000);
     }
 
     bossTearDown() {
@@ -80,6 +104,7 @@ class Boss {
         switch(this.behavior) {
 
             case BossBehaviors.ENTER_SCENE:
+                
                 break;
 
             case BossBehaviors.EXIT_SCENE:
@@ -96,6 +121,50 @@ class Boss {
             default:
                 break;  
         }
+    }
+
+    /*
+    bossLoseArmor(scene) {
+        this.head.anims.play("BOSS_HEAD_ARMOR_SHATTER");
+    
+        for(var i = 1; i < this.boss.length; i++) {
+            scene.time.delayedCall(2000, this.segmentLoseArmor, [this.boss[i]]);
+        }
+
+        this.head.anims.play("BOSS_HEAD_BARE_IDLE");
+
+        for(var i = 1; i< this.boss.length; i++) {
+            this.boss[i].anims.play("BOSS_BODY_BARE_IDLE");
+        }
+    }
+
+    segmentLoseArmor(segment) {
+        console.log(segment);
+        segment.anims.play("BOSS_BODY_ARMOR_SHATTER");
+    }*/
+
+    bossChainEffect(delay) {
+        for(var i = 0; i<this.boss.length; i++) {
+            this.segmentLoseArmor(this.boss[i], delay += 500, this.boss);
+        }
+    }
+
+    segmentLoseArmor(segment, delay, boss) {
+        setTimeout(function() {
+            if(segment == boss[0]) {
+                segment.anims.play("BOSS_HEAD_ARMOR_SHATTER");
+            } else {
+                segment.anims.play("BOSS_BODY_ARMOR_SHATTER");
+            }
+        }, delay);
+
+        segment.on('animationcomplete', function () {
+            if(segment == boss[0]) {
+                segment.anims.play("BOSS_HEAD_BARE_IDLE");
+            } else {
+                segment.anims.play("BOSS_BODY_BARE_IDLE");
+            }
+        });
     }
 
     // ===== //\ BOSS MOVEMENT \// ===== //
@@ -139,8 +208,6 @@ class Boss {
         return false;
     }
 
-
-
     // ===== //\ UPDATE \// ===== //
 
     bossUpdate(scene) {
@@ -151,11 +218,19 @@ class Boss {
 
     // ===== //\ BOSS BEHAVIORS \// ===== //
 
+    behaviorEnterScene() {
+
+    }
+
     behaviorNavBetweenRandomPoints(scene) {
         this.bossNavigatePoints(scene, true);
     }
     
     behaviorNavBetweenSetPoints(scene) {
+        if(this.navPoints == null) {
+            this.generateRandomNavCoords(scene, 6, true, 100);
+        }
+
         this.bossNavigatePoints(scene, false);
     }
 
@@ -199,7 +274,7 @@ class Boss {
 
     bossNavigatePoints(scene, random) {
         if (this.navPoints == null) {
-            this.generateRandomNavCoords(scene, 4, true, 100);
+            this.generateRandomNavCoords(scene, 6, true, 100);
         }
 
         this.navigating = this.bossNearPoint(this.navPoints[0].x, this.navPoints[0].y);
