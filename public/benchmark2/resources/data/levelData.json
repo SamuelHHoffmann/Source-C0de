@@ -7,7 +7,7 @@
             "tileMapPath": "resources/tilemaps/level_1.json",
             "startPositionX": 16,
             "startPositionY": 352,
-            "numRifts": 4,
+            "numRifts": 5,
             "rifts": [
                 {
                     "text": "To jump press: ",
@@ -16,9 +16,15 @@
                     "inputType": "str"
                 },
                 {
-                    "text": "Click to throw blocks",
+                    "text": "Pickup words by walking over them",
                     "xPos": 112,
-                    "yPos": 115,
+                    "yPos": 135,
+                    "inputType": "none"
+                },
+                {
+                    "text": "Words can be throw in the direction you click",
+                    "xPos": 112,
+                    "yPos": 195,
                     "inputType": "none"
                 },
                 {
