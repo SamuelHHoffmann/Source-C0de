@@ -346,9 +346,9 @@ class LevelScene extends Phaser.Scene {
 
         // check if gravity was reversed
         if (this.physics.world.gravity.y < 0)
-            this.player.body.rotation = -180
+            this.player.flipY = true;
         else
-            this.player.body.rotation = 0
+            this.player.flipY = false;
 
         if (rightKey.isDown) {
             this.walkRight();
