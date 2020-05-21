@@ -378,12 +378,11 @@ class LevelScene extends Phaser.Scene {
 
     update() {
         if (this.reDrawLayer) { this.setUpMap(); }
-        if (this.physics.world.gravity.y > 0)
-            if (this.player.body.onFloor())
-                this.playerInAir = false;
-        else
-            if (this.player.body.onCeiling())
-                this.playerInAir = false;
+        if ((this.player.body.onFloor() && this.physics.world.gravity.y > 0) || 
+            (this.player.body.onCeiling() && this.physics.world.gravity.y < 0))
+            this.playerInAir = false;
+
+        console.log(this.playerInAir);
 
         if (this.input.keyboard.addKey('P').isDown) {
             // this.levelData.input.jumpHeight = -300;
