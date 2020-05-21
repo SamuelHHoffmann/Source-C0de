@@ -166,8 +166,14 @@ class RiftManager {
                     player.pickedUp.y = player.y + (player.pickedUp.height / 4);
                 } else if (player.state == "idle" || player.state == "jump" || player.pickedUp.id == "113") {
                     // above head
-                    player.pickedUp.x = player.x - (player.pickedUp.width / 2);
-                    player.pickedUp.y = player.y - (player.height / 2) - (player.pickedUp.height / 4);
+                    if (player.gravity < 0) {
+                        player.pickedUp.x = player.x - (player.pickedUp.width / 2);
+                        player.pickedUp.y = player.y + (player.height / 2) - (player.pickedUp.height / 4);
+                    }
+                    else {
+                        player.pickedUp.x = player.x - (player.pickedUp.width / 2);
+                        player.pickedUp.y = player.y - (player.height / 2) - (player.pickedUp.height / 4);
+                    }
                 } else if (player.state == "left") {
                     // left
                     player.pickedUp.x = player.x - (player.width / 2) - (player.pickedUp.width);

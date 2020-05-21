@@ -152,6 +152,7 @@ class LevelScene extends Phaser.Scene {
 
         this.player.carrying = false;
         this.player.throwStrength = this.levelData.input.throwStrength;
+        this.player.gravity = this.physics.world.gravity.y;
 
         this.physics.add.collider(this.player, this.collision_layer);
         this.physics.add.collider(this.player, this.ground_decorations_layer);
@@ -341,8 +342,10 @@ class LevelScene extends Phaser.Scene {
             this.player.throwStrength = this.levelData.input.throwStrength;
 
         // check to see if gravity changed
-        if (this.physics.world.gravity.y != this.levelData.input.gravity)
-            this.physics.world.gravity.y = this.levelData.input.gravity
+        if (this.physics.world.gravity.y != this.levelData.input.gravity) {
+            this.physics.world.gravity.y = this.levelData.input.gravity;
+            this.player.gravity = this.levelData.input.gravity;
+        }
 
         // check if gravity was reversed
         if (this.physics.world.gravity.y < 0)
