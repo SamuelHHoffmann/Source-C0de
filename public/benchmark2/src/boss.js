@@ -68,6 +68,12 @@ class Boss {
         }
     }
 
+    bossTearDown() {
+        for(var i = 0; i<this.boss.length; i++) {
+            this.boss[i].destroy();
+        }
+    }
+
 
     bossDelegateBehavior(scene) {
         // manages behaviors, called on update.

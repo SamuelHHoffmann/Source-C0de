@@ -179,11 +179,17 @@ class LevelScene extends Phaser.Scene {
 
         // setup boss
 
+        if(this.boss != undefined || this.boss != null) {
+            this.boss.bossTearDown();
+            this.boss = null;
+        }
+
         if(this.levelData.levels[this.levelNumber - 1].boss) {
             this.boss = new Boss();
             this.boss.bossSpawnBody(this, 100, 100, 20);
             this.boss.behavior = BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS;
         }
+
     }
 
 
