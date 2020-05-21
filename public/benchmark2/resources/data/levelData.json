@@ -124,7 +124,7 @@
                 {
                     "text": "Gravity is ",
                     "xPos": 275,
-                    "yPos": 260,
+                    "yPos": 380,
                     "inputType": "direction"
                 }
             ],
