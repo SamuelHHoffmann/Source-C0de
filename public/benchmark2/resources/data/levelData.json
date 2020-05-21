@@ -111,7 +111,7 @@
             "name": "LEVEL 5 NAME",
             "desc": "LEVEL 5 DESC",
             "tileMapPath": "resources/tilemaps/level_5.json",
-            "startPositionX": 13,
+            "startPositionX": 45,
             "startPositionY": 83,
             "numRifts": 2,
             "rifts": [
