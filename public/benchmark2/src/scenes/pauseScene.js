@@ -3,7 +3,7 @@
 class PauseScene extends Phaser.Scene {
     // variables for buttons
     resumeButton;
-    mainMenuButton;
+    levelSelectButton;
     volumeButton;
     restartButton;
 
@@ -114,12 +114,12 @@ class PauseScene extends Phaser.Scene {
             .setDepth(1);
 
         // set up main menu button
-        this.mainMenuButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + this.spaceOff, "MAIN MENU", { fill: '#ffffff' })
+        this.levelSelectButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 4) - (this.cameras.main.height / 8) - this.topOff + this.spaceOff, "LEVEL SELECT", { fill: '#ffffff' })
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.mainMenuClickHandler())
-            .on('pointerover', () => this.buttonHovered(this.mainMenuButton))
-            .on('pointerout', () => this.buttonHoverExit(this.mainMenuButton))
+            .on('pointerover', () => this.buttonHovered(this.levelSelectButton))
+            .on('pointerout', () => this.buttonHoverExit(this.levelSelectButton))
             .setDepth(1);
 
         // set up main menu button
