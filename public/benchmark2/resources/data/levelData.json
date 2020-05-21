@@ -252,22 +252,28 @@
             "name": "LEVEL 8 NAME",
             "desc": "LEVEL 8 DESC",
             "tileMapPath": "resources/tilemaps/level_8.json",
-            "startPositionX": 760,
-            "startPositionY": 400,
-            "numRifts": 1,
+            "startPositionX": 745,
+            "startPositionY": 416,
+            "numRifts": 2,
             "rifts": [
                 {
                     "text": "Ground slippery and way clear is ",
-                    "xPos": 50,
-                    "yPos": 450,
+                    "xPos": 141,
+                    "yPos": 338,
                     "inputType": "bool"
+                },
+                {
+                    "text": "                       ",
+                    "xPos": 229,
+                    "yPos": 166,
+                    "inputType": "none"
                 }
             ],
             "numRiftElements": 1,
             "riftElements": [
                 {
-                    "xPos": 490,
-                    "yPos": 400,
+                    "xPos": 250,
+                    "yPos": 486,
                     "text": "true",
                     "inputType": "bool"
                 }
