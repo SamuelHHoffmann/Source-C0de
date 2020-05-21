@@ -263,7 +263,7 @@ class LevelScene extends Phaser.Scene {
 
         config = {
             key: 'JUMP_CARRY',
-            frames: this.anims.generateFrameNumbers('nort', { start: 27, end: 28, first: 27 }),
+            frames: this.anims.generateFrameNumbers('nort', { start: 25, end: 25, first: 25 }),
             frameRate: 5
         };
 
@@ -375,12 +375,23 @@ class LevelScene extends Phaser.Scene {
     }
 
     idle() {
-        this.player.state = "idle"
+        this.player.state = "idle";
+
+        // if not in air
         if (!this.playerInAir) {
             if (this.player.carrying) {
                 this.player.anims.play('IDLE_CARRY', true);
             } else {
                 this.player.anims.play('IDLE', true);
+            }
+        }
+        // if in air
+        else {
+            if (this.player.carrying) {
+                this.player.anims.play('JUMP_CARRY', true);
+
+            } else {
+                this.player.anims.play('JUMP', true);
             }
         }
     }
@@ -402,7 +413,7 @@ class LevelScene extends Phaser.Scene {
                 this.player.setVelocityY(-this.levelData.input.jumpHeight);
             this.playerInAir = true;
             if (this.player.carrying) {
-                this.player.anims.play('JfUMP_CARRY', true);
+                this.player.anims.play('JUMP_CARRY', true);
 
             } else {
                 this.player.anims.play('JUMP', true);
@@ -414,11 +425,15 @@ class LevelScene extends Phaser.Scene {
     }
 
     walkLeft() {
+        // check if jumping
+        if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
+            this.jump();
+
         this.player.state = "left"
+
         this.player.setVelocityX(-1 * this.levelData.input.speed);
         if (this.player.carrying) {
             this.player.anims.play('WALK_LEFT_CARRY', true);
-
         } else {
             this.player.anims.play('WALK_LEFT', true);
         }
@@ -426,18 +441,18 @@ class LevelScene extends Phaser.Scene {
         // play walk sound
         if (!this.walkSound.isPlaying && !this.playerInAir)
             this.walkSound.play();
-
-        // check if jumping
-        if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
-            this.jump();
     }
 
     walkRight() {
+        // check if jumping
+        if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
+            this.jump();
+
         this.player.state = "right"
+
         this.player.setVelocityX(this.levelData.input.speed);
         if (this.player.carrying) {
             this.player.anims.play('WALK_RIGHT_CARRY', true);
-
         } else {
             this.player.anims.play('WALK_RIGHT', true);
         }
@@ -445,10 +460,6 @@ class LevelScene extends Phaser.Scene {
         // play walk sound
         if (!this.walkSound.isPlaying && !this.playerInAir)
             this.walkSound.play();
-
-        // check if jumping
-        if (this.input.keyboard.addKey(this.levelData.input.jumpKey).isDown)
-            this.jump();
     }
 
 }
