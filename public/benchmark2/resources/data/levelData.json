@@ -180,8 +180,8 @@
                     "inputType": "str"
                 },
                 {
-                    "xPos": 740,
-                    "yPos": 520,
+                    "xPos": 597,
+                    "yPos": 451,
                     "text": "shown",
                     "inputType": "state"
                 }
