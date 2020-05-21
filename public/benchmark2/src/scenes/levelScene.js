@@ -88,6 +88,8 @@ class LevelScene extends Phaser.Scene {
 
         this.load.spritesheet('nort', "resources/spriteSheets/nort.png", { frameWidth: 32, frameHeight: 64 });
 
+        this.load.spritesheet('boss', 'resources/spriteSheets/BossSprite-Sheet.png', { frameWidth: 32, frameHeight: 32 });
+
         this.load.audio('jumpSound', 'resources/audio/soundEffects/jump.wav');
         this.load.audio('walkSound', 'resources/audio/soundEffects/walk.wav');
     }
@@ -297,6 +299,60 @@ class LevelScene extends Phaser.Scene {
             key: 'HIDDEN',
             frames: this.anims.generateFrameNumbers('nort', { start: 40, end: 40, first: 40 }),
             frameRate: 1,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        // boss anims
+
+        config = {
+            key: 'BOSS_HEAD_ARMOR_IDLE',
+            frames: this.anims.generateFrameNumbers('boss', { start: 1, end: 10, first:  1}),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'BOSS_HEAD_ARMOR_SHATTER',
+            frames: this.anims.generateFrameNumbers('boss', { start: 11, end: 17, first:  11}),
+            frameRate: 10,
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'BOSS_HEAD_BARE_IDLE',
+            frames: this.anims.generateFrameNumbers('boss', { start: 18, end: 30, first:  18}),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'BOSS_BODY_ARMOR_IDLE',
+            frames: this.anims.generateFrameNumbers('boss', { start: 31, end: 31, first:  31}),
+            frameRate: 1,
+            repeat: -1
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'BOSS_BODY_ARMOR_SHATTER',
+            frames: this.anims.generateFrameNumbers('boss', { start: 32, end: 37, first:  32}),
+            frameRate: 10,
+        };
+
+        this.anims.create(config);
+
+        config = {
+            key: 'BOSS_BODY_BARE_IDLE',
+            frames: this.anims.generateFrameNumbers('boss', { start: 38, end: 48, first:  38}),
+            frameRate: 10,
             repeat: -1
         };
 
