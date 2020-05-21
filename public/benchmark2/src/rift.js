@@ -144,7 +144,7 @@ class RiftManager {
     createNewRiftInput(scene, x, y, inputText, inputType, id) {
         var riftInput = new RiftInputBlock(scene, x, y, inputText, inputType, id);
         riftInput.setDepth(this.riftGraphics.depth + 1);
-        riftInput.setColor('white');
+        riftInput.setColor('#37a8df');
 
         this.riftInputBlocks.add(riftInput);
     }
@@ -249,14 +249,14 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
             this.body.setAllowGravity(false);
             this.body.setVelocity(0, 0);
 
-            this.setColor('black');
+            this.setColor('#37a8df');
 
             this.caughtInRift = true;
         }
     }
 
     yeetCallback() {
-        this.setColor('white');
+        this.setColor('#37a8df');
         this.pickupDelay = 20;
         this.body.setAllowGravity(true);
         this.caughtInRift = false;
