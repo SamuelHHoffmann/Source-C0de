@@ -147,7 +147,7 @@ class LevelSelect extends Phaser.Scene {
 
         // setup About title
         this.title = this.add.text(cameraCenterX, this.topOff, "start", { fill: '#ffffff', boundsAlignV: 'middle' })
-            .setFontSize(36)
+            .setFontSize(48)
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => this.startClickHandler());
@@ -208,7 +208,7 @@ class LevelSelect extends Phaser.Scene {
             x -= (amountPerRow) * (this.cameras.main.width / 8);
             y += (this.cameras.main.height / 8);
         }
-        
+
         if (this.LockedLevelData == undefined) {
             this.LockedLevelData = [];
 
@@ -221,9 +221,9 @@ class LevelSelect extends Phaser.Scene {
         }
 
         else {
-            for (var i=0; i<this.LockedLevelData.length; i++)
+            for (var i = 0; i < this.LockedLevelData.length; i++)
                 if (this.LockedLevelData[i] == 1)
-                    this.unlockLevel(i+1);
+                    this.unlockLevel(i + 1);
         }
 
         // setup back button
