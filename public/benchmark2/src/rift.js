@@ -219,15 +219,15 @@ class RiftInputBlock extends Phaser.GameObjects.Text {
             this.body.setAllowGravity(false);
             this.body.setVelocity(0, 0);
 
-            this.x = rift.x - (rift.width / 2);
-            this.y = rift.y - (rift.height / 2);
-
             this.caughtInRift = true;
 
             if (this.blockType == rift.acceptedType) { // rift accepts
                 this.setColor('black');
                 var callabckFn = RiftActionManager.getFunctionForID(rift.id, this.id);
                 RiftActionManager.idStack.push((rift.id + this.id));
+
+                this.body.x = rift.x - (rift.body.width / 2);
+                this.body.y = rift.y - (rift.body.height / 2);
                 callabckFn();
             } else { // rift rejects
                 this.rejectDelay = 25;
