@@ -107,7 +107,7 @@ class Console extends Phaser.Scene {
     }
 
     changeGravity(val) {
-        this.scene.manager.getScene('LevelScene').physics.world.gravity = new Phaser.Math.Vector2(0, val);
+        this.scene.manager.getScene('LevelScene').levelData.input.gravity = val;
     }
 
     setDebugMode() {
