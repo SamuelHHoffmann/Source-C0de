@@ -98,6 +98,8 @@ class Boss {
         for(var i = 0; i < this.boss.length * this.moveDistance; i++) {
             this.movePoints.push(new BossPoint(x, y, 0));
         }
+
+        this.bossLoseArmor(1000);
     }
 
     bossTearDown() {
@@ -242,22 +244,45 @@ class Boss {
 
     // ===== //\ BOSS BEHAVIORS \// ===== //
 
-    behaviorEnterScene(x, y) {
+    behaviorEnterScene(x, y, next) {
         this.bossGravityWell(x, y, true);
+        
         if(this.boss == null) {
             this.bossSpawnBody(x, y, 20);
-        }
+            this.bossFadeIn(0);
+        } else {
+            this.navPoints.unshift(new Phaser.Geom.Point(x, y));
+            this.behavior = BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET;
 
-        this.bossFadeIn(0);
+            this.head.on("reachedPoint", function() {
+                this.bossFadeIn(0);
+            });
+        }
 
         var thing = this;
         setTimeout(function() {
-            // should this just trash and spawn a new boss? no..
             thing.bossGravityWell(x, y, false);
         }, 6000);
 
         this.behavior = null;
-        this.bossDelegateBehavior();
+    }
+
+    behaviorExitScene(x, y, next) {
+        this.bossGravityWell(x, y, true);
+
+        this.navPoints.unshift(new Phaser.Geom.Point(x, y));
+        this.behavior = BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET;
+
+        this.head.on("reachedPoint", function() {
+            this.bossFadeOut(0);
+        });
+        
+        var thing = this;
+        setTimeout(function() {
+            thing.bossGravityWell(x, y, false);
+        });
+
+        this.behavior = null;
     }
 
     behaviorNavBetweenRandomPoints() {
