@@ -26,9 +26,9 @@ var game = new Phaser.Game(config);
 
 function preload() {
     // load all audio used in multiple scenes here
-    this.load.audio('backgroundMusic', 'resources/audio/music/NortsTheme.wav');
-    this.load.audio('hoverSound', 'resources/audio/soundEffects/hover.wav');
-    this.load.audio('clickSound', 'resources/audio/soundEffects/click.wav');
+    this.load.audio('backgroundMusic', 'resources/audio/music/NortsTheme.mp3');
+    this.load.audio('hoverSound', 'resources/audio/soundEffects/hover.mp3');
+    this.load.audio('clickSound', 'resources/audio/soundEffects/click.mp3');
 }
 
 function create() {

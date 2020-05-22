@@ -93,8 +93,8 @@ class LevelScene extends Phaser.Scene {
 
         this.load.spritesheet('boss', 'resources/spriteSheets/BossSprite-Sheet.png', { frameWidth: 32, frameHeight: 32 });
 
-        this.load.audio('jumpSound', 'resources/audio/soundEffects/jump.wav');
-        this.load.audio('walkSound', 'resources/audio/soundEffects/walk.wav');
+        this.load.audio('jumpSound', 'resources/audio/soundEffects/jump.mp3');
+        this.load.audio('walkSound', 'resources/audio/soundEffects/walk.mp3');
     }
 
     setUpMap() {
