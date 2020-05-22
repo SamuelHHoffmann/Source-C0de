@@ -164,18 +164,20 @@ class Boss {
     
     segmentFade(segment, delay, inout, scene) {
         setTimeout(function() {
-            if(inout == "out") {
+            if (inout == "out") {
                 scene.tweens.add({
                     targets: segment,
                     duration: 250,
                     alpha: 0.0
                 })
-            } else {
+            } else if (inout == "in") {
                 scene.tweens.add({
                     targets: segment,
                     duration: 250,
                     alpha: 1.0
                 })
+            } else {
+                return;
             }
         }, delay);
     }
@@ -250,6 +252,10 @@ class Boss {
     // ===== //\ BOSS BEHAVIORS \// ===== //
 
     behaviorEnterScene(x, y, next) {
+        if(this.navPoints == null) {
+            this.generateRandomNavCoords(2, true, 100);
+        }
+
         this.bossGravityWell(x, y, true);
         
         if(this.boss == null) {
@@ -269,25 +275,30 @@ class Boss {
             thing.bossGravityWell(x, y, false);
         }, 6000);
 
-        this.behavior = null;
+        this.behavior = next;
     }
 
     behaviorExitScene(x, y, next) {
+        if(this.navPoints == null) {
+            this.generateRandomNavCoords(2, true, 100);
+        }
+
         this.bossGravityWell(x, y, true);
 
         this.navPoints.unshift(new Phaser.Geom.Point(x, y));
         this.behavior = BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET;
 
-        this.head.on("reachedPoint", function() {
-            this.bossFadeOut(0);
-        });
-        
         var thing = this;
+
+        this.head.on("reachedPoint", function() {
+            thing.bossFadeOut(0);
+        });
+
         setTimeout(function() {
             thing.bossGravityWell(x, y, false);
         });
 
-        this.behavior = null;
+        this.behavior = next;
     }
 
     behaviorNavBetweenRandomPoints() {
