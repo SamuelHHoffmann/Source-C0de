@@ -184,13 +184,11 @@ class LevelScene extends Phaser.Scene {
             this.boss = null;
         }
 
-        if(this.levelData.levels[this.levelNumber - 1].boss) {
-            this.boss = new Boss(this, this.riftManager.riftParticles);
-            this.boss.behavior = BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS;
-            this.boss.behaviorEnterScene(400, 300, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS);
-            this.boss.behaviorExitScene(100, 100, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS);
-            
-        }
+
+        //this.boss = new Boss(this, this.riftManager.riftParticles);
+        //this.boss.bossSpawnBody(0, 0, 20);
+        //this.boss.behavior = BossBehaviors.GOES_NOWHERE_DOES_NOTHING;
+        
 
     }
 

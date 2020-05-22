@@ -29,7 +29,8 @@ let BossBehaviors = {
     ENTER_SCENE: 4,
     EXIT_SCENE: 5,
     RIFT_ATTACK: 6,
-    STUCK_FIX: 7
+    STUCK_FIX: 7,
+    GOES_NOWHERE_DOES_NOTHING: 8
 };
 
 class Boss {
@@ -121,21 +122,14 @@ class Boss {
         }
         switch(this.behavior) {
 
-            case BossBehaviors.ENTER_SCENE:
-                this.behaviorEnterScene(x, y);
+            case BossBehaviors.GOES_NOWHERE_DOES_NOTHING:
                 break;
-
-            case BossBehaviors.EXIT_SCENE:
-                break;
-
             case BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS:
                 this.behaviorNavBetweenRandomPoints();
                 break;
-
             case BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET:
                 this.behaviorNavBetweenSetPoints();
                 break;
-
             default:
                 break;  
         }
@@ -169,15 +163,16 @@ class Boss {
                     targets: segment,
                     duration: 250,
                     alpha: 0.0
-                })
-            } else if (inout == "in") {
+                });
+            } else {
                 scene.tweens.add({
                     targets: segment,
                     duration: 250,
-                    alpha: 1.0
-                })
-            } else {
-                return;
+                    alpha: {
+                        from: 0,
+                        to: 1
+                    }
+                });    
             }
         }, delay);
     }
@@ -265,14 +260,15 @@ class Boss {
             this.navPoints.unshift(new Phaser.Geom.Point(x, y));
             this.behavior = BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET;
 
+            var thing = this;
             this.head.on("reachedPoint", function() {
-                this.bossFadeIn(0);
+                thing.bossFadeIn(0);
             });
         }
 
-        var thing = this;
+        var thing2 = this;
         setTimeout(function() {
-            thing.bossGravityWell(x, y, false);
+            thing2.bossGravityWell(x, y, false);
         }, 6000);
 
         this.behavior = next;
