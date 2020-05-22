@@ -150,31 +150,35 @@ class RiftManager {
 
     }
 
-    removeRift(id) {
-        this.rifts.forEach(zone => {
-            if (zone.id == id) {
-                zone.codeText.setAlpha(0);
-                zone.riftEmitter.visible = false;
-            }
-        });
+    // removeRift(id) {
+    //     this.rifts.forEach(zone => {
+    //         if (zone.id == id) {
+    //             zone.codeText.setAlpha(0);
+    //             zone.riftEmitter.visible = false;
+    //             zone.destroy();
+    //         }
+    //     });
 
-        var newRifts = [];
-        this.rifts.forEach(zone => {
-            if (zone.id != id) {
-                newRifts.push(zone);
-            }
-        });
-        this.rifts = newRifts;
-    }
+    //     var newRifts = [];
+    //     this.rifts.forEach(zone => {
+    //         if (zone.id != id) {
+    //             newRifts.push(zone);
+    //         }
+    //     });
+    //     this.rifts = newRifts;
+    // }
 
-    removeRiftInput(id) {
-        for (var x = 0; x < this.riftInputBlocks.children.entries.length; x++) {
-            var inputBlock = this.riftInputBlocks.children.entries.pop();
-            if (inputBlock.id == id) {
-                inputBlock.setAlpha(0);
-            }
-        }
-    }
+    // removeRiftInput(id) {
+    //     for (var x = 0; x < this.riftInputBlocks.children.entries.length; x++) {
+    //         var inputBlock = this.riftInputBlocks.children.entries.pop();
+    //         if (inputBlock.id == id) {
+    //             inputBlock.setAlpha(0);
+    //             break;
+    //         } else {
+    //             this.riftInputBlocks.children.entries.push(inputBlock);
+    //         }
+    //     }
+    // }
 
     riftManagerUpdate(player) {
         this.riftGraphics.clear();
