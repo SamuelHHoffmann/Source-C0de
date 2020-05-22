@@ -34,9 +34,10 @@ let BossBehaviors = {
 
 class Boss {
 
-    constructor() {
+    constructor(scene) {
 
         // displayed stuff
+        this.scene = scene;
         this.boss = null;
         this.head = null;
         this.movePoints = null;
@@ -52,11 +53,11 @@ class Boss {
         this.well = null;
     }
 
-    bossSpawnBody(scene, x, y, segments) {
-        this.behaviorEnterScene(scene, x, y);
+    bossSpawnBody(x, y, segments) {
+        this.behaviorEnterScene(this.scene, x, y);
         // we might not want the boss to spawn immediately
         console.log("Spawning?");
-        this.boss = [scene.physics.add.sprite(x, y, "boss")];
+        this.boss = [this.scene.physics.add.sprite(x, y, "boss")];
         this.head = this.boss[0];
         //scene.sys.arcadePhysics.world.enableBody(this.head, scene.physics.DYNAMIC_BODY);
         this.head.body.setAllowGravity(false);
@@ -64,7 +65,7 @@ class Boss {
         this.head.setDepth(100);
 
         for (var i = 0; i < segments; i++) {    // create body segments
-            var bodySprite = scene.physics.add.sprite(x, y, "boss");
+            var bodySprite = this.scene.physics.add.sprite(x, y, "boss");
             //scene.sys.arcadePhysics.world.enableBody(bodySprite, scene.physics.DYNAMIC_BODY);
             bodySprite.body.setAllowGravity(false);
             bodySprite.anims.play("BOSS_BODY_ARMOR_IDLE");
@@ -89,7 +90,7 @@ class Boss {
         });
         this.well.active = false;
 
-        this.bossChainEffect(1000);
+        this.bossLoseArmor(1000);
     }
 
     bossTearDown() {
@@ -99,7 +100,7 @@ class Boss {
     }
 
 
-    bossDelegateBehavior(scene) {
+    bossDelegateBehavior() {
         // manages behaviors, called on update.
         switch(this.behavior) {
 
@@ -111,11 +112,11 @@ class Boss {
                 break;
 
             case BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS:
-                this.behaviorNavBetweenRandomPoints(scene);
+                this.behaviorNavBetweenRandomPoints();
                 break;
 
             case BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET:
-                this.behaviorNavBetweenSetPoints(scene);
+                this.behaviorNavBetweenSetPoints();
                 break;
 
             default:
@@ -142,12 +143,33 @@ class Boss {
         console.log(segment);
         segment.anims.play("BOSS_BODY_ARMOR_SHATTER");
     }*/
+    bossFadeIn(delay) {
 
-    bossChainEffect(delay) {
+    }
+
+    bossFadeOut(delay) {
+
+    }
+
+    bossLoseArmor(delay) {
         for(var i = 0; i<this.boss.length; i++) {
             this.segmentLoseArmor(this.boss[i], delay += 500, this.boss);
         }
     }
+
+    /*
+    segmentFade(segment, delay, inout) {
+        setTimeout(function() {
+            if(inout == "in") {
+                this.scene.tweens.add({
+                    targets: segment,
+
+                })
+            } else {
+
+            }
+        });
+    }*/
 
     segmentLoseArmor(segment, delay, boss) {
         setTimeout(function() {
@@ -169,9 +191,9 @@ class Boss {
 
     // ===== //\ BOSS MOVEMENT \// ===== //
 
-    bossMoveBody(scene) {
+    bossMoveBody() {
         // locomotion, adapted from phaser 2 /examples/arcade physics/snake.js
-        var v = scene.physics.velocityFromAngle(this.head.angle, 100);
+        var v = this.scene.physics.velocityFromAngle(this.head.angle, 100);
         this.head.body.setVelocity(v.x, v.y);
 
         var p = this.movePoints.pop();
@@ -210,8 +232,8 @@ class Boss {
 
     // ===== //\ UPDATE \// ===== //
 
-    bossUpdate(scene) {
-        this.bossDelegateBehavior(scene);
+    bossUpdate() {
+        this.bossDelegateBehavior();
     }
 
 
@@ -222,16 +244,16 @@ class Boss {
 
     }
 
-    behaviorNavBetweenRandomPoints(scene) {
-        this.bossNavigatePoints(scene, true);
+    behaviorNavBetweenRandomPoints() {
+        this.bossNavigatePoints( true);
     }
     
-    behaviorNavBetweenSetPoints(scene) {
+    behaviorNavBetweenSetPoints() {
         if(this.navPoints == null) {
-            this.generateRandomNavCoords(scene, 6, true, 100);
+            this.generateRandomNavCoords(6, true, 100);
         }
 
-        this.bossNavigatePoints(scene, false);
+        this.bossNavigatePoints(false);
     }
 
     // ===== //\ BOSS BEHAVIOR HELPERS \// ===== //
@@ -243,9 +265,9 @@ class Boss {
         }
     }
 
-    generateRandomNavCoords(scene, totalCoords, forceNewCoords, distance) {
-        var width = scene.cameras.main.centerX * 2;
-        var height = scene.cameras.main.centerY * 2;
+    generateRandomNavCoords(totalCoords, forceNewCoords, distance) {
+        var width = this.scene.cameras.main.centerX * 2;
+        var height = this.scene.cameras.main.centerY * 2;
 
         if(this.navPoints == null || forceNewCoords == true) {
             this.navPoints = [new Phaser.Geom.Point(Phaser.Math.Between(distance, width - distance), Phaser.Math.Between(distance, height - distance))];
@@ -272,16 +294,16 @@ class Boss {
         return {x: xChoice, y: yChoice};
     }
 
-    bossNavigatePoints(scene, random) {
+    bossNavigatePoints(random) {
         if (this.navPoints == null) {
-            this.generateRandomNavCoords(scene, 6, true, 100);
+            this.generateRandomNavCoords(6, true, 100);
         }
 
         this.navigating = this.bossNearPoint(this.navPoints[0].x, this.navPoints[0].y);
 
         if (!this.navigating) {
             // move the beast
-            this.bossMoveBody(scene);
+            this.bossMoveBody();
             this.bossNavToPoint(this.navPoints[0].x, this.navPoints[0].y);
         } else {
             // stop the beast
@@ -293,7 +315,7 @@ class Boss {
             this.navPoints.shift();
 
             if (random == true) {
-                var nc = this.genNavCoord((scene.cameras.main.centerX * 2), (scene.cameras.main.centerY * 2), this.navPoints[0], 100);
+                var nc = this.genNavCoord((this.scene.cameras.main.centerX * 2), (this.scene.cameras.main.centerY * 2), this.navPoints[0], 100);
                 this.navPoints.push(new Phaser.Geom.Point(nc.x, nc.y));
             } else {
                 this.navPoints.push(starsMyDestination);
