@@ -7,7 +7,7 @@
             "tileMapPath": "resources/tilemaps/level_1.json",
             "startPositionX": 16,
             "startPositionY": 352,
-            "boss": false,
+            "boss": true,
             "numRifts": 5,
             "rifts": [
                 {

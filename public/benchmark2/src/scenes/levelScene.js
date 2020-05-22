@@ -186,7 +186,8 @@ class LevelScene extends Phaser.Scene {
 
         if(this.levelData.levels[this.levelNumber - 1].boss) {
             this.boss = new Boss();
-            this.boss.bossSpawnBody(this, 100, 100, 20);
+            this.boss.particles = this.riftManager.riftParticles;
+            this.boss.bossSpawnBody(this, 400, 300, 20);
             this.boss.behavior = BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS;
         }
 
@@ -336,7 +337,8 @@ class LevelScene extends Phaser.Scene {
         config = {
             key: 'BOSS_HEAD_ARMOR_SHATTER',
             frames: this.anims.generateFrameNumbers('boss', { start: 11, end: 17, first:  11}),
-            frameRate: 10,
+            frameRate: 10
+            //nextAnim: 'BOSS_HEAD_BARE_IDLE'
         };
 
         this.anims.create(config);
@@ -362,7 +364,8 @@ class LevelScene extends Phaser.Scene {
         config = {
             key: 'BOSS_BODY_ARMOR_SHATTER',
             frames: this.anims.generateFrameNumbers('boss', { start: 32, end: 37, first:  32}),
-            frameRate: 10,
+            frameRate: 10
+            //nextAnim: 'BOSS_BODY_BARE_IDLE'
         };
 
         this.anims.create(config);
@@ -375,6 +378,7 @@ class LevelScene extends Phaser.Scene {
         };
 
         this.anims.create(config);
+
     }
 
     create() {
