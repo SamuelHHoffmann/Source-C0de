@@ -203,8 +203,10 @@ class RiftActionManager {
     // Level 4
     static fn4141() {
         //no inverse
-        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
-        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        try {
+            RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        } catch{ }
     }
 
 
@@ -237,8 +239,10 @@ class RiftActionManager {
 
     // no inverse
     static fn6262() {
-        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
-        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        try {
+            RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        } catch{ }
     }
 
     // Level 7
@@ -253,8 +257,10 @@ class RiftActionManager {
 
     static fn7271() {
         //no inverse
-        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
-        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        try {
+            RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        } catch{ }
     }
 
     static fn7373() {
@@ -288,9 +294,10 @@ class RiftActionManager {
 
     // Level 8
     static fn8181() {
-        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
-        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
-
+        try {
+            RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        } catch{ }
         // change drag on player
         RiftActionManager.scene.levelData.input.drag = 0.0;
     }
@@ -310,8 +317,10 @@ class RiftActionManager {
     }
 
     static fn9292() {
-        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
-        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        try {
+            RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        } catch{ }
     }
 
     static fn9393() {
@@ -346,16 +355,21 @@ class RiftActionManager {
             RiftActionManager.scene.invRift1Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift1Layer);
             RiftActionManager.scene.invRift2Layer = RiftActionManager.scene.map.createDynamicLayer("invRift2", RiftActionManager.scene.tileset, 0, 0).setDepth(21).setCollisionBetween(0, 5);
             RiftActionManager.scene.invRift2Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift2Layer);
+
+            // RiftActionManager.scene.riftManager.removeRiftInput("104");
+            // RiftActionManager.scene.riftManager.removeRift("103");
         } catch{ }
     }
 
     // Level 11
 
     static fn111111() {
-        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
-        RiftActionManager.scene.riftLayer.setTileIndexCallback(35, RiftActionManager.scene.endLevel, RiftActionManager.scene);
-        RiftActionManager.scene.riftLayer.setTileIndexCallback(36, RiftActionManager.scene.endLevel, RiftActionManager.scene);
-        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        try {
+            RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.riftLayer.setTileIndexCallback(35, RiftActionManager.scene.endLevel, RiftActionManager.scene);
+            RiftActionManager.scene.riftLayer.setTileIndexCallback(36, RiftActionManager.scene.endLevel, RiftActionManager.scene);
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        } catch{ }
     }
 
 

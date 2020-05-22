@@ -147,6 +147,33 @@ class RiftManager {
         riftInput.setColor('#37a8df');
 
         this.riftInputBlocks.add(riftInput);
+
+    }
+
+    removeRift(id) {
+        this.rifts.forEach(zone => {
+            if (zone.id == id) {
+                zone.codeText.setAlpha(0);
+                zone.riftEmitter.visible = false;
+            }
+        });
+
+        var newRifts = [];
+        this.rifts.forEach(zone => {
+            if (zone.id != id) {
+                newRifts.push(zone);
+            }
+        });
+        this.rifts = newRifts;
+    }
+
+    removeRiftInput(id) {
+        for (var x = 0; x < this.riftInputBlocks.children.entries.length; x++) {
+            var inputBlock = this.riftInputBlocks.children.entries.pop();
+            if (inputBlock.id == id) {
+                inputBlock.setAlpha(0);
+            }
+        }
     }
 
     riftManagerUpdate(player) {
