@@ -92,7 +92,7 @@
             ]
         },
         {
-            "name": "Well How am I Supposed to do This?",
+            "name": "How Am I Supposed To Do This?",
             "desc": "Those bugs can tear the fabirc of reality apart deleting the very ground Nort stands on. But we can fix that --hopefully.",
             "tileMapPath": "resources/tilemaps/level_4.json",
             "startPositionX": 44,
@@ -346,7 +346,7 @@
             "numRifts": 3,
             "rifts": [
                 {
-                    "text": "Destory wall: ",
+                    "text": "Destroy wall: ",
                     "xPos": 289,
                     "yPos": 294,
                     "inputType": "bool"
