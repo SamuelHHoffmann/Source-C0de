@@ -59,6 +59,16 @@ class LevelSelect extends Phaser.Scene {
 
         // play sound
         this.sound.play('clickSound');
+
+        // enable all buttons
+        for (var i = 0; i < this.LockedLevelData.length; i++)
+            if (this.LockedLevelData[i] == 1)
+                this.unlockLevel(i + 1);
+        
+        // make all buttons visible
+        this.levels.forEach(element => {
+            element.setVisible(true);
+        });
     }
 
 
@@ -68,6 +78,16 @@ class LevelSelect extends Phaser.Scene {
             this.scene.switch('MainMenu');
         } else {
             this.setShowBackground(false);
+
+            // enable all buttons
+            for (var i = 0; i < this.LockedLevelData.length; i++)
+                if (this.LockedLevelData[i] == 1)
+                    this.unlockLevel(i + 1);
+            
+            // make all buttons visible
+            this.levels.forEach(element => {
+                element.setVisible(true);
+            });
         }
 
         // play sound
@@ -92,6 +112,12 @@ class LevelSelect extends Phaser.Scene {
         }
 
         this.setShowBackground(true);
+
+        // disable all level buttons and make invisible
+        this.levels.forEach(element => {
+            element.disableInteractive();
+            element.setVisible(false);
+        });
 
         // play sound
         this.sound.play('clickSound');
@@ -146,7 +172,7 @@ class LevelSelect extends Phaser.Scene {
         var cameraCenterY = this.cameras.main.centerY;
 
         // setup About title
-        this.title = this.add.text(cameraCenterX, this.topOff, "start", { fill: '#ffffff', boundsAlignV: 'middle' })
+        this.title = this.add.text(cameraCenterX, cameraCenterY + 190, "start", { fill: '#ffffff', boundsAlignV: 'middle' })
             .setFontSize(48)
             .setOrigin(this.centerOriginOff)
             .setInteractive({ 'useHandCursor': true })
@@ -160,19 +186,19 @@ class LevelSelect extends Phaser.Scene {
             .setScale(0.2)
             .setDepth(0);
 
-        this.descBackground = this.add.image(cameraCenterX, cameraCenterY, 'levelDescBackground')
+        this.descBackground = this.add.image(cameraCenterX, cameraCenterY - this.spaceOff, 'levelDescBackground')
             .setScale(0.2)
             .setDepth(1)
             .setAlpha(0);
 
-        this.levelName = this.add.text(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8) - (this.cameras.main.height / 17), "Name", { fill: '#000000', boundsAlignV: 'middle' })
+        this.levelName = this.add.text(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8) - (this.cameras.main.height / 17) - this.spaceOff, "Name", { fill: '#000000', boundsAlignV: 'middle' })
             .setFontSize(26)
             .setOrigin(this.centerOriginOff)
             .setAlign("center")
             .setDepth(2)
             .setAlpha(0);
 
-        this.levelDesc = this.add.text(cameraCenterX, cameraCenterY, "Desc", { fill: '#000000', boundsAlignV: 'middle' })
+        this.levelDesc = this.add.text(cameraCenterX, cameraCenterY - this.spaceOff, "Desc", { fill: '#000000', boundsAlignV: 'middle' })
             .setFontSize(18)
             .setOrigin(this.centerOriginOff)
             .setAlign("left")
