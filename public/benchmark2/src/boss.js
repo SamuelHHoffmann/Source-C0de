@@ -34,8 +34,7 @@ let BossBehaviors = {
 
 class Boss {
 
-    constructor(scene) {
-
+    constructor(scene, particles) {
         // displayed stuff
         this.scene = scene;
         this.boss = null;
@@ -48,28 +47,47 @@ class Boss {
         this.navigating = false;
         this.navPoints = null;
 
-        // effects stuff?
-        this.particles = null;
-        this.well = null;
+        // effects stuff
+        this.particles = particles;
+        
+    }
+
+    bossGravityWell(x, y, active) {
+        if(this.well == null) {
+            this.well = this.particles.createGravityWell({
+                x: x,
+                y: y,
+                power: 10,
+                epsilon: 100,
+                gravity: 10,
+            });
+
+            this.well.active = active;
+
+        } else {
+            this.well.x = x;
+            this.well.y = y;
+            this.well.active = active;
+        }
     }
 
     bossSpawnBody(x, y, segments) {
-        this.behaviorEnterScene(this.scene, x, y);
-        // we might not want the boss to spawn immediately
-        console.log("Spawning?");
+
         this.boss = [this.scene.physics.add.sprite(x, y, "boss")];
+
         this.head = this.boss[0];
-        //scene.sys.arcadePhysics.world.enableBody(this.head, scene.physics.DYNAMIC_BODY);
+        this.head.setAlpha(0);
         this.head.body.setAllowGravity(false);
         this.head.anims.play("BOSS_HEAD_ARMOR_IDLE");
         this.head.setDepth(100);
 
         for (var i = 0; i < segments; i++) {    // create body segments
             var bodySprite = this.scene.physics.add.sprite(x, y, "boss");
-            //scene.sys.arcadePhysics.world.enableBody(bodySprite, scene.physics.DYNAMIC_BODY);
+
             bodySprite.body.setAllowGravity(false);
             bodySprite.anims.play("BOSS_BODY_ARMOR_IDLE");
             bodySprite.setDepth(100);
+            bodySprite.setAlpha(0);
 
             this.boss.push(bodySprite);
         }
@@ -80,17 +98,6 @@ class Boss {
         for(var i = 0; i < this.boss.length * this.moveDistance; i++) {
             this.movePoints.push(new BossPoint(x, y, 0));
         }
-
-        this.well = this.particles.createGravityWell({
-            x: x,
-            y: y,
-            power: 10,
-            epsilon: 100,
-            gravity: 10,
-        });
-        this.well.active = false;
-
-        this.bossFadeOut(1000);
     }
 
     bossTearDown() {
@@ -100,12 +107,15 @@ class Boss {
     }
 
 
-    bossDelegateBehavior() {
+    bossDelegateBehavior(x, y) {
         // manages behaviors, called on update.
+        if(this.behavior == null) {
+            this.behavior = BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET;
+        }
         switch(this.behavior) {
 
             case BossBehaviors.ENTER_SCENE:
-                
+                this.behaviorEnterScene(x, y);
                 break;
 
             case BossBehaviors.EXIT_SCENE:
@@ -232,8 +242,22 @@ class Boss {
 
     // ===== //\ BOSS BEHAVIORS \// ===== //
 
-    behaviorEnterScene() {
+    behaviorEnterScene(x, y) {
+        this.bossGravityWell(x, y, true);
+        if(this.boss == null) {
+            this.bossSpawnBody(x, y, 20);
+        }
 
+        this.bossFadeIn(0);
+
+        var thing = this;
+        setTimeout(function() {
+            // should this just trash and spawn a new boss? no..
+            thing.bossGravityWell(x, y, false);
+        }, 6000);
+
+        this.behavior = null;
+        this.bossDelegateBehavior();
     }
 
     behaviorNavBetweenRandomPoints() {
@@ -299,6 +323,7 @@ class Boss {
             this.bossNavToPoint(this.navPoints[0].x, this.navPoints[0].y);
         } else {
             // stop the beast
+            this.head.emit("reachedPoint");
             this.head.body.setVelocity(0, 0);
             this.head.body.setAngularVelocity(0);
 
