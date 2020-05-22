@@ -90,7 +90,7 @@ class Boss {
         });
         this.well.active = false;
 
-        this.bossLoseArmor(1000);
+        this.bossFadeOut(1000);
     }
 
     bossTearDown() {
@@ -124,52 +124,44 @@ class Boss {
         }
     }
 
-    /*
-    bossLoseArmor(scene) {
-        this.head.anims.play("BOSS_HEAD_ARMOR_SHATTER");
-    
-        for(var i = 1; i < this.boss.length; i++) {
-            scene.time.delayedCall(2000, this.segmentLoseArmor, [this.boss[i]]);
-        }
+    // ===== //\ EFFECTS \// ===== //
 
-        this.head.anims.play("BOSS_HEAD_BARE_IDLE");
-
-        for(var i = 1; i< this.boss.length; i++) {
-            this.boss[i].anims.play("BOSS_BODY_BARE_IDLE");
-        }
-    }
-
-    segmentLoseArmor(segment) {
-        console.log(segment);
-        segment.anims.play("BOSS_BODY_ARMOR_SHATTER");
-    }*/
     bossFadeIn(delay) {
-
+        for(var segment of this.boss) {
+            this.segmentFade(segment, delay += 300, "in", this.scene);
+        }
     }
 
     bossFadeOut(delay) {
-
-    }
-
-    bossLoseArmor(delay) {
-        for(var i = 0; i<this.boss.length; i++) {
-            this.segmentLoseArmor(this.boss[i], delay += 500, this.boss);
+        for(var segment of this.boss) {
+            this.segmentFade(segment, delay += 300, "out", this.scene);
         }
     }
 
-    /*
-    segmentFade(segment, delay, inout) {
-        setTimeout(function() {
-            if(inout == "in") {
-                this.scene.tweens.add({
-                    targets: segment,
+    bossLoseArmor(delay) {
+        for(var segment of this.boss) {
+            this.segmentLoseArmor(segment, delay += 500, this.boss);
+        }
+    }
 
+    
+    segmentFade(segment, delay, inout, scene) {
+        setTimeout(function() {
+            if(inout == "out") {
+                scene.tweens.add({
+                    targets: segment,
+                    duration: 250,
+                    alpha: 0.0
                 })
             } else {
-
+                scene.tweens.add({
+                    targets: segment,
+                    duration: 250,
+                    alpha: 1.0
+                })
             }
-        });
-    }*/
+        }, delay);
+    }
 
     segmentLoseArmor(segment, delay, boss) {
         setTimeout(function() {
