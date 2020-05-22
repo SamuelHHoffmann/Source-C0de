@@ -89,11 +89,16 @@ class Boss {
             bodySprite.setDepth(100);
             bodySprite.setAlpha(0);
 
+            if(i > segments/3) {
+                console.log("i/segments: ", i/segments);
+                bodySprite.setScale(1.3 - i/segments, 1.3 - i/segments);
+            }
+
             this.boss.push(bodySprite);
         }
 
         this.movePoints = [];
-        this.moveDistance = 20;
+        this.moveDistance = 15;
 
         for(var i = 0; i < this.boss.length * this.moveDistance; i++) {
             this.movePoints.push(new BossPoint(x, y, 0));
