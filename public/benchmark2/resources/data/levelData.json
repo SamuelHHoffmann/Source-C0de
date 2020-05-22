@@ -346,7 +346,7 @@
             "numRifts": 3,
             "rifts": [
                 {
-                    "text": "Destory wall: ",
+                    "text": "Destroy wall: ",
                     "xPos": 289,
                     "yPos": 294,
                     "inputType": "bool"
