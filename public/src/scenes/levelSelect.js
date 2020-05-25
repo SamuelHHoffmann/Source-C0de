@@ -15,6 +15,8 @@ class LevelSelect extends Phaser.Scene {
     clickedLevel;
     LockedLevelData; //array of 0's and 1 and each index is if it locked or not
 
+    pageNumber = 0;
+
     // background logo
     logoIMG;
     descBackground;
@@ -64,7 +66,7 @@ class LevelSelect extends Phaser.Scene {
         for (var i = 0; i < this.LockedLevelData.length; i++)
             if (this.LockedLevelData[i] == 1)
                 this.unlockLevel(i + 1);
-        
+
         // make all buttons visible
         this.levels.forEach(element => {
             element.setVisible(true);
@@ -83,7 +85,7 @@ class LevelSelect extends Phaser.Scene {
             for (var i = 0; i < this.LockedLevelData.length; i++)
                 if (this.LockedLevelData[i] == 1)
                     this.unlockLevel(i + 1);
-            
+
             // make all buttons visible
             this.levels.forEach(element => {
                 element.setVisible(true);
@@ -155,11 +157,22 @@ class LevelSelect extends Phaser.Scene {
 
     }
 
+    nextPageClickedHandler() {
+
+    }
+
+    nextPageClickedHandler() {
+
+    }
+
+
 
     preload() {
         // load level data
         this.load.text('levelData', 'resources/data/levelData.json');
         this.load.image('levelDescBackground', 'resources/images/levelSelectBackground.png');
+        this.load.image('nextButtonImg', 'resources/images/nextArrow.png');
+        this.load.image('prevButtonImg', 'resources/images/prevArrow.png');
     }
 
     create() {
@@ -206,34 +219,72 @@ class LevelSelect extends Phaser.Scene {
             .setDepth(2)
             .setAlpha(0);
 
+
         this.levels = [];
         this.numLevels = this.levelData.levelCount;
 
 
 
-        var x = cameraCenterX - this.cameras.main.width / 5.5;
-        var y = cameraCenterY;
+        var initX = cameraCenterX - this.cameras.main.width / 5.5;
+        var initY = cameraCenterY;
+        var deltaX = this.cameras.main.width / 8;
+        var deltaY = this.cameras.main.height / 8;
+        var x = initX;
+        var y = initY;
+
+        var amountPerPage = 12;
         var amountPerRow = 4;
 
-        // get the min row amount
-        for (var i = 0; i < this.numLevels; i++) {
-            // var minRowAmount = Math.min(Math.max(0, this.numLevels - (i * amountPerRow)), amountPerRow);
 
-            // draw level button in correct spot and add to levels list
-            for (var j = 0; j < amountPerRow; j++) {
-                var levelButton = this.add.text(x, y, "Level " + (i + 1), { fill: '#808080' });
-                levelButton.setOrigin(this.centerOriginOff)
-                    .on('pointerdown', this.makeHandler(i + 1, (x) => this.levelClickedHandler(x)))
-                    .on('pointerover', this.makeHandler(levelButton, (x) => this.buttonHovered(x)))
-                    .on('pointerout', this.makeHandler(levelButton, (x) => this.buttonHoverExit(x)));
-                this.levels.push(levelButton);
-                x += this.cameras.main.width / 8;
-                i++;
+        var numberOfPages = Math.ceil((this.numLevels / amountPerPage));
+        // console.log("Number of Pages: ", numberOfPages);
+        for (var pageIndex = 0; pageIndex < numberOfPages; pageIndex++) {
+            // console.log("Page Index: ", pageIndex);
+
+            x = initX;
+            y = initY;
+
+            var numberOfRows = Math.min(Math.ceil(((this.numLevels - (pageIndex * amountPerPage)) / amountPerRow)), 3);
+
+            // console.log("Number of Rows: ", numberOfRows);
+            for (var rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
+                // console.log("Row Index: ", rowIndex);
+
+                var numberOfColumns = Math.min(((this.numLevels - (pageIndex * amountPerPage)) - (rowIndex * amountPerRow)), 4);
+                for (var columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+
+                    var tempLevelNumber = ((pageIndex * amountPerPage) + (rowIndex * amountPerRow) + columnIndex + 1);
+                    // (0 * 12) + (0 * 4) + 0 + 1
+                    // (0 * 12) + (0 * 4) + 1 + 1
+                    // ...
+                    // (0 * 12) + (1 * 4) + 0 + 1
+
+
+                    var levelButton = this.add.text(x, y, "Level " + (tempLevelNumber), { fill: '#808080' });
+                    levelButton.setOrigin(this.centerOriginOff)
+                        .on('pointerdown', this.makeHandler(tempLevelNumber, (x) => this.levelClickedHandler(x)))
+                        .on('pointerover', this.makeHandler(levelButton, (x) => this.buttonHovered(x)))
+                        .on('pointerout', this.makeHandler(levelButton, (x) => this.buttonHoverExit(x)));
+                    levelButton.levelNumber = (tempLevelNumber);
+                    if (pageIndex != 0) {
+                        // Hide levels not on the first page
+                        levelButton.setAlpha(0);
+                    }
+
+                    this.levels.push(levelButton);
+                    x += deltaX;
+                }
+
+                // rowIndex--;
+                x = initX;
+                y += deltaY;
+
             }
-            i--;
-            x -= (amountPerRow) * (this.cameras.main.width / 8);
-            y += (this.cameras.main.height / 8);
         }
+
+
+
+
 
         if (this.LockedLevelData == undefined) {
             this.LockedLevelData = [];
