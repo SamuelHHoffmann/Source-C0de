@@ -150,35 +150,31 @@ class RiftManager {
 
     }
 
-    // removeRift(id) {
-    //     this.rifts.forEach(zone => {
-    //         if (zone.id == id) {
-    //             zone.codeText.setAlpha(0);
-    //             zone.riftEmitter.visible = false;
-    //             zone.destroy();
-    //         }
-    //     });
+    removeRift(id) {
+        for (var x = 0; x < this.rifts.length; x++) {
+            var tempRift = this.rifts.pop();
+            if (tempRift.riftZone.id == id) {
+                tempRift.riftZone.destroy();
+                tempRift.riftPoly.setAlpha(0);
+                tempRift.codeText.destroy();
+                tempRift.riftEmitter.remove();
+            } else {
+                this.rifts.push(tempRift);
+            }
+        }
+    }
 
-    //     var newRifts = [];
-    //     this.rifts.forEach(zone => {
-    //         if (zone.id != id) {
-    //             newRifts.push(zone);
-    //         }
-    //     });
-    //     this.rifts = newRifts;
-    // }
-
-    // removeRiftInput(id) {
-    //     for (var x = 0; x < this.riftInputBlocks.children.entries.length; x++) {
-    //         var inputBlock = this.riftInputBlocks.children.entries.pop();
-    //         if (inputBlock.id == id) {
-    //             inputBlock.setAlpha(0);
-    //             break;
-    //         } else {
-    //             this.riftInputBlocks.children.entries.push(inputBlock);
-    //         }
-    //     }
-    // }
+    removeRiftInput(id) {
+        for (var x = 0; x < this.riftInputBlocks.children.entries.length; x++) {
+            var inputBlock = this.riftInputBlocks.children.entries.pop();
+            if (inputBlock.id == id) {
+                inputBlock.setAlpha(0);
+                break;
+            } else {
+                this.riftInputBlocks.children.entries.push(inputBlock);
+            }
+        }
+    }
 
     riftManagerUpdate(player) {
         this.riftGraphics.clear();
