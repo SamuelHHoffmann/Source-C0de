@@ -16,6 +16,8 @@ class LevelSelect extends Phaser.Scene {
     LockedLevelData; //array of 0's and 1 and each index is if it locked or not
 
     pageNumber = 0;
+    nextPageButton;
+    prevPageButton;
 
     // background logo
     logoIMG;
@@ -28,6 +30,7 @@ class LevelSelect extends Phaser.Scene {
     spaceOff = 50;
     topOff = this.spaceOff;
     centerOriginOff = .5;
+    levelsPerPage = 12;
 
     // static text
     title;
@@ -136,8 +139,9 @@ class LevelSelect extends Phaser.Scene {
 
     buttonHoverExit(button) {
         // handles any button no longer being hovered
-        button.setColor('#ffffff');
         button.setScale(1);
+        button.setColor('#ffffff');
+
     }
 
     makeHandler(val, callback) {
@@ -158,11 +162,51 @@ class LevelSelect extends Phaser.Scene {
     }
 
     nextPageClickedHandler() {
+        this.levels.forEach(level => {
+            if (level.levelNumber > (this.pageNumber * this.levelsPerPage) && level.levelNumber <= ((this.pageNumber + 1) * this.levelsPerPage)) {
+                level.setAlpha(0);
+                level.disableInteractive();
+            } else if (level.levelNumber > ((this.pageNumber + 1) * this.levelsPerPage) && level.levelNumber <= ((this.pageNumber + 2) * this.levelsPerPage)) {
+                //check if need to unlock level 
+                level.setAlpha(1);
+                if (this.LockedLevelData[level.levelNumber - 1] == 1) {
+                    level.setInteractive({ 'useHandCursor': true }).setColor('#ffffff');
+                } else {
 
+                }
+            }
+        });
+        this.prevPageButton.setAlpha(1);
+        this.prevPageButton.setInteractive({ 'useHandCursor': true });
+        this.pageNumber++;
+        if (this.numLevels <= ((this.pageNumber + 1) * this.levelsPerPage)) {
+            this.nextPageButton.disableInteractive();
+            this.nextPageButton.setAlpha(0);
+        }
     }
 
-    nextPageClickedHandler() {
+    prevPageClickedHandler() {
+        this.levels.forEach(level => {
+            if (level.levelNumber > (this.pageNumber * this.levelsPerPage) && level.levelNumber <= ((this.pageNumber + 1) * this.levelsPerPage)) {
+                level.setAlpha(0);
+                level.disableInteractive();
+            } else if (level.levelNumber > ((this.pageNumber - 1) * this.levelsPerPage) && level.levelNumber <= (this.pageNumber * this.levelsPerPage)) {
+                //check if need to unlock level 
+                level.setAlpha(1);
+                if (this.LockedLevelData[level.levelNumber - 1] == 1) {
+                    level.setInteractive({ 'useHandCursor': true }).setColor('#ffffff');
+                } else {
 
+                }
+            }
+        });
+        this.nextPageButton.setAlpha(1);
+        this.nextPageButton.setInteractive({ 'useHandCursor': true });
+        this.pageNumber--;
+        if (this.pageNumber == 0) {
+            this.prevPageButton.disableInteractive();
+            this.prevPageButton.setAlpha(0);
+        }
     }
 
 
@@ -283,6 +327,25 @@ class LevelSelect extends Phaser.Scene {
         }
 
 
+        this.nextPageButton = this.add.image(initX + (deltaX * 4) - (deltaX / 4), initY + deltaY, 'nextButtonImg');
+        this.nextPageButton.setDepth(1)
+            .on('pointerdown', () => this.nextPageClickedHandler())
+            .on('pointerover', this.makeHandler(this.nextPageButton, (x) => this.buttonHovered(x)))
+            .on('pointerout', this.makeHandler(this.nextPageButton, (x) => this.buttonHoverExit(x)));
+
+        this.prevPageButton = this.add.image(initX - deltaY, initY + deltaY, 'prevButtonImg');
+        this.prevPageButton.setDepth(1)
+            .on('pointerdown', () => this.prevPageClickedHandler())
+            .on('pointerover', this.makeHandler(this.prevPageButton, (x) => this.buttonHovered(x)))
+            .on('pointerout', this.makeHandler(this.prevPageButton, (x) => this.buttonHoverExit(x)));
+
+        if (this.numLevels <= 12) {
+            this.nextPageButton.setAlpha(0);
+            this.prevPageButton.setAlpha(0);
+        } else {
+            this.nextPageButton.setInteractive({ 'useHandCursor': true });
+            this.prevPageButton.setAlpha(0);
+        }
 
 
 
