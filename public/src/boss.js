@@ -35,7 +35,7 @@ let BossBehaviors = {
 
 class Boss {
 
-    constructor(scene, particles) {
+    constructor(scene, riftManager) {
         // displayed stuff
         this.scene = scene;
         this.boss = null;
@@ -49,7 +49,8 @@ class Boss {
         this.navPoints = null;
 
         // effects stuff
-        this.particles = particles;
+        this.riftManager = riftManager;
+        this.particles = this.riftManager.riftParticles;
         
     }
 
@@ -196,6 +197,19 @@ class Boss {
     }
 
     // ===== //\ BOSS MOVEMENT \// ===== //
+
+    static spawnBoss(x, y) {
+        this.behaviorEnterScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS);
+    }
+
+    static despawnBoss(x, y) {
+        this.behaviorExitScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
+
+        let that = this;
+        setTimeout(function() {
+            that.bossTearDown();
+        }, 30000); // disappears itself after 30 seconds..
+    }
 
     bossMoveBody() {
         // locomotion, adapted from phaser 2 /examples/arcade physics/snake.js

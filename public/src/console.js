@@ -138,21 +138,15 @@ class Console extends Phaser.Scene {
     spawnBoss(cmds) {
         var x = parseInt(cmds[1]);
         var y = parseInt(cmds[2]);
-        this.scene.manager.getScene('LevelScene').boss = new Boss(this.scene.manager.getScene('LevelScene'), this.scene.manager.getScene('LevelScene').riftManager.riftParticles);
-        this.scene.manager.getScene('LevelScene').boss.behaviorEnterScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS);
+        
+        this.scene.manager.getScene('LevelScene').boss = new Boss(this.scene.manager.getScene('LevelScene'), this.scene.manager.getScene('LevelScene').riftManager);
+        this.scene.manager.getScene('LevelScene').boss.spawnBoss(x, y);
     }
 
     vanishBoss(cmds) {
         var x = parseInt(cmds[1]);
         var y = parseInt(cmds[2]);
-
-        this.scene.manager.getScene('LevelScene').boss.behaviorExitScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS);
-
-        /*
-        var thing = this.scene.manager.getScene('LevelScene');
-        setTimeout(function() {
-            thing.boss.bossTearDown();
-        }, 20000);*/
+        this.scene.manager.getScene('LevelScene').boss.despawnBoss(x, y);
     }
 
     changeGravity(val) {
