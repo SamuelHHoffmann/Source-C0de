@@ -36,7 +36,7 @@ class RiftActionManager {
         // level 6
         this.fnHash.set(6, [() => RiftActionManager.fn6161(), () => RiftActionManager.fn6262()]);
         // level 7
-        this.fnHash.set(7, [() => RiftActionManager.fn7172(), () => RiftActionManager.fn7174(), () => RiftActionManager.fn7373(), () => RiftActionManager.fn7474()]);
+        this.fnHash.set(7, [() => RiftActionManager.fn7172(), () => RiftActionManager.fn7174(), () => RiftActionManager.fn7474()]);
         // level 8
         this.fnHash.set(8, [() => RiftActionManager.fn8181()]);
         // level 9
@@ -53,19 +53,19 @@ class RiftActionManager {
         // level 2
         this.invfnHash.set(2, [() => RiftActionManager.invfn2121()]);
         // level 3
-        this.invfnHash.set(3, []);
+        this.invfnHash.set(3, [() => RiftActionManager.invfn4141()]);
         // level 4
         this.invfnHash.set(4, []);
         // level 5
         this.invfnHash.set(5, [() => RiftActionManager.invfn5151(), () => RiftActionManager.invfn5252()]);
         // level 6
-        this.invfnHash.set(6, [() => RiftActionManager.invfn6161()]);
+        this.invfnHash.set(6, [() => RiftActionManager.invfn6161(), () => RiftActionManager.invfn6262()]);
         // level 7
-        this.invfnHash.set(7, [() => RiftActionManager.invfn7172(), () => RiftActionManager.invfn7174(), () => RiftActionManager.invfn7474()]);
+        this.invfnHash.set(7, [() => RiftActionManager.invfn7172(), () => RiftActionManager.invfn7271()]);
         // level 8
-        this.invfnHash.set(8, [() => RiftActionManager.invfn8181()]);
+        this.invfnHash.set(8, [() => RiftActionManager.invfn8181(), () => RiftActionManager.invfn8181()]);
         // level 9
-        this.invfnHash.set(9, [() => RiftActionManager.invfn9191(), () => RiftActionManager.invfn9393()]);
+        this.invfnHash.set(9, [() => RiftActionManager.invfn9191(), () => RiftActionManager.invfn9393(), () => RiftActionManager.invfn9292()]);
         // level 10
         this.invfnHash.set(10, []);
         // level 11
@@ -74,7 +74,8 @@ class RiftActionManager {
         this.invfnHash.set(12, []);
     }
 
-    static reverseToLevel(levelNumber) {
+    static reverseToLevelBroken(levelNumber) {
+        console.log('Level Stack');
         console.log(this.levelStack);
 
         var len = this.levelStack.length;
@@ -82,8 +83,12 @@ class RiftActionManager {
         // if we need to go ahead in levels
         if (len < levelNumber) {
             // call all level functions until one before levelNumber
-            for (var i=len+1; i<levelNumber; i++) {
+            for (var i=len; i<levelNumber; i++) {
+                if (i == 0)
+                    continue;
+
                 // push to stack and call functions
+                console.log('Pushing level ' + i);
                 this.levelStack.push(i);
                 this.fnHash.get(i).forEach(element => {
                     element();
@@ -94,7 +99,8 @@ class RiftActionManager {
         else if (len > levelNumber) {
             for (var i=len; i>=levelNumber; i--) {
                 // pop off stack and call inverse functions
-                this.levelStack.pop(i);
+                console.log('Poping level ' + i);
+                this.levelStack.pop();
                 this.invfnHash.get(i).forEach(element => {
                     element();
                 });
@@ -103,7 +109,7 @@ class RiftActionManager {
         // level num is same revert to previous level
         else {
             // pop for this level and call inverse
-            this.levelStack.pop(levelNumber);
+            this.levelStack.pop();
             this.invfnHash.get(levelNumber).forEach(element => {
                 element();
             });
@@ -120,48 +126,48 @@ class RiftActionManager {
         this.reverseToLevel(levelNumber)
     }
 
-    // static reverseToLevel(levelNumber) {
-    //     var len = this.idStack.length;
-    //     for (var x = 0; x < len; x++) {
-    //         var id = "" + this.idStack.pop();
-    //         var levelnum = 0;
-    //         if (id.length == 4) {
-    //             levelnum = parseInt(id.charAt(0));
-    //         } else {
-    //             levelnum = parseInt((id.charAt(0) + id.charAt(1)));
-    //         }
-    //         if (levelnum > levelNumber) {
-    //             var reverseFunction = this.getInverseFunctionForID(id, "");
-    //             reverseFunction();
-    //             this.restoreIDStack.push(id);
-    //         } else if (levelnum == levelNumber) {
-    //             this.quitIDStack.push(id);
-    //             var reverseFunction = this.getInverseFunctionForID(id, "");
-    //             reverseFunction();
-    //         } else {
-    //             this.idStack.push(id);
-    //             break;
-    //             // ignore if actions are before this level. (like if you did level 1,2 ,3 4 and then went back and did level 2 you should leave whatever you did for level 1)
-    //         }
-    //     }
-    // }
+    static reverseToLevel(levelNumber) {
+        var len = this.idStack.length;
+        for (var x = 0; x < len; x++) {
+            var id = "" + this.idStack.pop();
+            var levelnum = 0;
+            if (id.length == 4) {
+                levelnum = parseInt(id.charAt(0));
+            } else {
+                levelnum = parseInt((id.charAt(0) + id.charAt(1)));
+            }
+            if (levelnum > levelNumber) {
+                var reverseFunction = this.getInverseFunctionForID(id, "");
+                reverseFunction();
+                this.restoreIDStack.push(id);
+            } else if (levelnum == levelNumber) {
+                this.quitIDStack.push(id);
+                var reverseFunction = this.getInverseFunctionForID(id, "");
+                reverseFunction();
+            } else {
+                this.idStack.push(id);
+                break;
+                // ignore if actions are before this level. (like if you did level 1,2 ,3 4 and then went back and did level 2 you should leave whatever you did for level 1)
+            }
+        }
+    }
 
-    // static restoreStack(didQuit) {
-    //     if (didQuit) {
-    //         for (var x = 0; x < this.quitIDStack.length; x++) {
-    //             var quitID = this.quitIDStack.pop();
-    //             var quitFnAction = this.getFunctionForID(quitID, "");
-    //             quitFnAction();
-    //             this.idStack.push(quitID);
-    //         }
-    //     }
-    //     for (var x = 0; x < this.restoreIDStack.length; x++) {
-    //         var restoreID = this.restoreIDStack.pop();
-    //         var restoreFunction = this.getFunctionForID(restoreID, "");
-    //         restoreFunction();
-    //         this.idStack.push(restoreID);
-    //     }
-    // }
+    static restoreStack(didQuit) {
+        if (didQuit) {
+            for (var x = 0; x < this.quitIDStack.length; x++) {
+                var quitID = this.quitIDStack.pop();
+                var quitFnAction = this.getFunctionForID(quitID, "");
+                quitFnAction();
+                this.idStack.push(quitID);
+            }
+        }
+        for (var x = 0; x < this.restoreIDStack.length; x++) {
+            var restoreID = this.restoreIDStack.pop();
+            var restoreFunction = this.getFunctionForID(restoreID, "");
+            restoreFunction();
+            this.idStack.push(restoreID);
+        }
+    }
 
     static getFunctionForID(riftID, inputID) {
         var connectionID = riftID + inputID;
@@ -310,13 +316,15 @@ class RiftActionManager {
 
     // Level 4
     static fn4141() {
-        //no inverse
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
         } catch{ }
     }
 
+    static invfn4141() {
+        try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
+    }
 
     // Level 5
 
@@ -345,12 +353,15 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.throwStrength = 1000;
     }
 
-    // no inverse
     static fn6262() {
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
         } catch{ }
+    }
+
+    static invfn6262() {
+        try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
     }
 
     // Level 7
@@ -364,11 +375,14 @@ class RiftActionManager {
     }
 
     static fn7271() {
-        //no inverse
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
         } catch{ }
+    }
+
+    static invfn7271() {
+        try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
     }
 
     static fn7373() {
@@ -411,6 +425,10 @@ class RiftActionManager {
     }
 
     static invfn8181() {
+        try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
+    }
+
+    static invfn8181() {
         RiftActionManager.scene.levelData.input.drag = 0.85;
     }
 
@@ -429,6 +447,10 @@ class RiftActionManager {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
         } catch{ }
+    }
+
+    static invfn9292(){
+        try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
     }
 
     static fn9393() {

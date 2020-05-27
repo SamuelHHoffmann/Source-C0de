@@ -50,7 +50,7 @@ class LevelScene extends Phaser.Scene {
         this.input.keyboard.removeKey(this.levelData.input.rightKey);
         this.input.keyboard.removeKey(this.levelData.input.leftKey);
         this.input.keyboard.removeKey(this.levelData.input.jumpKey);
-
+        RiftActionManager.restoreStack(false);
         this.game.scene.getScene('LevelSelect').unlockNext = true;
         this.scene.switch('LevelSelect');
         return true;
@@ -60,14 +60,11 @@ class LevelScene extends Phaser.Scene {
         this.input.keyboard.removeKey(this.levelData.input.rightKey);
         this.input.keyboard.removeKey(this.levelData.input.leftKey);
         this.input.keyboard.removeKey(this.levelData.input.jumpKey);
-
+        RiftActionManager.restoreStack(true);
         RiftActionManager.popLevel(this.levelNumber);
     }
 
     preload() {
-        RiftActionManager.init();
-        RiftActionManager.scene = this;
-
         this.load.image('pauseImg', 'resources/images/menuButton.png');
 
         this.load.image("tiles", "resources/spriteSheets/nort_platform_tiles-Sheet.png");

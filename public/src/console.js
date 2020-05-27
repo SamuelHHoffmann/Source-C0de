@@ -190,7 +190,8 @@ class Console extends Phaser.Scene {
 
         // check if level exists
         if (this.levelData.levelCount >= number & number > 0) {
-            this.scene.manager.getScene('LevelScene').setLevelNumber(number);
+            this.scene.manager.getScene('LevelScene').setLevelNumber(parseInt(number));
+            //RiftActionManager.popLevel(this.scene.manager.getScene('LevelScene').levelNumber);
             this.scene.manager.getScene('LevelScene').reDrawLayer = true;
             this.scene.manager.switch(currentScenes[1], 'LevelScene');
         }

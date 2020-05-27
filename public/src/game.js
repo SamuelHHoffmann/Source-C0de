@@ -25,6 +25,8 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload() {
+    RiftActionManager.init();
+
     // load all audio used in multiple scenes here
     this.load.audio('backgroundMusic', 'resources/audio/music/NortsTheme.mp3');
     this.load.audio('hoverSound', 'resources/audio/soundEffects/hover.mp3');
@@ -38,7 +40,10 @@ function create() {
     // add all scenes to game
     this.game.scene.add('MainMenu', MainMenu);
     this.game.scene.add('PauseScene', PauseScene);
+
     this.game.scene.add('LevelScene', LevelScene);
+    RiftActionManager.scene = this.game.scene.getScene('LevelScene');
+
     this.game.scene.add('AboutMenu', AboutMenu);
     this.game.scene.add('SettingsMenu', SettingsMenu);
     this.game.scene.add('LevelSelect', LevelSelect);
