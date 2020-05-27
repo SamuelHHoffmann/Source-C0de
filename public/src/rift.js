@@ -138,7 +138,9 @@ class RiftManager {
 
         this.rifts.push(rift);
         console.log(this.rifts);
-        this.riftZones.add(rift.riftZone);
+        if(rift.riftZone != null) {
+            this.riftZones.add(rift.riftZone);
+        }
     }
 
     createNewRiftInput(scene, x, y, inputText, inputType, id) {
@@ -298,38 +300,34 @@ class Rift {
         to be solved, riftZone, which is there to help detect overlaps from
         riftinputblocks 
     */
-    constructor(scene, x, y, codeText, acceptedType, id) {
+    constructor(scene, x, y, codeText, acceptedType, id) { 
         var zoneWidth = 100, zoneHeight = 20;
 
         /* The type of block this rift accepts, e.g. 'int', 'float', 'string', ... */
         this.acceptedType = acceptedType;
-
-        /* rift objects */
         this.codeText = new RiftText(scene, x, y, codeText);
 
-        this.riftZone = new RiftZone(scene,
-            x + this.codeText.width + zoneWidth / 2,
-            y + this.codeText.height / 2,
-            zoneWidth,
-            zoneHeight,
-            acceptedType,
-            id
-        );
+        if(acceptedType != "none") {
+            /* rift objects */
+            this.riftZone = new RiftZone(scene,
+                x + this.codeText.width + zoneWidth / 2,
+                y + this.codeText.height / 2,
+                zoneWidth,
+                zoneHeight,
+                acceptedType,
+                id
+            );
+        } else {
+            this.riftZone = null;
+            zoneWidth -= 100;
+        }
 
         this.totalHeight = zoneHeight;
-        this.totalWidth = this.riftZone.width + this.codeText.width;
+        this.totalWidth = zoneWidth + this.codeText.width;
 
         this.factor = Math.ceil(this.totalWidth / 30);
         this.riftPoly = this.buildRiftPoly(scene, x, y, this.totalWidth, this.totalHeight, this.factor);
 
-        //this.buildRiftEffects();
-
-        /* currently unused
-        this.zoneText = new RiftText(scene, 
-            this.riftZone.x - this.riftZone.width,
-            this.riftZone.y - this.height / 2,
-            ""
-        );*/
     }
 
     buildRiftPoly(scene, x, y, totalWidth, totalHeight, factor) {
@@ -370,6 +368,7 @@ class Rift {
         return riftPoly;
     }
 }
+
 
 class RiftZone extends Phaser.GameObjects.Zone {
     // Zone for capturing overlap events and dealing with them

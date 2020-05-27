@@ -107,6 +107,8 @@ class Boss {
             this.boss.push(bodySprite);
         }
 
+        this.scene.physics.add.collider(this.scene.player, this.boss);
+
         this.movePoints = [];
         this.moveDistance = 15;
 
