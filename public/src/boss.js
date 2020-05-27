@@ -51,6 +51,7 @@ class Boss {
         // effects stuff
         this.riftManager = riftManager;
         this.particles = this.riftManager.riftParticles;
+        this.unmasked = false;
         
     }
 
@@ -80,19 +81,26 @@ class Boss {
         this.head = this.boss[0];
         this.head.setAlpha(0);
         this.head.body.setAllowGravity(false);
-        this.head.anims.play("BOSS_HEAD_ARMOR_IDLE");
+        if(!this.unmasked) { 
+            this.head.anims.play("BOSS_HEAD_ARMOR_IDLE");
+        } else {
+            this.head.anims.play("BOSS_HEAD_BARE_IDLE");
+        }
         this.head.setDepth(100);
 
         for (var i = 0; i < segments; i++) {    // create body segments
             var bodySprite = this.scene.physics.add.sprite(x, y, "boss");
 
             bodySprite.body.setAllowGravity(false);
-            bodySprite.anims.play("BOSS_BODY_ARMOR_IDLE");
+            if(!this.unmasked) {
+                bodySprite.anims.play("BOSS_BODY_ARMOR_IDLE");
+            } else {
+                bodySprite.anims.play("BOSS_BODY_BARE_IDLE");
+            }
             bodySprite.setDepth(100);
             bodySprite.setAlpha(0);
 
             if(i > segments/3) {
-                console.log("i/segments: ", i/segments);
                 bodySprite.setScale(1.3 - i/segments, 1.3 - i/segments);
             }
 
@@ -106,6 +114,7 @@ class Boss {
             this.movePoints.push(new BossPoint(x, y, 0));
         }
 
+        this.unmasked = true;
         this.bossLoseArmor(1000);
     }
 
@@ -151,8 +160,10 @@ class Boss {
     }
 
     bossLoseArmor(delay) {
-        for(var segment of this.boss) {
-            this.segmentLoseArmor(segment, delay += 500, this.boss);
+        if(this.unmasked) {
+            for(var segment of this.boss) {
+                this.segmentLoseArmor(segment, delay += 500, this.boss);
+            }
         }
     }
 
@@ -198,16 +209,16 @@ class Boss {
 
     // ===== //\ BOSS MOVEMENT \// ===== //
 
-    static spawnBoss(x, y) {
+    spawnBoss(x, y) {
         this.behaviorEnterScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS);
     }
 
-    static despawnBoss(x, y) {
+    despawnBoss(x, y) {
         this.behaviorExitScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
 
         let that = this;
         setTimeout(function() {
-            that.bossTearDown();
+            that.behavior = BossBehaviors.GOES_NOWHERE_DOES_NOTHING;
         }, 30000); // disappears itself after 30 seconds..
     }
 
