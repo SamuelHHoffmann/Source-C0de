@@ -51,7 +51,6 @@ class LevelScene extends Phaser.Scene {
         this.input.keyboard.removeKey(this.levelData.input.leftKey);
         this.input.keyboard.removeKey(this.levelData.input.jumpKey);
 
-        RiftActionManager.restoreStack(false);
         this.game.scene.getScene('LevelSelect').unlockNext = true;
         this.scene.switch('LevelSelect');
         return true;
@@ -62,10 +61,11 @@ class LevelScene extends Phaser.Scene {
         this.input.keyboard.removeKey(this.levelData.input.leftKey);
         this.input.keyboard.removeKey(this.levelData.input.jumpKey);
 
-        RiftActionManager.restoreStack(true);
+        RiftActionManager.popLevel(this.levelNumber);
     }
 
     preload() {
+        RiftActionManager.init();
         RiftActionManager.scene = this;
 
         this.load.image('pauseImg', 'resources/images/menuButton.png');
@@ -216,6 +216,7 @@ class LevelScene extends Phaser.Scene {
 
         }
         RiftActionManager.reverseToLevel(this.levelNumber);
+        RiftActionManager.pushLevel(this.levelNumber);
     }
 
     setUpAnimations() {
@@ -402,8 +403,6 @@ class LevelScene extends Phaser.Scene {
         if ((this.player.body.onFloor() && this.physics.world.gravity.y > 0) || 
             (this.player.body.onCeiling() && this.physics.world.gravity.y < 0))
             this.playerInAir = false;
-
-        console.log(this.playerInAir);
 
         if (this.input.keyboard.addKey('P').isDown) {
             // this.levelData.input.jumpHeight = -300;

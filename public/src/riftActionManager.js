@@ -12,48 +12,156 @@ class RiftActionManager {
 
     static quitIDStack = []
 
-    static reverseToLevel(levelNumber) {
-        var len = this.idStack.length;
-        for (var x = 0; x < len; x++) {
-            var id = "" + this.idStack.pop();
-            var levelnum = 0;
-            if (id.length == 4) {
-                levelnum = parseInt(id.charAt(0));
-            } else {
-                levelnum = parseInt((id.charAt(0) + id.charAt(1)));
-            }
-            if (levelnum > levelNumber) {
-                var reverseFunction = this.getInverseFunctionForID(id, "");
-                reverseFunction();
-                this.restoreIDStack.push(id);
-            } else if (levelnum == levelNumber) {
-                this.quitIDStack.push(id);
-                var reverseFunction = this.getInverseFunctionForID(id, "");
-                reverseFunction();
-            } else {
-                this.idStack.push(id);
-                break;
-                // ignore if actions are before this level. (like if you did level 1,2 ,3 4 and then went back and did level 2 you should leave whatever you did for level 1)
-            }
-        }
+    static levelStack = [];
+
+    static fnHash = new Map([]);
+    static invfnHash = new Map([]);
+
+    static init() {
+        console.log('Making Hash Map');
+        console.log(this.fnHash);
+        console.log(this.invfnHash)
+        // hash all level function information
+
+        // level 1
+        this.fnHash.set(1, [() => RiftActionManager.fn1112()]);
+        // level 2
+        this.fnHash.set(2, [() => RiftActionManager.fn2121()]);
+        // level 3
+        this.fnHash.set(3, []);
+        // level 4
+        this.fnHash.set(4, [() => RiftActionManager.fn4141()]);
+        // level 5
+        this.fnHash.set(5, [() => RiftActionManager.fn5151(), () => RiftActionManager.fn5252()]);
+        // level 6
+        this.fnHash.set(6, [() => RiftActionManager.fn6161(), () => RiftActionManager.fn6262()]);
+        // level 7
+        this.fnHash.set(7, [() => RiftActionManager.fn7172(), () => RiftActionManager.fn7174(), () => RiftActionManager.fn7373(), () => RiftActionManager.fn7474()]);
+        // level 8
+        this.fnHash.set(8, [() => RiftActionManager.fn8181()]);
+        // level 9
+        this.fnHash.set(9, [() => RiftActionManager.fn9191(), () => RiftActionManager.fn9292(), () => RiftActionManager.fn9393()]);
+        // level 10
+        this.fnHash.set(10, [() => RiftActionManager.fn101101(), () => RiftActionManager.fn102102(), () => RiftActionManager.fn103104()]);
+        // level 11
+        this.fnHash.set(11, [() => RiftActionManager.fn111111()]);
+        // level 12
+        this.fnHash.set(12, []);
+
+        // level 1
+        this.invfnHash.set(1, [() => RiftActionManager.invfn1112()]);
+        // level 2
+        this.invfnHash.set(2, [() => RiftActionManager.invfn2121()]);
+        // level 3
+        this.invfnHash.set(3, []);
+        // level 4
+        this.invfnHash.set(4, []);
+        // level 5
+        this.invfnHash.set(5, [() => RiftActionManager.invfn5151(), () => RiftActionManager.invfn5252()]);
+        // level 6
+        this.invfnHash.set(6, [() => RiftActionManager.invfn6161()]);
+        // level 7
+        this.invfnHash.set(7, [() => RiftActionManager.invfn7172(), () => RiftActionManager.invfn7174(), () => RiftActionManager.invfn7474()]);
+        // level 8
+        this.invfnHash.set(8, [() => RiftActionManager.invfn8181()]);
+        // level 9
+        this.invfnHash.set(9, [() => RiftActionManager.invfn9191(), () => RiftActionManager.invfn9393()]);
+        // level 10
+        this.invfnHash.set(10, []);
+        // level 11
+        this.invfnHash.set(11, []);
+        // level 12
+        this.invfnHash.set(12, []);
     }
 
-    static restoreStack(didQuit) {
-        if (didQuit) {
-            for (var x = 0; x < this.quitIDStack.length; x++) {
-                var quitID = this.quitIDStack.pop();
-                var quitFnAction = this.getFunctionForID(quitID, "");
-                quitFnAction();
-                this.idStack.push(quitID);
+    static reverseToLevel(levelNumber) {
+        console.log(this.levelStack);
+
+        var len = this.levelStack.length;
+
+        // if we need to go ahead in levels
+        if (len < levelNumber) {
+            // call all level functions until one before levelNumber
+            for (var i=len+1; i<levelNumber; i++) {
+                // push to stack and call functions
+                this.levelStack.push(i);
+                this.fnHash.get(i).forEach(element => {
+                    element();
+                });
             }
         }
-        for (var x = 0; x < this.restoreIDStack.length; x++) {
-            var restoreID = this.restoreIDStack.pop();
-            var restoreFunction = this.getFunctionForID(restoreID, "");
-            restoreFunction();
-            this.idStack.push(restoreID);
+        // we need to go back in levels
+        else if (len > levelNumber) {
+            for (var i=len; i>=levelNumber; i--) {
+                // pop off stack and call inverse functions
+                this.levelStack.pop(i);
+                this.invfnHash.get(i).forEach(element => {
+                    element();
+                });
+            }
         }
+        // level num is same revert to previous level
+        else {
+            // pop for this level and call inverse
+            this.levelStack.pop(levelNumber);
+            this.invfnHash.get(levelNumber).forEach(element => {
+                element();
+            });
+        }
+
+        console.log(this.levelStack);
     }
+
+    static pushLevel(levelNumber) {
+        this.levelStack.push(levelNumber);
+    }
+
+    static popLevel(levelNumber) {
+        this.reverseToLevel(levelNumber)
+    }
+
+    // static reverseToLevel(levelNumber) {
+    //     var len = this.idStack.length;
+    //     for (var x = 0; x < len; x++) {
+    //         var id = "" + this.idStack.pop();
+    //         var levelnum = 0;
+    //         if (id.length == 4) {
+    //             levelnum = parseInt(id.charAt(0));
+    //         } else {
+    //             levelnum = parseInt((id.charAt(0) + id.charAt(1)));
+    //         }
+    //         if (levelnum > levelNumber) {
+    //             var reverseFunction = this.getInverseFunctionForID(id, "");
+    //             reverseFunction();
+    //             this.restoreIDStack.push(id);
+    //         } else if (levelnum == levelNumber) {
+    //             this.quitIDStack.push(id);
+    //             var reverseFunction = this.getInverseFunctionForID(id, "");
+    //             reverseFunction();
+    //         } else {
+    //             this.idStack.push(id);
+    //             break;
+    //             // ignore if actions are before this level. (like if you did level 1,2 ,3 4 and then went back and did level 2 you should leave whatever you did for level 1)
+    //         }
+    //     }
+    // }
+
+    // static restoreStack(didQuit) {
+    //     if (didQuit) {
+    //         for (var x = 0; x < this.quitIDStack.length; x++) {
+    //             var quitID = this.quitIDStack.pop();
+    //             var quitFnAction = this.getFunctionForID(quitID, "");
+    //             quitFnAction();
+    //             this.idStack.push(quitID);
+    //         }
+    //     }
+    //     for (var x = 0; x < this.restoreIDStack.length; x++) {
+    //         var restoreID = this.restoreIDStack.pop();
+    //         var restoreFunction = this.getFunctionForID(restoreID, "");
+    //         restoreFunction();
+    //         this.idStack.push(restoreID);
+    //     }
+    // }
 
     static getFunctionForID(riftID, inputID) {
         var connectionID = riftID + inputID;
