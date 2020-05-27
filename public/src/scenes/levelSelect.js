@@ -158,7 +158,12 @@ class LevelSelect extends Phaser.Scene {
                 this.LockedLevelData[levelNumber - 1] = 1;
             }
         }
+    }
 
+    unlock() {
+        for (var i = 0; i < this.LockedLevelData.length; i++)
+            if (this.LockedLevelData[i] == 1)
+                this.unlockLevel(i + 1);
     }
 
     nextPageClickedHandler() {
@@ -360,11 +365,8 @@ class LevelSelect extends Phaser.Scene {
             this.unlockLevel(1);
         }
 
-        else {
-            for (var i = 0; i < this.LockedLevelData.length; i++)
-                if (this.LockedLevelData[i] == 1)
-                    this.unlockLevel(i + 1);
-        }
+        else
+            this.unlock();
 
         // setup back button
         this.backButton = this.add.text(cameraCenterX, cameraCenterY + (this.cameras.main.height / 2) + this.topOff - (this.spaceOff * 2), "BACK", { fill: '#ffffff' });

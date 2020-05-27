@@ -107,9 +107,32 @@ class Console extends Phaser.Scene {
             case 'kill':
                 this.vanishBoss(cmdParts);
                 break;
+            case 'unlock':
+                this.unlockLevel(cmdParts[1]);
+                break;
             default:
                 return;
         }
+    }
+
+    unlockLevel(toUnlock) {
+        // get LevelSelect scene
+        var levelSelect = this.scene.manager.getScene('LevelSelect');
+        console.log(levelSelect);
+
+        if (toUnlock == 'all') {
+            console.log(levelSelect.LockedLevelData);
+            levelSelect.LockedLevelData.forEach((element, index) => {
+                levelSelect.LockedLevelData[index] = 1;
+            });
+        }
+
+        else {
+            if (this.levelData.levelCount >= toUnlock & toUnlock > 0)
+                levelSelect.LockedLevelData[toUnlock-1] = 1;
+        }
+
+        levelSelect.unlock();
     }
 
     spawnBoss(cmds) {
