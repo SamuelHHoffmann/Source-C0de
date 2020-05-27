@@ -140,7 +140,7 @@ class Console extends Phaser.Scene {
         var y = parseInt(cmds[2]);
         
         this.scene.manager.getScene('LevelScene').boss = new Boss(this.scene.manager.getScene('LevelScene'), this.scene.manager.getScene('LevelScene').riftManager);
-        this.scene.manager.getScene('LevelScene').boss.spawnBoss(x, y);
+        this.scene.manager.getScene('LevelScene').boss.spawnBoss(x, y, 20);
     }
 
     vanishBoss(cmds) {

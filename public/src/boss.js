@@ -209,8 +209,8 @@ class Boss {
 
     // ===== //\ BOSS MOVEMENT \// ===== //
 
-    spawnBoss(x, y) {
-        this.behaviorEnterScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS);
+    spawnBoss(x, y, segments) {
+        this.behaviorEnterScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS, segments);
     }
 
     despawnBoss(x, y) {
@@ -271,7 +271,7 @@ class Boss {
 
     // ===== //\ BOSS BEHAVIORS \// ===== //
 
-    behaviorEnterScene(x, y, next) {
+    behaviorEnterScene(x, y, next, segments) {
         if(this.navPoints == null) {
             this.generateRandomNavCoords(2, true, 100);
         }
@@ -279,7 +279,7 @@ class Boss {
         this.bossGravityWell(x, y, true);
         
         if(this.boss == null) {
-            this.bossSpawnBody(x, y, 20);
+            this.bossSpawnBody(x, y, segments);
             this.bossFadeIn(0);
         } else {
             this.navPoints.unshift(new Phaser.Geom.Point(x, y));
