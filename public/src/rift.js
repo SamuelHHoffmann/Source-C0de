@@ -172,17 +172,13 @@ class RiftManager {
         for (var x = 0; x < this.rifts.length; x++) {
             var tempRift = this.rifts.pop();
             if (tempRift.riftZone.id == id) {
-                this.riftPointUnpop(this.scene, tempRift);
-                this.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, true);
+                //this.riftPointUnpop(this.scene, tempRift);
+                //this.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, true);
 
-                var thing2 = this;
-                setTimeout(function() {
-                    thing2.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, false);
-                    tempRift.riftZone.destroy();
-                    tempRift.riftPoly.setAlpha(0);
-                    tempRift.codeText.destroy();
-                    tempRift.riftEmitter.remove();
-                }, 4000);
+                tempRift.riftZone.destroy();
+                tempRift.riftPoly.setAlpha(0);
+                tempRift.codeText.destroy();
+                tempRift.riftEmitter.remove();
 
             } else {
                 this.rifts.push(tempRift);
