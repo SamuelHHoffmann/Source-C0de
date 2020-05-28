@@ -169,10 +169,18 @@ class RiftManager {
         for (var x = 0; x < this.rifts.length; x++) {
             var tempRift = this.rifts.pop();
             if (tempRift.riftZone.id == id) {
-                tempRift.riftZone.destroy();
-                tempRift.riftPoly.setAlpha(0);
-                tempRift.codeText.destroy();
-                tempRift.riftEmitter.remove();
+                this.riftPointUnpop(this.scene, tempRift);
+                this.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, true);
+
+                var thing2 = this;
+                setTimeout(function() {
+                    thing2.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, false);
+                    tempRift.riftZone.destroy();
+                    tempRift.riftPoly.setAlpha(0);
+                    tempRift.codeText.destroy();
+                    tempRift.riftEmitter.remove();
+                }, 4000);
+
             } else {
                 this.rifts.push(tempRift);
             }
@@ -219,6 +227,29 @@ class RiftManager {
         });
     }
 
+    riftPointUnpop(scene, rift) {
+        scene.tweens.add({
+            targets: rift.riftPoly.geom.points,
+            duration: function() {
+                return Phaser.Math.Between(500, 3000);
+            },
+            ease: 'Sine.easeIn',
+            y: {
+                from: function(target) {
+                    return target.y;
+                },
+                to: rift.codeText.y + rift.totalHeight/2
+            },
+            x: {
+                from: function(target) {
+                    return target.x;
+                },
+                to: rift.codeText.x + rift.totalWidth/2
+                
+            }
+        });
+    }
+
     riftPointPop(scene, rift) {
         var that = this;
         scene.tweens.add({
@@ -250,13 +281,13 @@ class RiftManager {
             // fade in
             scene.tweens.add({
                 targets: target,
-                duration: 5000,
+                duration: 3000,
                 alpha: 0.0
             });
         } else {
             scene.tweens.add({
                 targets: target,
-                duration: 5000,
+                duration: 3000,
                 alpha: {
                     from: 0,
                     to: 1
