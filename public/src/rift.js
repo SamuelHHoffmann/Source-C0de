@@ -17,7 +17,7 @@ class RiftManager {
         this.riftInputBlocks = scene.physics.add.group([]);
 
         /* rift audio*/
-        this.riftHum = this.scene.sound.add("riftHum");
+        //this.riftHum = this.scene.sound.add("riftHum");
 
 
         /* rift effects objects */
