@@ -24,6 +24,49 @@ class MainMenu extends Phaser.Scene {
         super(handle);
     }
 
+    riftAnimation() {
+        this.riftPoints = [];
+        this.riftParticles = this.add.particles('riftParticles');
+        this.riftParticles.visible = false;
+        this.riftParticles.setDepth(0);
+
+        this.riftBackground = this.add.image(400, 300, "maskedImg");
+        this.riftBackground.setAlpha(0.8)
+
+        this.riftBackground.setMask(new Phaser.Display.Masks.BitmapMask(this, this.riftParticles));
+
+        for(var i = 0, x = 125; i < 20; i++, x += 30) {
+            this.riftPoints[i] = new Phaser.Geom.Point(x, 230+Phaser.Math.Between(-50, 50));
+        }
+
+        var that = this;
+        this.riftPoints.getRandomPoint = function (vec) {
+            var pt = that.riftPoints[Phaser.Math.Between(0, that.riftPoints.length - 1)];
+            vec.x = pt.x;
+            vec.y = pt.y;
+            return vec;
+        }
+        
+        this.riftEmitter = this.riftParticles.createEmitter({
+            lifespan: 2000,
+            speedY: { min: -50, max: 50 },
+            speedX: { min: -10, max: 10 },
+            scaleX: { start: 0.5, end: 0 },
+            scaleY: { start: 2.5, end: 0 },
+            emitZone: {
+                type: 'random',
+                source: this.riftPoints,
+            },
+            rotate: {
+                onEmit: function () {
+                    var rots = [0, 45, 135];
+                    return rots[Phaser.Math.Between(0, rots.length - 1)];
+                }
+            },
+            quantity: 2
+        });  
+    }
+
     playClickHandler() {
         // transition to level select
         this.scene.switch('LevelSelect');
@@ -64,7 +107,9 @@ class MainMenu extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo', 'resources/images/source-c0de-logo.png');
+        this.load.image('logo', 'resources/images/logo_noeffect.png');
+        this.load.image("riftParticles", "resources/images/riftParticle.png");
+        this.load.image("maskedImg", "resources/images/maskedEffect.png");
     }
 
     create() {
@@ -75,6 +120,8 @@ class MainMenu extends Phaser.Scene {
         // get camera center x and y
         var cameraCenterX = this.cameras.main.centerX;
         var cameraCenterY = this.cameras.main.centerY;
+
+        this.riftAnimation();
 
         // add title image
         this.logoIMG = this.add.image(cameraCenterX, cameraCenterY - (this.cameras.main.height / 8), 'logo')
@@ -107,6 +154,8 @@ class MainMenu extends Phaser.Scene {
             .on('pointerover', () => this.buttonHovered(this.aboutButton))
             .on('pointerout', () => this.buttonHoverExit(this.aboutButton))
             .setDepth(1);
+
+       
     }
 
     update() {
