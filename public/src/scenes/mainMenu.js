@@ -31,7 +31,7 @@ class MainMenu extends Phaser.Scene {
         this.riftParticles.setDepth(0);
 
         this.riftBackground = this.add.image(400, 300, "maskedImg");
-        this.riftBackground.setAlpha(0.8)
+        this.riftBackground.setAlpha(0.85)
 
         this.riftBackground.setMask(new Phaser.Display.Masks.BitmapMask(this, this.riftParticles));
 
