@@ -11,9 +11,13 @@ class RiftManager {
     */
     constructor(scene) {
         /* group objects contain all rifts and all riftinputs, also manages effects */
+        this.scene = scene; // don't know why i didn't do this earlier
         this.rifts = [];
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
+
+        /* rift audio*/
+        this.riftHum = this.scene.sound.add("riftHum");
 
 
         /* rift effects objects */
@@ -87,6 +91,9 @@ class RiftManager {
         var rift = new Rift(scene, x, y, codeText, acceptedType, id);
 
         // rift animations
+
+        this.riftPointPop(scene, rift);
+        /*
         scene.tweens.add({
             targets: rift.riftPoly.geom.points.slice(rift.factor + 3, rift.riftPoly.geom.points.length),
             duration: function () {
@@ -112,6 +119,7 @@ class RiftManager {
                 return y + Phaser.Math.Between(0, -40);
             }
         });
+        */
 
         // rift particles
         rift.riftEmitter = this.riftParticles.createEmitter({
@@ -138,7 +146,18 @@ class RiftManager {
 
         this.rifts.push(rift);
         console.log(this.rifts);
-        this.riftZones.add(rift.riftZone);
+        if(rift.riftZone != null) {
+            this.riftZones.add(rift.riftZone);
+        }
+
+        this.riftFadeEffect(scene, [rift.riftPoly.geom, rift.codeText], "in");
+        this.riftGravityWell(x, y, rift, true);
+        
+
+        var thing2 = this;
+        setTimeout(function() {
+            thing2.riftGravityWell(x, y, rift, false);
+        }, 4000);
     }
 
     createNewRiftInput(scene, x, y, inputText, inputType, id) {
@@ -147,17 +166,24 @@ class RiftManager {
         riftInput.setColor('#37a8df');
 
         this.riftInputBlocks.add(riftInput);
-
     }
 
     removeRift(id) {
         for (var x = 0; x < this.rifts.length; x++) {
             var tempRift = this.rifts.pop();
             if (tempRift.riftZone.id == id) {
-                tempRift.riftZone.destroy();
-                tempRift.riftPoly.setAlpha(0);
-                tempRift.codeText.destroy();
-                tempRift.riftEmitter.remove();
+                this.riftPointUnpop(this.scene, tempRift);
+                this.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, true);
+
+                var thing2 = this;
+                setTimeout(function() {
+                    thing2.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, false);
+                    tempRift.riftZone.destroy();
+                    tempRift.riftPoly.setAlpha(0);
+                    tempRift.codeText.destroy();
+                    tempRift.riftEmitter.remove();
+                }, 4000);
+
             } else {
                 this.rifts.push(tempRift);
             }
@@ -173,6 +199,122 @@ class RiftManager {
             } else {
                 this.riftInputBlocks.children.entries.push(inputBlock);
             }
+        }
+    }
+
+    riftPointMotion(scene, rift) {
+        scene.tweens.add({
+            targets: rift.riftPoly.geom.points.slice(rift.factor + 3, rift.riftPoly.geom.points.length),
+            duration: function () {
+                return Phaser.Math.Between(500, 5000);
+            },
+            repeat: -1,
+            yoyo: true,
+            ease: 'Sine.easeInOut',
+            y: function (target) {
+                return target.y + Phaser.Math.Between(rift.totalHeight, rift.totalHeight + 25);
+            },
+        });
+
+        scene.tweens.add({
+            targets: rift.riftPoly.geom.points.slice(1, rift.factor + 2),
+            duration: function () {
+                return Phaser.Math.Between(500, 5000);
+            },
+            repeat: -1,
+            yoyo: true,
+            ease: 'Sine.easeInOut',
+            y: function (target) {
+                return target.y + Phaser.Math.Between(0, -25);
+            }
+        });
+    }
+
+    riftPointUnpop(scene, rift) {
+        scene.tweens.add({
+            targets: rift.riftPoly.geom.points,
+            duration: function() {
+                return Phaser.Math.Between(500, 3000);
+            },
+            ease: 'Sine.easeIn',
+            y: {
+                from: function(target) {
+                    return target.y;
+                },
+                to: rift.codeText.y + rift.totalHeight/2
+            },
+            x: {
+                from: function(target) {
+                    return target.x;
+                },
+                to: rift.codeText.x + rift.totalWidth/2
+                
+            }
+        });
+    }
+
+    riftPointPop(scene, rift) {
+        var that = this;
+        scene.tweens.add({
+            targets: rift.riftPoly.geom.points,
+            duration: function() {
+                return Phaser.Math.Between(500, 3000);
+            },
+            ease: 'Sine.easeIn',
+            y: {
+                from: rift.codeText.y + rift.totalHeight/2,
+                to: function(target) {
+                    return target.y;
+                }
+            },
+            x: {
+                from: rift.codeText.x + rift.totalWidth/2,
+                to: function(target) {
+                    return target.x;
+                }
+            },
+            onComplete: function() {
+                that.riftPointMotion(scene, rift);
+            }
+        });
+    }
+
+    riftFadeEffect(scene, target, inOut) {
+        if (inOut == "out") {
+            // fade in
+            scene.tweens.add({
+                targets: target,
+                duration: 3000,
+                alpha: 0.0
+            });
+        } else {
+            scene.tweens.add({
+                targets: target,
+                duration: 3000,
+                alpha: {
+                    from: 0,
+                    to: 1
+                }
+            })
+        }
+    }
+
+    riftGravityWell(x, y, rift, active) {
+        if(rift.well == null || rift.well == undefined) {
+            rift.well = this.riftParticles.createGravityWell({
+                x: x + (rift.totalWidth/2),
+                y: y + (rift.totalHeight/2),
+                power: 10,
+                epsilon: 100,
+                gravity: 10,
+            });
+
+            rift.well.active = active;
+
+        } else {
+            rift.well.x = x;
+            rift.well.y = y;
+            rift.well.active = active;
         }
     }
 
@@ -298,38 +440,34 @@ class Rift {
         to be solved, riftZone, which is there to help detect overlaps from
         riftinputblocks 
     */
-    constructor(scene, x, y, codeText, acceptedType, id) {
+    constructor(scene, x, y, codeText, acceptedType, id) { 
         var zoneWidth = 100, zoneHeight = 20;
 
         /* The type of block this rift accepts, e.g. 'int', 'float', 'string', ... */
         this.acceptedType = acceptedType;
-
-        /* rift objects */
         this.codeText = new RiftText(scene, x, y, codeText);
 
-        this.riftZone = new RiftZone(scene,
-            x + this.codeText.width + zoneWidth / 2,
-            y + this.codeText.height / 2,
-            zoneWidth,
-            zoneHeight,
-            acceptedType,
-            id
-        );
+        if(acceptedType != "none") {
+            /* rift objects */
+            this.riftZone = new RiftZone(scene,
+                x + this.codeText.width + zoneWidth / 2,
+                y + this.codeText.height / 2,
+                zoneWidth,
+                zoneHeight,
+                acceptedType,
+                id
+            );
+        } else {
+            this.riftZone = null;
+            zoneWidth -= 100;
+        }
 
         this.totalHeight = zoneHeight;
-        this.totalWidth = this.riftZone.width + this.codeText.width;
+        this.totalWidth = zoneWidth + this.codeText.width;
 
         this.factor = Math.ceil(this.totalWidth / 30);
         this.riftPoly = this.buildRiftPoly(scene, x, y, this.totalWidth, this.totalHeight, this.factor);
 
-        //this.buildRiftEffects();
-
-        /* currently unused
-        this.zoneText = new RiftText(scene, 
-            this.riftZone.x - this.riftZone.width,
-            this.riftZone.y - this.height / 2,
-            ""
-        );*/
     }
 
     buildRiftPoly(scene, x, y, totalWidth, totalHeight, factor) {
@@ -358,7 +496,7 @@ class Rift {
             }
         }
 
-        var riftPoly = new Phaser.GameObjects.Polygon(scene, (totalWidth / 2) + 20, totalHeight / 2, coords, 0xff0000);
+        var riftPoly = new Phaser.GameObjects.Polygon(scene, (totalWidth / 2), totalHeight / 2, coords, 0xff0000);
 
         riftPoly.geom.getRandomPoint = function (vec) {
             var pt = riftPoly.geom.points[Phaser.Math.Between(0, riftPoly.geom.points.length - 1)];
@@ -370,6 +508,7 @@ class Rift {
         return riftPoly;
     }
 }
+
 
 class RiftZone extends Phaser.GameObjects.Zone {
     // Zone for capturing overlap events and dealing with them
@@ -419,4 +558,63 @@ class RiftText extends Phaser.GameObjects.Text {
 
     preUpdate() { }
 }
+
+class WorldGlitchPipe extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
+    static time = 0;
+    constructor(game)
+    {
+        var config = {
+            game: game,
+            renderer: game.renderer,
+            fragShader:
+            `
+                #ifdef GL_ES
+                precision mediump float;
+                #endif
+    
+                precision mediump float;
+                uniform float     time;
+                uniform vec2      resolution;
+                uniform sampler2D uMainSampler;
+                varying vec2 outTexCoord;
+
+                void main( void ) {,
+                    vec2 uv = outTexCoord;
+                    uv.x += sin((uv.y + time) * 100.0) + sin((uv.y + time) * 100.0);
+                    vec4 texColor = texture2D(uMainSampler, uv);
+                    gl_FragColor = texColor;
+                }
+            `
+        };
+        super(config);
+
+    }
+
+    static create(scene) {
+        scene.glitchPipe = this.game.renderer.addPipeline('Glitch', new WorldGlitchPipe(scene.game));
+        scene.glitchPipe.setFloat2('resolution', scene.game.config.width, scene.game.config.height);
+    }
+
+    static apply(scene) {
+        scene.cameras.main.setRenderToTexture(scene.glitchPipe);
+    }
+
+    static remove(scene) {
+        scene.cameras.main.clearRenderToTexture();
+    }
+
+    static glitch(scene, time) {
+        WorldGlitchPipe.apply(scene);
+
+        setTimeout(function() {
+            WorldGlitchPipe.remove(scene);
+        }, time); 
+    }
+
+    static update(scene) {
+        scene.glitchPipe.setFloat1('time', WorldGlitchPipe.time);
+        WorldGlitchPipe.time += 0.005; 
+    }
+}
+
 

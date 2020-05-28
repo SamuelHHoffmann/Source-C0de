@@ -35,7 +35,7 @@ let BossBehaviors = {
 
 class Boss {
 
-    constructor(scene, particles) {
+    constructor(scene, riftManager) {
         // displayed stuff
         this.scene = scene;
         this.boss = null;
@@ -49,7 +49,10 @@ class Boss {
         this.navPoints = null;
 
         // effects stuff
-        this.particles = particles;
+        this.riftManager = riftManager;
+        this.particles = this.riftManager.riftParticles;
+        this.unmasked = false;
+        this.hitDelay = 0;
         
     }
 
@@ -79,24 +82,54 @@ class Boss {
         this.head = this.boss[0];
         this.head.setAlpha(0);
         this.head.body.setAllowGravity(false);
-        this.head.anims.play("BOSS_HEAD_ARMOR_IDLE");
+        if(!this.unmasked) { 
+            this.head.anims.play("BOSS_HEAD_ARMOR_IDLE");
+        } else {
+            this.head.anims.play("BOSS_HEAD_BARE_IDLE");
+        }
         this.head.setDepth(100);
 
         for (var i = 0; i < segments; i++) {    // create body segments
             var bodySprite = this.scene.physics.add.sprite(x, y, "boss");
 
             bodySprite.body.setAllowGravity(false);
-            bodySprite.anims.play("BOSS_BODY_ARMOR_IDLE");
+            if(!this.unmasked) {
+                bodySprite.anims.play("BOSS_BODY_ARMOR_IDLE");
+            } else {
+                bodySprite.anims.play("BOSS_BODY_BARE_IDLE");
+            }
             bodySprite.setDepth(100);
             bodySprite.setAlpha(0);
 
             if(i > segments/3) {
-                console.log("i/segments: ", i/segments);
                 bodySprite.setScale(1.3 - i/segments, 1.3 - i/segments);
             }
 
             this.boss.push(bodySprite);
         }
+
+        
+        this.scene.physics.add.overlap(this.scene.player, this.boss, function(player, boss) {
+            // player, boss hit callbacks
+            if(boss.hitDelay > 0) {
+                boss.hitDelay --;
+            } else {
+                //var tint = Phaser.Math.Between(0, 359);
+                player.setTintFill(Phaser.Display.Color.HSVColorWheel()[270].color);
+
+                if(boss.x > player.x) {
+                    player.setVelocity(-1000, -100);
+                } else {
+                    player.setVelocity(1000, -100);
+                }
+                
+                setTimeout(function() {
+                    player.clearTint();
+                }, 250);
+
+                boss.hitDelay = 25;
+            }
+        });
 
         this.movePoints = [];
         this.moveDistance = 15;
@@ -105,6 +138,7 @@ class Boss {
             this.movePoints.push(new BossPoint(x, y, 0));
         }
 
+        this.unmasked = true;
         this.bossLoseArmor(1000);
     }
 
@@ -150,8 +184,10 @@ class Boss {
     }
 
     bossLoseArmor(delay) {
-        for(var segment of this.boss) {
-            this.segmentLoseArmor(segment, delay += 500, this.boss);
+        if(this.unmasked) {
+            for(var segment of this.boss) {
+                this.segmentLoseArmor(segment, delay += 500, this.boss);
+            }
         }
     }
 
@@ -196,6 +232,19 @@ class Boss {
     }
 
     // ===== //\ BOSS MOVEMENT \// ===== //
+
+    spawnBoss(x, y, segments) {
+        this.behaviorEnterScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS, segments);
+    }
+
+    despawnBoss(x, y) {
+        this.behaviorExitScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
+
+        let that = this;
+        setTimeout(function() {
+            that.behavior = BossBehaviors.GOES_NOWHERE_DOES_NOTHING;
+        }, 30000); // disappears itself after 30 seconds..
+    }
 
     bossMoveBody() {
         // locomotion, adapted from phaser 2 /examples/arcade physics/snake.js
@@ -246,7 +295,7 @@ class Boss {
 
     // ===== //\ BOSS BEHAVIORS \// ===== //
 
-    behaviorEnterScene(x, y, next) {
+    behaviorEnterScene(x, y, next, segments) {
         if(this.navPoints == null) {
             this.generateRandomNavCoords(2, true, 100);
         }
@@ -254,7 +303,7 @@ class Boss {
         this.bossGravityWell(x, y, true);
         
         if(this.boss == null) {
-            this.bossSpawnBody(x, y, 20);
+            this.bossSpawnBody(x, y, segments);
             this.bossFadeIn(0);
         } else {
             this.navPoints.unshift(new Phaser.Geom.Point(x, y));

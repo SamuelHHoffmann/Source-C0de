@@ -431,16 +431,48 @@
             ]
         },
         {
-            "name": "Gott'em",
-            "desc": "This level may or may not be complete yet, if it is this description has likely been changed to something else. If you are reading this and you are not Max, Aidan, Sam, or a play tester, well... ...oops",
-            "tileMapPath": "resources/tilemaps/level_12.json",
-            "startPositionX": 401,
-            "startPositionY": 64,
+            "name": "Encounter",
+            "desc": "The bridge is out..",
+            "tileMapPath": "resources/tilemaps/level_12_1.json",
+            "startPositionX": 50,
+            "startPositionY": 100,
             "boss": false,
-            "numRifts": 0,
-            "rifts": [],
-            "numRiftElements": 0,
-            "riftElements": []
+            "numRifts": 2,
+            "rifts": [
+                {
+                    "text": "Bridge is: ",
+                    "xPos": 121,
+                    "yPos": 75,
+                    "inputType": "bool"
+                },
+                {
+                    "text": "Gravity is: ",
+                    "xPos": 200,
+                    "yPos": 500,
+                    "inputType": "direction"
+                }
+            ],
+            "numRiftElements": 3,
+            "riftElements": [
+                {
+                    "xPos": 525,
+                    "yPos": 300,
+                    "text": "repaired",
+                    "inputType": "bool"
+                },
+                {
+                    "xPos": 750,
+                    "yPos": 550,
+                    "text": "left",
+                    "inputType": "direction"
+                },
+                {
+                    "xPos": 100,
+                    "yPos": 500,
+                    "text": "down",
+                    "inputType": "direction"
+                }
+            ]
         },
         {
             "name": "Boss testing",
