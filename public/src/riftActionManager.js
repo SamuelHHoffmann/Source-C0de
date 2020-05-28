@@ -30,21 +30,21 @@ class RiftActionManager {
         // level 3
         this.fnHash.set(3, []);
         // level 4
-        this.fnHash.set(4, [() => RiftActionManager.fn4141()]);
+        this.fnHash.set(4, []);
         // level 5
         this.fnHash.set(5, [() => RiftActionManager.fn5151(), () => RiftActionManager.fn5252()]);
         // level 6
-        this.fnHash.set(6, [() => RiftActionManager.fn6161(), () => RiftActionManager.fn6262()]);
+        this.fnHash.set(6, [() => RiftActionManager.fn6161()]);
         // level 7
-        this.fnHash.set(7, [() => RiftActionManager.fn7172(), () => RiftActionManager.fn7174(), () => RiftActionManager.fn7474()]);
+        this.fnHash.set(7, [() => RiftActionManager.fn7174()]);
         // level 8
-        this.fnHash.set(8, [() => RiftActionManager.fn8181()]);
+        this.fnHash.set(8, [() => RiftActionManager.fn8181s()]);
         // level 9
-        this.fnHash.set(9, [() => RiftActionManager.fn9191(), () => RiftActionManager.fn9292(), () => RiftActionManager.fn9393()]);
+        this.fnHash.set(9, [() => RiftActionManager.fn9191(), () => RiftActionManager.fn9393()]);
         // level 10
-        this.fnHash.set(10, [() => RiftActionManager.fn101101(), () => RiftActionManager.fn102102(), () => RiftActionManager.fn103104()]);
+        this.fnHash.set(10, []);
         // level 11
-        this.fnHash.set(11, [() => RiftActionManager.fn111111()]);
+        this.fnHash.set(11, []);
         // level 12
         this.fnHash.set(12, []);
 
@@ -53,19 +53,19 @@ class RiftActionManager {
         // level 2
         this.invfnHash.set(2, [() => RiftActionManager.invfn2121()]);
         // level 3
-        this.invfnHash.set(3, [() => RiftActionManager.invfn4141()]);
+        this.invfnHash.set(3, []);
         // level 4
         this.invfnHash.set(4, []);
         // level 5
         this.invfnHash.set(5, [() => RiftActionManager.invfn5151(), () => RiftActionManager.invfn5252()]);
         // level 6
-        this.invfnHash.set(6, [() => RiftActionManager.invfn6161(), () => RiftActionManager.invfn6262()]);
+        this.invfnHash.set(6, [() => RiftActionManager.invfn6161()]);
         // level 7
-        this.invfnHash.set(7, [() => RiftActionManager.invfn7172(), () => RiftActionManager.invfn7271()]);
+        this.invfnHash.set(7, [() => RiftActionManager.invfn7172()]);
         // level 8
-        this.invfnHash.set(8, [() => RiftActionManager.invfn8181(), () => RiftActionManager.invfn8181()]);
+        this.invfnHash.set(8, [() => RiftActionManager.invfn8181()]);
         // level 9
-        this.invfnHash.set(9, [() => RiftActionManager.invfn9191(), () => RiftActionManager.invfn9393(), () => RiftActionManager.invfn9292()]);
+        this.invfnHash.set(9, [() => RiftActionManager.invfn9191(), () => RiftActionManager.invfn9393()]);
         // level 10
         this.invfnHash.set(10, []);
         // level 11
@@ -74,19 +74,16 @@ class RiftActionManager {
         this.invfnHash.set(12, []);
     }
 
-    static reverseToLevelBroken(levelNumber) {
+    static reverseToLevel(levelNumber) {
         console.log('Level Stack');
         console.log(this.levelStack);
 
         var len = this.levelStack.length;
 
         // if we need to go ahead in levels
-        if (len < levelNumber) {
+        if (len < (levelNumber-1)) {
             // call all level functions until one before levelNumber
-            for (var i=len; i<levelNumber; i++) {
-                if (i == 0)
-                    continue;
-
+            for (var i=len+1; i<levelNumber; i++) {
                 // push to stack and call functions
                 console.log('Pushing level ' + i);
                 this.levelStack.push(i);
@@ -118,15 +115,7 @@ class RiftActionManager {
         console.log(this.levelStack);
     }
 
-    static pushLevel(levelNumber) {
-        this.levelStack.push(levelNumber);
-    }
-
-    static popLevel(levelNumber) {
-        this.reverseToLevel(levelNumber)
-    }
-
-    static reverseToLevel(levelNumber) {
+    static reverseToLevelOld(levelNumber) {
         var len = this.idStack.length;
         for (var x = 0; x < len; x++) {
             var id = "" + this.idStack.pop();
@@ -290,9 +279,7 @@ class RiftActionManager {
 
     static fnundefined() { }
 
-
     // Level 1
-
     static fn1112() {
         RiftActionManager.scene.levelData.input.jumpKey = "SPACE";
     }
@@ -301,8 +288,8 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.jumpKey = "";
     }
 
-    // Level 2
 
+    // Level 2
     static fn2121() {
         RiftActionManager.scene.levelData.input.gravity = -300;
     }
@@ -313,6 +300,7 @@ class RiftActionManager {
 
     // Level 3
     // No rifts :(
+
 
     // Level 4
     static fn4141() {
@@ -326,8 +314,8 @@ class RiftActionManager {
         try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
     }
 
-    // Level 5
 
+    // Level 5
     static fn5151() {
         RiftActionManager.scene.levelData.input.throwStrength = 1000;
     }
@@ -343,6 +331,7 @@ class RiftActionManager {
     static invfn5252() {
         RiftActionManager.scene.levelData.input.gravity = -300;
     }
+
 
     // Level 6
     static fn6161() {
@@ -364,8 +353,8 @@ class RiftActionManager {
         try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
     }
 
-    // Level 7
 
+    // Level 7
     static fn7172() {
         RiftActionManager.scene.levelData.input.gravity = -300;
     }
@@ -414,6 +403,7 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.gravity = -300;
     }
 
+
     // Level 8
     static fn8181() {
         try {
@@ -424,16 +414,17 @@ class RiftActionManager {
         RiftActionManager.scene.levelData.input.drag = 0.0;
     }
 
-    static invfn8181() {
-        try {RiftActionManager.scene.riftLayer.destroy(false);} catch {}
+    static fn8181s() {
+        // change drag on player
+        RiftActionManager.scene.levelData.input.drag = 0.0;  
     }
 
     static invfn8181() {
         RiftActionManager.scene.levelData.input.drag = 0.85;
     }
 
-    // Level 9
 
+    // Level 9
     static fn9191() {
         RiftActionManager.scene.levelData.input.downKey = "S";
     }
@@ -464,7 +455,6 @@ class RiftActionManager {
 
 
     // Level 10
-
     static fn101101() {
         try {
             RiftActionManager.scene.invRift1Layer.setAlpha(0);
@@ -491,8 +481,8 @@ class RiftActionManager {
         } catch{ }
     }
 
-    // Level 11
 
+    // Level 11
     static fn111111() {
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
@@ -501,6 +491,4 @@ class RiftActionManager {
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
         } catch{ }
     }
-
-
 }
