@@ -52,6 +52,7 @@ class Boss {
         this.riftManager = riftManager;
         this.particles = this.riftManager.riftParticles;
         this.unmasked = false;
+        this.hitDelay = 0;
         
     }
 
@@ -107,7 +108,28 @@ class Boss {
             this.boss.push(bodySprite);
         }
 
-        this.scene.physics.add.collider(this.scene.player, this.boss);
+        
+        this.scene.physics.add.collider(this.scene.player, this.boss, function(player, boss) {
+            // player, boss hit callbacks
+            if(boss.hitDelay > 0) {
+                boss.hitDelay --;
+            } else {
+                //var tint = Phaser.Math.Between(0, 359);
+                player.setTintFill(Phaser.Display.Color.HSVColorWheel()[270].color);
+
+                if(boss.x > player.x) {
+                    player.setVelocity(-1000, 300);
+                } else {
+                    player.setVelocity(1000, 300);
+                }
+                
+                setTimeout(function() {
+                    player.clearTint();
+                }, 250);
+
+                boss.hitDelay = 25;
+            }
+        });
 
         this.movePoints = [];
         this.moveDistance = 15;

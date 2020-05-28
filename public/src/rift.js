@@ -16,6 +16,9 @@ class RiftManager {
         this.riftZones = scene.physics.add.group([]);
         this.riftInputBlocks = scene.physics.add.group([]);
 
+        /* rift audio*/
+        this.riftHum = this.scene.sound.add("riftHum");
+
 
         /* rift effects objects */
         this.riftParticles = scene.add.particles('riftParticles');
@@ -209,7 +212,7 @@ class RiftManager {
             yoyo: true,
             ease: 'Sine.easeInOut',
             y: function (target) {
-                return target.y + Phaser.Math.Between(rift.totalHeight, rift.totalHeight + 40);
+                return target.y + Phaser.Math.Between(rift.totalHeight, rift.totalHeight + 25);
             },
         });
 
@@ -222,7 +225,7 @@ class RiftManager {
             yoyo: true,
             ease: 'Sine.easeInOut',
             y: function (target) {
-                return target.y + Phaser.Math.Between(0, -40);
+                return target.y + Phaser.Math.Between(0, -25);
             }
         });
     }
@@ -555,4 +558,63 @@ class RiftText extends Phaser.GameObjects.Text {
 
     preUpdate() { }
 }
+
+class WorldGlitchPipe extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
+    static time = 0;
+    constructor(game)
+    {
+        var config = {
+            game: game,
+            renderer: game.renderer,
+            fragShader:
+            `
+                #ifdef GL_ES
+                precision mediump float;
+                #endif
+    
+                precision mediump float;
+                uniform float     time;
+                uniform vec2      resolution;
+                uniform sampler2D uMainSampler;
+                varying vec2 outTexCoord;
+
+                void main( void ) {,
+                    vec2 uv = outTexCoord;
+                    uv.x += sin((uv.y + time) * 100.0) + sin((uv.y + time) * 100.0);
+                    vec4 texColor = texture2D(uMainSampler, uv);
+                    gl_FragColor = texColor;
+                }
+            `
+        };
+        super(config);
+
+    }
+
+    static create(scene) {
+        scene.glitchPipe = this.game.renderer.addPipeline('Glitch', new WorldGlitchPipe(scene.game));
+        scene.glitchPipe.setFloat2('resolution', scene.game.config.width, scene.game.config.height);
+    }
+
+    static apply(scene) {
+        scene.cameras.main.setRenderToTexture(scene.glitchPipe);
+    }
+
+    static remove(scene) {
+        scene.cameras.main.clearRenderToTexture();
+    }
+
+    static glitch(scene, time) {
+        WorldGlitchPipe.apply(scene);
+
+        setTimeout(function() {
+            WorldGlitchPipe.remove(scene);
+        }, time); 
+    }
+
+    static update(scene) {
+        scene.glitchPipe.setFloat1('time', WorldGlitchPipe.time);
+        WorldGlitchPipe.time += 0.005; 
+    }
+}
+
 
