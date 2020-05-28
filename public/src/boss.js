@@ -109,7 +109,7 @@ class Boss {
         }
 
         
-        this.scene.physics.add.collider(this.scene.player, this.boss, function(player, boss) {
+        this.scene.physics.add.overlap(this.scene.player, this.boss, function(player, boss) {
             // player, boss hit callbacks
             if(boss.hitDelay > 0) {
                 boss.hitDelay --;
@@ -118,9 +118,9 @@ class Boss {
                 player.setTintFill(Phaser.Display.Color.HSVColorWheel()[270].color);
 
                 if(boss.x > player.x) {
-                    player.setVelocity(-1000, 300);
+                    player.setVelocity(-1000, -100);
                 } else {
-                    player.setVelocity(1000, 300);
+                    player.setVelocity(1000, -100);
                 }
                 
                 setTimeout(function() {
