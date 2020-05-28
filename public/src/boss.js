@@ -138,8 +138,8 @@ class Boss {
             this.movePoints.push(new BossPoint(x, y, 0));
         }
 
-        this.unmasked = true;
-        this.bossLoseArmor(1000);
+        this.unmasked = false;
+        //this.bossLoseArmor(1000);
     }
 
     bossTearDown() {
@@ -233,8 +233,8 @@ class Boss {
 
     // ===== //\ BOSS MOVEMENT \// ===== //
 
-    spawnBoss(x, y, segments) {
-        this.behaviorEnterScene(x, y, BossBehaviors.NAVIGATE_BETWEEN_RANDOM_POINTS, segments);
+    spawnBoss(x, y, segments, behavior) {
+        this.behaviorEnterScene(x, y, behavior, segments);
     }
 
     despawnBoss(x, y) {
@@ -243,7 +243,8 @@ class Boss {
         let that = this;
         setTimeout(function() {
             that.behavior = BossBehaviors.GOES_NOWHERE_DOES_NOTHING;
-        }, 30000); // disappears itself after 30 seconds..
+            that.bossTearDown();
+        }, 15000); // disappears itself after 30 seconds..
     }
 
     bossMoveBody() {

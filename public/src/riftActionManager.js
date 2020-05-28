@@ -520,9 +520,19 @@ class RiftActionManager {
     }
 
     static fn123123() {
-        try {
+        //try {
             RiftActionManager.scene.levelData.input.gravity = 300;
-            //RiftActionManager.scene.boss
-        } catch { }
+
+            RiftActionManager.scene.boss = new Boss(RiftActionManager.scene, RiftActionManager.scene.riftManager);
+            console.log(RiftActionManager.scene.boss);
+            RiftActionManager.scene.boss.inputNavCoords([{x: 600, y: 50}, {x: 605, y: 200}]);
+            RiftActionManager.scene.boss.spawnBoss(400, 50, 10, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
+
+            
+
+            setTimeout(function() {
+                RiftActionManager.scene.boss.despawnBoss(750, 300);
+            }, 10000);
+        //} catch { }
     }
 }

@@ -441,13 +441,13 @@
             "rifts": [
                 {
                     "text": "Bridge is: ",
-                    "xPos": 121,
-                    "yPos": 75,
+                    "xPos": 400,
+                    "yPos": 25,
                     "inputType": "bool"
                 },
                 {
                     "text": "Gravity is: ",
-                    "xPos": 200,
+                    "xPos": 300,
                     "yPos": 500,
                     "inputType": "direction"
                 }
@@ -456,19 +456,19 @@
             "riftElements": [
                 {
                     "xPos": 525,
-                    "yPos": 300,
+                    "yPos": 250,
                     "text": "repaired",
                     "inputType": "bool"
                 },
                 {
-                    "xPos": 750,
-                    "yPos": 550,
-                    "text": "left",
+                    "xPos": 300,
+                    "yPos": 375,
+                    "text": "up",
                     "inputType": "direction"
                 },
                 {
-                    "xPos": 100,
-                    "yPos": 500,
+                    "xPos": 475,
+                    "yPos": 375,
                     "text": "down",
                     "inputType": "direction"
                 }
