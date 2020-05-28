@@ -330,7 +330,13 @@ class Boss {
         }
 
         this.bossGravityWell(x, y, true);
+        if(x > 400) {
+            this.navPoints.unshift(new Phaser.Geom.Point(10000, y+5));
+        } else {
+            this.navPoints.unshift(new Phaser.Geom.Point(-10000, y+5));
+        }
 
+        
         this.navPoints.unshift(new Phaser.Geom.Point(x, y));
         this.behavior = BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET;
 

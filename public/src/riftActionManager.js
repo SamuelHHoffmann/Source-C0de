@@ -506,7 +506,7 @@ class RiftActionManager {
     static fn121121() {
         RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
         RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
-        var rift = RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 200, 300, "Gravity is:", "direction", "123");
+        var rift = RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 100, 100, "Gravity is:", "direction", "123");
         
 
         RiftActionManager.scene.riftManager.removeRift("122");
@@ -525,14 +525,14 @@ class RiftActionManager {
 
             RiftActionManager.scene.boss = new Boss(RiftActionManager.scene, RiftActionManager.scene.riftManager);
             console.log(RiftActionManager.scene.boss);
-            RiftActionManager.scene.boss.inputNavCoords([{x: 600, y: 50}, {x: 605, y: 200}]);
-            RiftActionManager.scene.boss.spawnBoss(400, 50, 10, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
+            RiftActionManager.scene.boss.inputNavCoords([{x: 150, y: 100}, {x: 650, y: 105}]);
+            RiftActionManager.scene.boss.spawnBoss(400, 300, 10, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
 
             
 
             setTimeout(function() {
                 RiftActionManager.scene.boss.despawnBoss(750, 300);
-            }, 10000);
+            }, 20000);
         //} catch { }
     }
 }
