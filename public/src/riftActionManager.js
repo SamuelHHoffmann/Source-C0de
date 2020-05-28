@@ -46,7 +46,7 @@ class RiftActionManager {
         // level 11
         this.fnHash.set(11, []);
         // level 12
-        this.fnHash.set(12, []);
+        this.fnHash.set(12, [() => RiftActionManager.fn121121(), () => RiftActionManager.fn122122(), () => RiftActionManager.fn123123]);
 
         // level 1
         this.invfnHash.set(1, [() => RiftActionManager.invfn1112()]);
@@ -224,6 +224,15 @@ class RiftActionManager {
                 return tempfn;
             case "111111":
                 tempfn = () => RiftActionManager.fn111111();
+                return tempfn;
+            case "121121":
+                tempfn = () => RiftActionManager.fn121121();
+                return tempfn;
+            case "122122":
+                tempfn = () => RiftActionManager.fn122122();
+                return tempfn;
+            case "123123":
+                tempfn = () => RiftActionManager.fn123123();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -490,5 +499,30 @@ class RiftActionManager {
             RiftActionManager.scene.riftLayer.setTileIndexCallback(36, RiftActionManager.scene.endLevel, RiftActionManager.scene);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
         } catch{ }
+    }
+
+    // Level 12
+
+    static fn121121() {
+        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+        var rift = RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 200, 300, "Gravity is:", "direction", "123");
+        
+
+        RiftActionManager.scene.riftManager.removeRift("122");
+        RiftActionManager.scene.riftManager.removeRiftInput("122");
+    }
+
+    static fn122122() {
+        try {
+            RiftActionManager.scene.levelData.input.gravity = -300;
+        } catch { }
+    }
+
+    static fn123123() {
+        try {
+            RiftActionManager.scene.levelData.input.gravity = 300;
+            //RiftActionManager.scene.boss
+        } catch { }
     }
 }

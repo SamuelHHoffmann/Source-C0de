@@ -93,33 +93,6 @@ class RiftManager {
         // rift animations
 
         this.riftPointPop(scene, rift);
-        /*
-        scene.tweens.add({
-            targets: rift.riftPoly.geom.points.slice(rift.factor + 3, rift.riftPoly.geom.points.length),
-            duration: function () {
-                return Phaser.Math.Between(500, 5000);
-            },
-            repeat: -1,
-            yoyo: true,
-            ease: 'Sine.easeInOut',
-            y: function () {
-                return y + Phaser.Math.Between(rift.totalHeight, rift.totalHeight + 40);
-            },
-        });
-
-        scene.tweens.add({
-            targets: rift.riftPoly.geom.points.slice(1, rift.factor + 2),
-            duration: function () {
-                return Phaser.Math.Between(500, 5000);
-            },
-            repeat: -1,
-            yoyo: true,
-            ease: 'Sine.easeInOut',
-            y: function () {
-                return y + Phaser.Math.Between(0, -40);
-            }
-        });
-        */
 
         // rift particles
         rift.riftEmitter = this.riftParticles.createEmitter({
