@@ -558,7 +558,7 @@ class WorldGlitchPipe extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipelin
 
                 void main( void ) {
                     vec2 uv = outTexCoord;
-                    uv.x += sin((uv.y + time) * 100.0) + sin((uv.y + time) * 100.0);
+                    uv.x += sin((uv.y + time) * 10.0) + sin((uv.y + time) * 100.0);
                     vec4 texColor = texture2D(uMainSampler, uv);
                     gl_FragColor = texColor;
                 }

@@ -244,9 +244,8 @@ class Boss {
 
     spawnBoss(x, y, segments, behavior) {
         this.behaviorEnterScene(x, y, behavior, segments);
-        //for(var i = 0; i<5; i++) {
-        //    WorldGlitchPipe.glitch(this.scene, Phaser.Math.Between(50, 250) += i*500);
-        //}
+        
+        //WorldGlitchPipe.glitch(this.scene, Phaser.Math.Between(50, 100));
     }
 
     despawnBoss(x, y) {

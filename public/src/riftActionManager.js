@@ -616,12 +616,17 @@ class RiftActionManager {
     static fn121121() {
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.invRift1Layer = RiftActionManager.scene.map.createStaticLayer("riftDeco", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
             RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 100, 100, "Gravity is:", "direction", "123");
             
 
-            RiftActionManager.scene.riftManager.removeRift("122");
-            RiftActionManager.scene.riftManager.removeRiftInput("122");
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("121");
+                RiftActionManager.scene.riftManager.removeRiftInput("121");
+                RiftActionManager.scene.riftManager.removeRift("122");
+                RiftActionManager.scene.riftManager.removeRiftInput("122");
+            }, 2000);
 
             //console.log(RiftActionManager.scene.riftManager.rifts);
         } catch { }
@@ -633,6 +638,7 @@ class RiftActionManager {
             //RiftActionManager.scene.riftManager.removeRift("123");
             //RiftActionManager.scene.levelData.input.gravity = 300;
             RiftActionManager.scene.riftLayer.destroy(false);
+            RiftActionManager.scene.invRift1Layer.destroy(false);
         } catch { }
     }
 
@@ -649,7 +655,7 @@ class RiftActionManager {
     }
 
     static fn123123() {
-        //try {
+        try {
             RiftActionManager.scene.levelData.input.gravity = 300;
 
             RiftActionManager.scene.boss = new Boss(RiftActionManager.scene, RiftActionManager.scene.riftManager);
@@ -657,11 +663,16 @@ class RiftActionManager {
             RiftActionManager.scene.boss.inputNavCoords([{x: 150, y: 100}, {x: 155, y: 200}, {x: 650, y: 100}, {x: 655, y: 200}]);
             RiftActionManager.scene.boss.spawnBoss(400, 300, 10, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
 
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("123");
+                RiftActionManager.scene.riftManager.removeRiftInput("123");
+            }, 2000);
+
             
             setTimeout(function() {
                 RiftActionManager.scene.boss.despawnBoss(750, 300);
             }, 30000);
-        //} catch { }
+        } catch { }
     }
 }
 

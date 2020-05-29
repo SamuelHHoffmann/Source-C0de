@@ -46,7 +46,7 @@ class LevelScene extends Phaser.Scene {
     }
 
 
-    endLevel(sprite, tile) {
+    endLevel() {
         if (this.reDrawLayer) { return; }
 
         this.input.keyboard.removeKey(this.levelData.input.rightKey);

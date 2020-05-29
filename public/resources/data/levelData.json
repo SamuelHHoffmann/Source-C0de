@@ -432,10 +432,10 @@
         },
         {
             "name": "Encounter",
-            "desc": "The bridge is out..",
+            "desc": "The bridge is out... And these this seems to be the last of the Source Code that needs fixing.",
             "tileMapPath": "resources/tilemaps/level_12_1.json",
-            "startPositionX": 50,
-            "startPositionY": 100,
+            "startPositionX": 1,
+            "startPositionY": 120,
             "boss": false,
             "numRifts": 2,
             "rifts": [
@@ -467,8 +467,8 @@
                     "inputType": "direction"
                 },
                 {
-                    "xPos": 750,
-                    "yPos": 500,
+                    "xPos": 680,
+                    "yPos": 250,
                     "text": "down",
                     "inputType": "direction"
                 }
@@ -481,10 +481,30 @@
             "startPositionX": 401,
             "startPositionY": 64,
             "boss": true,
-            "numRifts": 0,
-            "rifts": [],
+            "numRifts": 1,
+            "rifts": [
+                {
+                    "text": "Rift closed:",
+                    "xPos": 320,
+                    "yPos": 350,
+                    "inputType": "bool"
+                }
+            ],
             "numRiftElements": 0,
-            "riftElements": []
+            "riftElements": [
+                {
+                    "xPos": 525,
+                    "yPos": 250,
+                    "text": "true",
+                    "inputType": "bool"
+                },
+                {
+                    "xPos": 525,
+                    "yPos": 250,
+                    "text": "false",
+                    "inputType": "bool"
+                }
+            ]
         }
     ],
     "input": {
