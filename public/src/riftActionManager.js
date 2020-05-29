@@ -42,9 +42,9 @@ class RiftActionManager {
         // level 9
         this.fnHash.set(9, [() => RiftActionManager.fn9191(), () => RiftActionManager.fn9393()]);
         // level 10
-        this.fnHash.set(10, []);
+        this.fnHash.set(10, [() => RiftActionManager.fn101101(), () => RiftActionManager.fn102102(), () => RiftActionManager.fn103104()]);
         // level 11
-        this.fnHash.set(11, []);
+        this.fnHash.set(11, [() => RiftActionManager.fn111111()]);
         // level 12
         this.fnHash.set(12, [() => RiftActionManager.fn121121(), () => RiftActionManager.fn122122(), () => RiftActionManager.fn123123]);
         // level 13
@@ -217,7 +217,7 @@ class RiftActionManager {
                 return tempfn;
             case "9393":
                 tempfn = () => RiftActionManager.fn9393();
-                return tempfn; fn9393
+                return tempfn;
             case "101101":
                 tempfn = () => RiftActionManager.fn101101();
                 return tempfn;
@@ -481,6 +481,10 @@ class RiftActionManager {
         } catch{ }
         // change drag on player
         RiftActionManager.scene.levelData.input.drag = 0.0;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("81");
+            RiftActionManager.scene.riftManager.removeRiftInput("81");
+        }, 2000);
     }
 
     static fn8181s() {
@@ -496,6 +500,10 @@ class RiftActionManager {
     // Level 9
     static fn9191() {
         RiftActionManager.scene.levelData.input.downKey = "S";
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("91");
+            RiftActionManager.scene.riftManager.removeRiftInput("91");
+        }, 2000);
     }
 
     static invfn9191() {
@@ -506,6 +514,11 @@ class RiftActionManager {
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("92");
+                RiftActionManager.scene.riftManager.removeRiftInput("92");
+            }, 2000);
         } catch{ }
     }
 
@@ -516,6 +529,10 @@ class RiftActionManager {
     static fn9393() {
         // change drag on player
         RiftActionManager.scene.levelData.input.drag = 0.85;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("93");
+            RiftActionManager.scene.riftManager.removeRiftInput("93");
+        }, 2000);
     }
 
     static invfn9393() {
@@ -528,26 +545,44 @@ class RiftActionManager {
         try {
             RiftActionManager.scene.invRift1Layer.setAlpha(0);
             RiftActionManager.scene.invRift1Layer.setCollisionBetween(0, 5, false, true);
+
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("101");
+                RiftActionManager.scene.riftManager.removeRiftInput("101");
+            }, 2000);
         } catch{ }
+
+
     }
 
     static fn102102() {
         try {
             RiftActionManager.scene.invRift2Layer.setAlpha(0);
             RiftActionManager.scene.invRift2Layer.setCollisionBetween(0, 5, false, true);
+
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("102");
+                RiftActionManager.scene.riftManager.removeRiftInput("102");
+            }, 2000);
         } catch{ }
+
+
     }
 
     static fn103104() {
-        try {
+        //try {
             RiftActionManager.scene.invRift1Layer = RiftActionManager.scene.map.createDynamicLayer("invRift1", RiftActionManager.scene.tileset, 0, 0).setDepth(21).setCollisionBetween(0, 5);
             RiftActionManager.scene.invRift1Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift1Layer);
             RiftActionManager.scene.invRift2Layer = RiftActionManager.scene.map.createDynamicLayer("invRift2", RiftActionManager.scene.tileset, 0, 0).setDepth(21).setCollisionBetween(0, 5);
             RiftActionManager.scene.invRift2Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift2Layer);
 
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("103");
+                RiftActionManager.scene.riftManager.removeRiftInput("104");
+            }, 2000);
             //RiftActionManager.scene.riftManager.removeRiftInput("104");
             //RiftActionManager.scene.riftManager.removeRift("103");
-        } catch{ }
+        //} catch{ }
     }
 
 

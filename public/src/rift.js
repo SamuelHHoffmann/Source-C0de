@@ -143,17 +143,19 @@ class RiftManager {
 
     removeRift(id) {
         for (var tempRift of this.rifts) {
-            if (tempRift.riftZone.id == id) {
-                console.log("removing ", id);
-                this.riftPointUnpop(this.scene, tempRift);
-                //this.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, true);
-                
-                tempRift.codeText.destroy();
-                tempRift.riftZone.destroy();
-                
-                this.emitterFadeOut(tempRift);
+            if(tempRift.riftZone != undefined && tempRift.riftZone != null) {
+                if (tempRift.riftZone.id == id) {
+                    this.riftPointUnpop(this.scene, tempRift);
+                    //this.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, true);
+                    
+                    tempRift.codeText.destroy();
+                    tempRift.riftZone.destroy();
 
-                //this.rifts.splice(this.rifts[this.rifts.indexOf(tempRift)], 1);
+                    
+                    this.emitterFadeOut(tempRift);
+
+                    //this.rifts.splice(this.rifts[this.rifts.indexOf(tempRift)], 1);
+                }
             }
 
         }

@@ -114,17 +114,22 @@ class Boss {
             if(boss.hitDelay > 0) {
                 boss.hitDelay --;
             } else {
+                if(!boss.unmasked) {
                 //var tint = Phaser.Math.Between(0, 359);
-                player.setTintFill(Phaser.Display.Color.HSVColorWheel()[270].color);
+                    player.setTintFill(Phaser.Display.Color.HSVColorWheel()[270].color);
 
-                player.body.moves = false;
-                player.setVelocity(0, 0);
+                    player.body.moves = false;
+                    player.setVelocity(0, 0);
 
-                if(boss.x > player.x) {
-                    player.setVelocity(-1000, -100);
+                    if(boss.x > player.x) {
+                        player.setVelocity(-1000, -100);
+                    } else {
+                        player.setVelocity(1000, -100);
+                    }
                 } else {
-                    player.setVelocity(1000, -100);
+                    // damage nort! :c
                 }
+            
                 
                 setTimeout(function() {
                     player.clearTint();
