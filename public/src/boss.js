@@ -117,6 +117,9 @@ class Boss {
                 //var tint = Phaser.Math.Between(0, 359);
                 player.setTintFill(Phaser.Display.Color.HSVColorWheel()[270].color);
 
+                player.body.moves = false;
+                player.setVelocity(0, 0);
+
                 if(boss.x > player.x) {
                     player.setVelocity(-1000, -100);
                 } else {
@@ -125,6 +128,7 @@ class Boss {
                 
                 setTimeout(function() {
                     player.clearTint();
+                    player.body.moves = true;
                 }, 250);
 
                 boss.hitDelay = 25;
