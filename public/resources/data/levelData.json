@@ -343,7 +343,7 @@
             "startPositionX": 16,
             "startPositionY": 544,
             "boss": false,
-            "numRifts": 2,
+            "numRifts": 3,
             "rifts": [
                 {
                     "text": "Destroy wall: ",
@@ -356,9 +356,15 @@
                     "xPos": 488,
                     "yPos": 530,
                     "inputType": "bool"
+                },
+                {
+                    "text": "Turn On Wall: ",
+                    "xPos": 64,
+                    "yPos": 174,
+                    "inputType": "technic"
                 }
             ],
-            "numRiftElements": 3,
+            "numRiftElements": 4,
             "riftElements": [
                 {
                     "xPos": 268,
@@ -377,6 +383,12 @@
                     "yPos": 228,
                     "text": "🏆",
                     "inputType": "none"
+                },
+                {
+                    "xPos": 209,
+                    "yPos": 171,
+                    "text": "Yes",
+                    "inputType": "technic"
                 }
             ]
         },
