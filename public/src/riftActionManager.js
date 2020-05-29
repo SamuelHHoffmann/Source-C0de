@@ -302,6 +302,11 @@ class RiftActionManager {
     // Level 1
     static fn1112() {
         RiftActionManager.scene.levelData.input.jumpKey = "SPACE";
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("11");
+            RiftActionManager.scene.riftManager.removeRiftInput("11");
+        }, 2000);
     }
 
     static invfn1112() {
@@ -312,6 +317,10 @@ class RiftActionManager {
     // Level 2
     static fn2121() {
         RiftActionManager.scene.levelData.input.gravity = -300;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("21");
+            RiftActionManager.scene.riftManager.removeRiftInput("21");
+        }, 2000);
     }
 
     static invfn2121() {
@@ -327,6 +336,11 @@ class RiftActionManager {
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("41");
+                RiftActionManager.scene.riftManager.removeRiftInput("41");
+            }, 2000);
         } catch{ }
     }
 
@@ -338,6 +352,10 @@ class RiftActionManager {
     // Level 5
     static fn5151() {
         RiftActionManager.scene.levelData.input.throwStrength = 1000;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("51");
+            RiftActionManager.scene.riftManager.removeRiftInput("51");
+        }, 2000);
     }
 
     static invfn5151() {
@@ -346,6 +364,10 @@ class RiftActionManager {
 
     static fn5252() {
         RiftActionManager.scene.levelData.input.gravity = 300;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("52");
+            RiftActionManager.scene.riftManager.removeRiftInput("52");
+        }, 2000);
     }
 
     static invfn5252() {
@@ -356,16 +378,26 @@ class RiftActionManager {
     // Level 6
     static fn6161() {
         RiftActionManager.scene.levelData.input.throwStrength = 300;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("61");
+            RiftActionManager.scene.riftManager.removeRiftInput("61");
+        }, 2000);
     }
 
     static invfn6161() {
         RiftActionManager.scene.levelData.input.throwStrength = 1000;
+        
     }
 
     static fn6262() {
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("62");
+                RiftActionManager.scene.riftManager.removeRiftInput("62");
+            }, 2000);
         } catch{ }
     }
 
@@ -377,6 +409,10 @@ class RiftActionManager {
     // Level 7
     static fn7172() {
         RiftActionManager.scene.levelData.input.gravity = -300;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("71");
+            RiftActionManager.scene.riftManager.removeRiftInput("72");
+        }, 2000);
     }
 
     static fn7174() {
@@ -387,6 +423,11 @@ class RiftActionManager {
         try {
             RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("72");
+                RiftActionManager.scene.riftManager.removeRiftInput("71");
+            }, 2000);
         } catch{ }
     }
 
@@ -401,10 +442,18 @@ class RiftActionManager {
 
     static fn7472() {
         RiftActionManager.scene.levelData.input.gravity = -300;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("74");
+            RiftActionManager.scene.riftManager.removeRiftInput("72");
+        }, 2000);
     }
 
     static fn7474() {
         RiftActionManager.scene.levelData.input.gravity = 300;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("74");
+            RiftActionManager.scene.riftManager.removeRiftInput("74");
+        }, 2000);
     }
 
     static invfn7172() {
