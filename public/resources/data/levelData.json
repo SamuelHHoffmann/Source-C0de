@@ -475,8 +475,8 @@
             ]
         },
         {
-            "name": "Boss testing",
-            "desc": "Oh lawd he comin",
+            "name": "IT'S A-",
+            "desc": "???",
             "tileMapPath": "resources/tilemaps/level_12.json",
             "startPositionX": 401,
             "startPositionY": 64,
@@ -490,18 +490,12 @@
                     "inputType": "bool"
                 }
             ],
-            "numRiftElements": 0,
+            "numRiftElements": 1,
             "riftElements": [
                 {
-                    "xPos": 525,
-                    "yPos": 250,
+                    "xPos": 600,
+                    "yPos": 100,
                     "text": "true",
-                    "inputType": "bool"
-                },
-                {
-                    "xPos": 525,
-                    "yPos": 250,
-                    "text": "false",
                     "inputType": "bool"
                 }
             ]

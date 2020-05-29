@@ -181,7 +181,6 @@ class LevelScene extends Phaser.Scene {
             this.boss = null;
         }
 
-
         //this.boss = new Boss(this, this.riftManager.riftParticles);
         //this.boss.bossSpawnBody(0, 0, 20);
         //this.boss.behavior = BossBehaviors.GOES_NOWHERE_DOES_NOTHING;

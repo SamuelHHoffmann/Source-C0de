@@ -239,6 +239,36 @@ class RiftActionManager {
             case "123123":
                 tempfn = () => RiftActionManager.fn123123();
                 return tempfn;
+            case "131131":
+                tempfn = () => RiftActionManager.fn131131();
+                return tempfn;
+            case "132132":
+                tempfn = () => RiftActionManager.fn132132();
+                return tempfn;
+            case "133133":
+                tempfn = () => RiftActionManager.fn133133();
+                return tempfn;
+            case "134134":
+                tempfn = () => RiftActionManager.fn134134();
+                return tempfn;
+            case "134134":
+                tempfn = () => RiftActionManager.fn135135();
+                return tempfn;
+            case "135135":
+                tempfn = () => RiftActionManager.fn135135();
+                return tempfn;
+            case "136136":
+                tempfn = () => RiftActionManager.fn136136();
+                return tempfn;
+            case "137137":
+                tempfn = () => RiftActionManager.fn137137();
+                return tempfn;
+            case "138138":
+                tempfn = () => RiftActionManager.fn138138();
+                return tempfn;
+            case "139139":
+                tempfn = () => RiftActionManager.fn139139();
+                return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
                 return tempfn;
@@ -661,7 +691,7 @@ class RiftActionManager {
             RiftActionManager.scene.boss = new Boss(RiftActionManager.scene, RiftActionManager.scene.riftManager);
             console.log(RiftActionManager.scene.boss);
             RiftActionManager.scene.boss.inputNavCoords([{x: 150, y: 100}, {x: 155, y: 200}, {x: 650, y: 100}, {x: 655, y: 200}]);
-            RiftActionManager.scene.boss.spawnBoss(400, 300, 10, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
+            RiftActionManager.scene.boss.spawnBoss(400, 300, 20, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
 
             setTimeout(function() {
                 RiftActionManager.scene.riftManager.removeRift("123");
@@ -674,7 +704,182 @@ class RiftActionManager {
             }, 30000);
         } catch { }
     }
+
+
+    // final level (boss) 
+
+    static fn131131() { // close the rift
+        // boss spawn..
+        RiftActionManager.scene.boss = new Boss(RiftActionManager.scene, RiftActionManager.scene.riftManager);
+        var l13NavInit = [
+            {x:200, y:150},
+            {x:600, y:150},
+            {x:200, y:450},
+            {x:600, y:450}
+        ];
+
+        RiftActionManager.scene.boss.inputNavCoords(l13NavInit);
+        RiftActionManager.scene.boss.spawnBoss(400, 300, 20, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("131");
+            RiftActionManager.scene.riftManager.removeRiftInput("131");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 300, 50, "ĠṛäṿIẗÿ ïṡ:", "direction", "132");
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 480, 30, "uP", "direction", "132");
+
+        }, 2000);
+    }
+
+    static fn132132() {
+        RiftActionManager.scene.levelData.input.gravity = -200;
+        //RiftActionManager.scene.boss.behavior = BossBehaviors.PURSUE_PLAYER;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("132");
+            RiftActionManager.scene.riftManager.removeRiftInput("132");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 550, 150, "Gravity is:", "direction", "133");
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 100, 100, "down", "direction", "133");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 320, 400, "Throw is:", "power", "134");
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 600, 600, "strong", "power", "134");
+            
+        }, 2000);
+    }
+
+
+    static fn133133() {
+        RiftActionManager.scene.levelData.input.gravity = 300;
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("133");
+            RiftActionManager.scene.riftManager.removeRiftInput("133");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 320, 50, "???? is:", "pain", "135");
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 50, 300, "vulnerable", "pain", "135");
+        }, 2000);
+    }
+
+    static fn134134() {
+        RiftActionManager.scene.levelData.input.throwStrength = 1000;
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("134");
+            RiftActionManager.scene.riftManager.removeRiftInput("134");
+        }, 2000);
+    }
+
+    static fn135135() {
+        RiftActionManager.scene.boss.unmasked = true;
+        RiftActionManager.scene.boss.bossLoseArmor(1000);
+
+        setTimeout(function() {
+            RiftActionManager.scene.boss.behavior = BossBehaviors.PURSUE_PLAYER;
+            RiftActionManager.scene.riftManager.removeRift("135");
+            RiftActionManager.scene.riftManager.removeRiftInput("135");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 100, 100, "SLIP:", "bool", "136"); // drag
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 200, 100, "true", "bool", "136");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 450, 100, "ĠṛäṿIẗÿ ïṡ:", "direction", "137"); // gravity
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 630, 100, "^v", "direction", "137");
+        }, 2000);
+
+    }
+
+    static fn136136() {
+        RiftActionManager.scene.levelData.input.drag = 0.0;
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("136");
+            RiftActionManager.scene.riftManager.removeRiftInput("136");
+        }, 2000);
+    }
+
+    static fn137137() {
+        
+        for(var i = 0; i< 10; i++) {
+            setTimeout(function() {
+                RiftActionManager.scene.levelData.input.gravity = Phaser.Math.Between(-300, 300);
+            }, i*1000);
+        }
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("137");
+            RiftActionManager.scene.riftManager.removeRiftInput("137");
+        }, 2000);
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 550, 150, "Gravity is:", "direction", "138");
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 100, 100, "down", "direction", "138");
+            RiftActionManager.scene.levelData.input.gravity = -300;
+        }, 11000);
+    }
+
+    static fn138138() {
+        RiftActionManager.scene.levelData.input.gravity = 300;
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("138");
+            RiftActionManager.scene.riftManager.removeRiftInput("138");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 320, 50, "???? is:", "pain", "139");
+            RiftActionManager.scene.riftManager.createNewRiftInput(RiftActionManager.scene, 50, 300, "dead", "pain", "139");
+        }, 2000);
+    }
+
+    static fn139139() {
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.removeRift("139");
+            RiftActionManager.scene.riftManager.removeRiftInput("139");
+
+            RiftActionManager.scene.boss.behavior = BossBehaviors.GOES_NOWHERE_DOES_NOTHING;
+            RiftActionManager.scene.boss.dead = true;
+            
+            for(var i = 0; i< RiftActionManager.scene.boss.boss.length; i++) {
+                var segment = RiftActionManager.scene.boss.boss[i];
+                segment.body.setAllowGravity(true);
+                segment.body.setDrag(0.85);
+            }
+
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.collision_layer, RiftActionManager.scene.boss.boss);
+        }, 2000);
+
+        setTimeout(function() {
+            RiftActionManager.scene.boss.bossFadeOut(0);
+        }, 10000);
+
+        setTimeout(function() {
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 400, 50, "  ", "none", "140");
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 500, 150, "  ", "none", "141");
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 600, 250, "  ", "none", "142");
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 500, 350, "  ", "none", "143");
+
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 400, 450, "  ", "none", "144");
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 300, 350, "  ", "none", "145");
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 200, 250, "  ", "none", "146");
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 300, 150, "  ", "none", "147");
+
+            setTimeout(function() {
+                RiftActionManager.scene.riftManager.removeRift("140");
+                RiftActionManager.scene.riftManager.removeRift("141");
+                RiftActionManager.scene.riftManager.removeRift("142");
+                RiftActionManager.scene.riftManager.removeRift("143");
+                RiftActionManager.scene.riftManager.removeRift("144");
+                RiftActionManager.scene.riftManager.removeRift("145");
+                RiftActionManager.scene.riftManager.removeRift("146");
+                RiftActionManager.scene.riftManager.removeRift("147");
+
+                RiftActionManager.scene.levelData.input.drag = 0.85;
+
+                RiftActionManager.scene.add.text(380, 280, "You win!").setColor('white');
+            }, 5000);
+        }, 12000);
+
+        
+    }
+    
 }
 
 
-// final level (boss) 
+
+    

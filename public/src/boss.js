@@ -82,6 +82,8 @@ class Boss {
         this.head = this.boss[0];
         this.head.setAlpha(0);
         this.head.body.setAllowGravity(false);
+        this.head.body.setCollideWorldBounds(true);
+        
         if(!this.unmasked) { 
             this.head.anims.play("BOSS_HEAD_ARMOR_IDLE");
         } else {
@@ -93,6 +95,7 @@ class Boss {
             var bodySprite = this.scene.physics.add.sprite(x, y, "boss");
 
             bodySprite.body.setAllowGravity(false);
+            bodySprite.body.setCollideWorldBounds(true);
             if(!this.unmasked) {
                 bodySprite.anims.play("BOSS_BODY_ARMOR_IDLE");
             } else {
@@ -126,6 +129,8 @@ class Boss {
                     } else {
                         player.setVelocity(1000, -100);
                     }
+                } else if (this.dead != null && this.dead != undefined) {
+                    // do nothing on overlap cause dead
                 } else {
                     // damage nort! :c
                 }
@@ -173,6 +178,9 @@ class Boss {
             case BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET:
                 this.behaviorNavBetweenSetPoints();
                 break;
+            case BossBehaviors.PURSUE_PLAYER:
+                this.behaviorNavToPlayer();
+                break;
             default:
                 break;  
         }
@@ -193,10 +201,8 @@ class Boss {
     }
 
     bossLoseArmor(delay) {
-        if(this.unmasked) {
-            for(var segment of this.boss) {
-                this.segmentLoseArmor(segment, delay += 500, this.boss);
-            }
+        for(var segment of this.boss) {
+            this.segmentLoseArmor(segment, delay += 500, this.boss);
         }
     }
 
@@ -365,7 +371,7 @@ class Boss {
     }
 
     behaviorNavBetweenRandomPoints() {
-        this.bossNavigatePoints( true);
+        this.bossNavigatePoints("true");
     }
     
     behaviorNavBetweenSetPoints() {
@@ -373,10 +379,19 @@ class Boss {
             this.generateRandomNavCoords(6, true, 100);
         }
 
-        this.bossNavigatePoints(false);
+        this.bossNavigatePoints("false");
+    }
+
+    behaviorNavToPlayer() {
+        this.inputNavCoords([{x: this.scene.player.x, y: this.scene.player.y}]);
+        this.bossNavigatePoints("player");
     }
 
     // ===== //\ BOSS BEHAVIOR HELPERS \// ===== //
+
+    getPlayerPos() {
+        return {x: this.scene.player.x, y: this.scene.player.y};
+    }
 
     inputNavCoords(navCoords) {
         this.navPoints = [];
@@ -435,8 +450,11 @@ class Boss {
             var starsMyDestination = this.navPoints[0];
             this.navPoints.shift();
 
-            if (random == true) {
+            if (random == "true") {
                 var nc = this.genNavCoord((this.scene.cameras.main.centerX * 2), (this.scene.cameras.main.centerY * 2), this.navPoints[0], 100);
+                this.navPoints.push(new Phaser.Geom.Point(nc.x, nc.y));
+            } else if (random == "player") {
+                var nc = this.getPlayerPos();
                 this.navPoints.push(new Phaser.Geom.Point(nc.x, nc.y));
             } else {
                 this.navPoints.push(starsMyDestination);
