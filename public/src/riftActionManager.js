@@ -860,14 +860,14 @@ class RiftActionManager {
             RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 300, 150, "  ", "none", "147");
 
             setTimeout(function() {
-                RiftActionManager.scene.riftManager.removeRift("140");
-                RiftActionManager.scene.riftManager.removeRift("141");
-                RiftActionManager.scene.riftManager.removeRift("142");
-                RiftActionManager.scene.riftManager.removeRift("143");
-                RiftActionManager.scene.riftManager.removeRift("144");
-                RiftActionManager.scene.riftManager.removeRift("145");
-                RiftActionManager.scene.riftManager.removeRift("146");
-                RiftActionManager.scene.riftManager.removeRift("147");
+                //RiftActionManager.scene.riftManager.removeRift("140");
+                //RiftActionManager.scene.riftManager.removeRift("141");
+                //RiftActionManager.scene.riftManager.removeRift("142");
+                //RiftActionManager.scene.riftManager.removeRift("143");
+                //RiftActionManager.scene.riftManager.removeRift("144");
+               // RiftActionManager.scene.riftManager.removeRift("145");
+                //RiftActionManager.scene.riftManager.removeRift("146");
+                //RiftActionManager.scene.riftManager.removeRift("147");
 
                 RiftActionManager.scene.levelData.input.drag = 0.85;
 
