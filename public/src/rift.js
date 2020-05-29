@@ -556,7 +556,7 @@ class WorldGlitchPipe extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipelin
                 uniform sampler2D uMainSampler;
                 varying vec2 outTexCoord;
 
-                void main( void ) {,
+                void main( void ) {
                     vec2 uv = outTexCoord;
                     uv.x += sin((uv.y + time) * 100.0) + sin((uv.y + time) * 100.0);
                     vec4 texColor = texture2D(uMainSampler, uv);
@@ -569,7 +569,7 @@ class WorldGlitchPipe extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipelin
     }
 
     static create(scene) {
-        scene.glitchPipe = this.game.renderer.addPipeline('Glitch', new WorldGlitchPipe(scene.game));
+        scene.glitchPipe = scene.game.renderer.addPipeline('Glitch', new WorldGlitchPipe(scene.game));
         scene.glitchPipe.setFloat2('resolution', scene.game.config.width, scene.game.config.height);
     }
 
@@ -590,8 +590,10 @@ class WorldGlitchPipe extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipelin
     }
 
     static update(scene) {
-        scene.glitchPipe.setFloat1('time', WorldGlitchPipe.time);
-        WorldGlitchPipe.time += 0.005; 
+        if(scene.glitchPipe != undefined && scene.glitchPipe != null) {
+            scene.glitchPipe.setFloat1('time', WorldGlitchPipe.time);
+            WorldGlitchPipe.time += 0.005; 
+        }
     }
 }
 

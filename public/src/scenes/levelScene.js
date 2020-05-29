@@ -8,6 +8,8 @@ class LevelScene extends Phaser.Scene {
 
     reDrawLayer = false;
 
+    glitchPipe;
+
     // player info
     player;
     playerInAir;
@@ -388,6 +390,8 @@ class LevelScene extends Phaser.Scene {
             .setInteractive({ 'useHandCursor': true })
             .on('pointerdown', () => { this.scene.switch('PauseScene'); });
 
+        WorldGlitchPipe.create(this);
+
         // setup necessary info for level
         this.setUpAnimations();
         this.setUpMap();
@@ -452,6 +456,8 @@ class LevelScene extends Phaser.Scene {
         if(this.boss != undefined && this.boss != null) {
             this.boss.bossUpdate();
         }
+
+        WorldGlitchPipe.update(this);
     }
 
     idle() {

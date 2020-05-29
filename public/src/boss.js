@@ -243,6 +243,7 @@ class Boss {
     // ===== //\ BOSS MOVEMENT \// ===== //
 
     spawnBoss(x, y, segments, behavior) {
+        WorldGlitchPipe.glitch(this.scene, 500);
         this.behaviorEnterScene(x, y, behavior, segments);
     }
 
