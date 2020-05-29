@@ -243,8 +243,10 @@ class Boss {
     // ===== //\ BOSS MOVEMENT \// ===== //
 
     spawnBoss(x, y, segments, behavior) {
-        WorldGlitchPipe.glitch(this.scene, 500);
         this.behaviorEnterScene(x, y, behavior, segments);
+        //for(var i = 0; i<5; i++) {
+        //    WorldGlitchPipe.glitch(this.scene, Phaser.Math.Between(50, 250) += i*500);
+        //}
     }
 
     despawnBoss(x, y) {

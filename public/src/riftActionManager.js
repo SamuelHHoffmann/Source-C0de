@@ -44,9 +44,9 @@ class RiftActionManager {
         // level 10
         this.fnHash.set(10, [() => RiftActionManager.fn101101(), () => RiftActionManager.fn102102()]);
         // level 11
-        this.fnHash.set(11, [() => RiftActionManager.fn111111()]);
+        this.fnHash.set(11, []);
         // level 12
-        this.fnHash.set(12, [() => RiftActionManager.fn121121(), () => RiftActionManager.fn122122(), () => RiftActionManager.fn123123]);
+        this.fnHash.set(12, []);
         // level 13
         this.fnHash.set(13, []);
 
@@ -69,7 +69,7 @@ class RiftActionManager {
         // level 9
         this.invfnHash.set(9, [() => RiftActionManager.invfn9191(), () => RiftActionManager.invfn9393()]);
         // level 10
-        this.invfnHash.set(10, [() => RiftActionManager.invfn103104()]);
+        this.invfnHash.set(10, []);
         // level 11
         this.invfnHash.set(11, [() => RiftActionManager.invfn111111()]);
         // level 12
@@ -285,11 +285,11 @@ class RiftActionManager {
             case "9393":
                 tempfn = () => RiftActionManager.invfn9393();
                 return tempfn;
-            case "122122":
-                tempfn = () => RiftActionManager.invfn122122();
-                return tempfn;
             case "121121":
                 tempfn = () => RiftActionManager.invfn121121();
+                return tempfn;
+            case "122122":
+                tempfn = () => RiftActionManager.invfn122122();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -494,6 +494,9 @@ class RiftActionManager {
 
     static invfn8181() {
         RiftActionManager.scene.levelData.input.drag = 0.85;
+        try {
+            RiftActionManager.scene.riftLayer.destroy(false);
+        } catch { }
     }
 
 
@@ -616,17 +619,19 @@ class RiftActionManager {
             RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
             RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 100, 100, "Gravity is:", "direction", "123");
             
+
             RiftActionManager.scene.riftManager.removeRift("122");
             RiftActionManager.scene.riftManager.removeRiftInput("122");
 
-
-            console.log(RiftActionManager.scene.riftManager.rifts);
+            //console.log(RiftActionManager.scene.riftManager.rifts);
         } catch { }
     }
 
+    
     static invfn121121() { 
         try { 
-            RiftActionManager.scene.riftManager.removeRift("123");
+            //RiftActionManager.scene.riftManager.removeRift("123");
+            //RiftActionManager.scene.levelData.input.gravity = 300;
             RiftActionManager.scene.riftLayer.destroy(false);
         } catch { }
     }
