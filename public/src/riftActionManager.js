@@ -47,6 +47,8 @@ class RiftActionManager {
         this.fnHash.set(11, []);
         // level 12
         this.fnHash.set(12, [() => RiftActionManager.fn121121(), () => RiftActionManager.fn122122(), () => RiftActionManager.fn123123]);
+        // level 13
+        this.fnHash.set(13, []);
 
         // level 1
         this.invfnHash.set(1, [() => RiftActionManager.invfn1112()]);
@@ -71,7 +73,9 @@ class RiftActionManager {
         // level 11
         this.invfnHash.set(11, []);
         // level 12
-        this.invfnHash.set(12, []);
+        this.invfnHash.set(12, [() => RiftActionManager.invfn121121(), () => RiftActionManager.invfn122122()]);
+        // level 13
+        this.invfnHash.set(13, []);
     }
 
     static reverseToLevel(levelNumber) {
@@ -158,6 +162,7 @@ class RiftActionManager {
         }
     }
 
+    
     static getFunctionForID(riftID, inputID) {
         var connectionID = riftID + inputID;
         var tempfn;
@@ -279,7 +284,13 @@ class RiftActionManager {
                 return tempfn;
             case "9393":
                 tempfn = () => RiftActionManager.invfn9393();
-                return tempfn; fn9393
+                return tempfn;
+            case "122122":
+                tempfn = () => RiftActionManager.invfn122122();
+                return tempfn;
+            case "121121":
+                tempfn = () => RiftActionManager.invfn121121();
+                return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
                 return tempfn;
@@ -485,8 +496,8 @@ class RiftActionManager {
             RiftActionManager.scene.invRift2Layer = RiftActionManager.scene.map.createDynamicLayer("invRift2", RiftActionManager.scene.tileset, 0, 0).setDepth(21).setCollisionBetween(0, 5);
             RiftActionManager.scene.invRift2Colider = RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.invRift2Layer);
 
-            RiftActionManager.scene.riftManager.removeRiftInput("104");
-            RiftActionManager.scene.riftManager.removeRift("103");
+            //RiftActionManager.scene.riftManager.removeRiftInput("104");
+            //RiftActionManager.scene.riftManager.removeRift("103");
         } catch{ }
     }
 
@@ -504,13 +515,23 @@ class RiftActionManager {
     // Level 12
 
     static fn121121() {
-        RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
-        RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
-        var rift = RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 100, 100, "Gravity is:", "direction", "123");
-        
+        try {
+            RiftActionManager.scene.riftLayer = RiftActionManager.scene.map.createStaticLayer("rift", RiftActionManager.scene.tileset, 0, 0).setDepth(20).setCollisionBetween(0, 5);
+            RiftActionManager.scene.physics.add.collider(RiftActionManager.scene.player, RiftActionManager.scene.riftLayer);
+            RiftActionManager.scene.riftManager.createNewRift(RiftActionManager.scene, 100, 100, "Gravity is:", "direction", "1299");
+            
 
-        RiftActionManager.scene.riftManager.removeRift("122");
-        RiftActionManager.scene.riftManager.removeRiftInput("122");
+            console.log(RiftActionManager.scene.riftManager.rifts);
+            RiftActionManager.scene.riftManager.removeRift("122");
+            RiftActionManager.scene.riftManager.removeRiftInput("122");
+        } catch { }
+    }
+
+    static invfn121121() { 
+        try { 
+            RiftActionManager.scene.riftManager.removeRift("1299");
+            RiftActionManager.scene.riftLayer.destroy(false);
+        } catch { }
     }
 
     static fn122122() {
@@ -519,20 +540,29 @@ class RiftActionManager {
         } catch { }
     }
 
+    static invfn122122() {
+        try {
+            RiftActionManager.scene.levelData.input.gravity = 300;
+        } catch { }
+    }
+
     static fn123123() {
-        //try {
+        try {
             RiftActionManager.scene.levelData.input.gravity = 300;
 
             RiftActionManager.scene.boss = new Boss(RiftActionManager.scene, RiftActionManager.scene.riftManager);
             console.log(RiftActionManager.scene.boss);
-            RiftActionManager.scene.boss.inputNavCoords([{x: 150, y: 100}, {x: 650, y: 105}]);
+            RiftActionManager.scene.boss.inputNavCoords([{x: 150, y: 100}, {x: 155, y: 200}, {x: 650, y: 100}, {x: 655, y: 200}]);
             RiftActionManager.scene.boss.spawnBoss(400, 300, 10, BossBehaviors.NAVIGATE_BETWEEN_POINTS_SET);
 
             
 
             setTimeout(function() {
                 RiftActionManager.scene.boss.despawnBoss(750, 300);
-            }, 20000);
-        //} catch { }
+            }, 30000);
+        } catch { }
     }
 }
+
+
+// final level (boss) 

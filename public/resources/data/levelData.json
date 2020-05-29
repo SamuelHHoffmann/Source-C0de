@@ -1,5 +1,5 @@
 {
-    "levelCount": 12,
+    "levelCount": 13,
     "levels": [
         {
             "name": "Welcome to the Source C0de",
@@ -343,7 +343,7 @@
             "startPositionX": 16,
             "startPositionY": 544,
             "boss": false,
-            "numRifts": 3,
+            "numRifts": 2,
             "rifts": [
                 {
                     "text": "Destroy wall: ",
@@ -356,15 +356,9 @@
                     "xPos": 488,
                     "yPos": 530,
                     "inputType": "bool"
-                },
-                {
-                    "text": "Turn On Wall: ",
-                    "xPos": 64,
-                    "yPos": 174,
-                    "inputType": "technic"
                 }
             ],
-            "numRiftElements": 4,
+            "numRiftElements": 3,
             "riftElements": [
                 {
                     "xPos": 268,
@@ -383,12 +377,6 @@
                     "yPos": 228,
                     "text": "🏆",
                     "inputType": "none"
-                },
-                {
-                    "xPos": 209,
-                    "yPos": 171,
-                    "text": "Yes",
-                    "inputType": "technic"
                 }
             ]
         },
@@ -467,8 +455,8 @@
                     "inputType": "direction"
                 },
                 {
-                    "xPos": 475,
-                    "yPos": 375,
+                    "xPos": 750,
+                    "yPos": 500,
                     "text": "down",
                     "inputType": "direction"
                 }
@@ -477,7 +465,7 @@
         {
             "name": "Boss testing",
             "desc": "Oh lawd he comin",
-            "tileMapPath": "resources/tilemaps/boss_testing.json",
+            "tileMapPath": "resources/tilemaps/level_12.json",
             "startPositionX": 401,
             "startPositionY": 64,
             "boss": true,

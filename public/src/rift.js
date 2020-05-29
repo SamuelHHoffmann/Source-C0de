@@ -142,31 +142,38 @@ class RiftManager {
     }
 
     removeRift(id) {
-        for (var x = 0; x < this.rifts.length; x++) {
-            var tempRift = this.rifts.pop();
+        for (var tempRift of this.rifts) {
             if (tempRift.riftZone.id == id) {
-                //this.riftPointUnpop(this.scene, tempRift);
+                console.log("removing ", id);
+                this.riftPointUnpop(this.scene, tempRift);
                 //this.riftGravityWell(tempRift.codeText.x + tempRift.totalWidth/2, tempRift.codeText.y + tempRift.totalHeight/2, tempRift, true);
-
-                tempRift.riftZone.destroy();
-                tempRift.riftPoly.setAlpha(0);
+                
                 tempRift.codeText.destroy();
-                tempRift.riftEmitter.remove();
+                tempRift.riftZone.destroy();
+                
+                this.emitterFadeOut(tempRift);
 
-            } else {
-                this.rifts.push(tempRift);
+                //this.rifts.splice(this.rifts[this.rifts.indexOf(tempRift)], 1);
             }
+
         }
     }
 
+    emitterFadeOut(rift) {
+        setTimeout(function() {
+            rift.riftPoly.geom.points = [{x: -1000, y: -1000}];
+            setTimeout(function() {
+                rift.riftEmitter.remove();
+            }, 3000);
+        }, 3000);
+    }
+
     removeRiftInput(id) {
-        for (var x = 0; x < this.riftInputBlocks.children.entries.length; x++) {
-            var inputBlock = this.riftInputBlocks.children.entries.pop();
+        for (var inputBlock of this.riftInputBlocks.children.entries) {
+            //var inputBlock = this.riftInputBlocks.children.entries.pop();
             if (inputBlock.id == id) {
-                inputBlock.setAlpha(0);
+                inputBlock.destroy();
                 break;
-            } else {
-                this.riftInputBlocks.children.entries.push(inputBlock);
             }
         }
     }
