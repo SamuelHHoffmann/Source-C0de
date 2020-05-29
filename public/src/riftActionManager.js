@@ -75,7 +75,7 @@ class RiftActionManager {
         // level 12
         this.invfnHash.set(12, [() => RiftActionManager.invfn121121(), () => RiftActionManager.invfn122122()]);
         // level 13
-        this.invfnHash.set(13, []);
+        this.invfnHash.set(13, [() => RiftActionManager.invfn139139()]);
     }
 
     static reverseToLevel(levelNumber) {
@@ -320,6 +320,9 @@ class RiftActionManager {
                 return tempfn;
             case "122122":
                 tempfn = () => RiftActionManager.invfn122122();
+                return tempfn;
+            case "139139":
+                tempfn = () => RiftActionManager.invfn139139();
                 return tempfn;
             default:
                 tempfn = () => RiftActionManager.fnundefined();
@@ -871,11 +874,17 @@ class RiftActionManager {
 
                 RiftActionManager.scene.levelData.input.drag = 0.85;
 
-                RiftActionManager.scene.add.text(380, 280, "You win!").setColor('white');
+                RiftActionManager.scene.winText = RiftActionManager.scene.add.text(380, 280, "You win!").setColor('white');
             }, 5000);
         }, 12000);
 
         
+    }
+
+    static invfn139139() {
+        try {
+            RiftActionManager.scene.winText.destroy();
+        } catch { }
     }
     
 }
