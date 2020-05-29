@@ -173,7 +173,11 @@ class LevelSelect extends Phaser.Scene {
 
     buttonHovered(button) {
         // handles any button being hovered
-        button.setColor('#37A8DF');
+        if(!button.setColor) {
+            button.setTintFill(Phaser.Display.Color.HSVColorWheel()[210].color);
+        } else {
+            button.setColor('#37A8DF');
+        }
         button.setScale(1.2);
 
         // play sound
@@ -183,7 +187,12 @@ class LevelSelect extends Phaser.Scene {
     buttonHoverExit(button) {
         // handles any button no longer being hovered
         button.setScale(1);
-        button.setColor('#ffffff');
+        if(!button.setColor) {
+            button.clearTint();
+        } else {
+            button.setColor('#ffffff');
+        }
+        
 
     }
 
